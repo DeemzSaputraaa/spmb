@@ -35,6 +35,8 @@ Route::post('/admin/siswa/{siswa_id}/pendaftaran/step1', [App\Http\Controllers\A
 Route::post('/admin/siswa/{siswa_id}/pendaftaran/step2', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep2'])->name('admin.siswa.pendaftaran.step2');
 Route::post('/admin/siswa/{siswa_id}/pendaftaran/step3', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep3'])->name('admin.siswa.pendaftaran.step3');
 Route::post('/admin/siswa/{siswa_id}/pendaftaran/step4', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep4'])->name('admin.siswa.pendaftaran.step4');
+Route::post('/admin/siswa/{siswa}/pendaftaran/save-draft', [App\Http\Controllers\PendaftaranController::class, 'saveDraft'])
+    ->name('admin.siswa.pendaftaran.save-draft');
 
 // Siswa Dashboard
 Route::get('/siswa/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');

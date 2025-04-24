@@ -1,4 +1,4 @@
-<form action="{{ route('admin.siswa.pendaftaran.step4', $siswa->id) }}" method="POST">
+<form action="{{ route('admin.siswa.pendaftaran.step4', $siswa->id) }}" method="POST" id="formKonfirmasi">
     @csrf
     
     <div class="alert alert-info mb-4">
@@ -41,6 +41,10 @@
                             <td><strong>No. Akta Lahir</strong></td>
                             <td>: {{ $pendaftaran->no_akta_lahir }}</td>
                         </tr>
+                        <tr>
+                            <td><strong>Jurusan</strong></td>
+                            <td>: {{ $pendaftaran->jurusan }}</td>
+                        </tr>
                     </table>
                 </div>
                 <div class="col-md-6">
@@ -48,6 +52,18 @@
                         <tr>
                             <td width="40%"><strong>Agama</strong></td>
                             <td>: {{ $pendaftaran->agama }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asal Sekolah</strong></td>
+                            <td>: {{ $pendaftaran->asal_sekolah }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>No. Handphone</strong></td>
+                            <td>: {{ $pendaftaran->no_hp }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email</strong></td>
+                            <td>: {{ $pendaftaran->email }}</td>
                         </tr>
                         <tr>
                             <td><strong>Alamat</strong></td>
@@ -200,11 +216,11 @@
                             </tr>
                             <tr>
                                 <td><strong>NIK Ayah</strong></td>
-                                <td>: {{ $pendaftaran->nik_ayah ?? '-' }}</td>
+                                <td>: {{ $pendaftaran->nik_ayah }}</td>
                             </tr>
                             <tr>
-                                <td><strong>Tahun Lahir</strong></td>
-                                <td>: {{ $pendaftaran->tahun_lahir_ayah ?? '-' }}</td>
+                                <td><strong>No. Handphone</strong></td>
+                                <td>: {{ $pendaftaran->no_hp_ayah }}</td>
                             </tr>
                         </table>
                     </div>
@@ -212,15 +228,11 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <td width="40%"><strong>Pendidikan</strong></td>
-                                <td>: {{ $pendaftaran->pendidikan_ayah ?? '-' }}</td>
+                                <td>: {{ $pendaftaran->pendidikan_ayah }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Pekerjaan</strong></td>
-                                <td>: {{ $pendaftaran->pekerjaan_ayah ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Penghasilan</strong></td>
-                                <td>: {{ $pendaftaran->penghasilan_ayah ?? '-' }}</td>
+                                <td>: {{ $pendaftaran->pekerjaan_ayah }}</td>
                             </tr>
                         </table>
                     </div>
@@ -238,11 +250,11 @@
                             </tr>
                             <tr>
                                 <td><strong>NIK Ibu</strong></td>
-                                <td>: {{ $pendaftaran->nik_ibu ?? '-' }}</td>
+                                <td>: {{ $pendaftaran->nik_ibu }}</td>
                             </tr>
                             <tr>
-                                <td><strong>Tahun Lahir</strong></td>
-                                <td>: {{ $pendaftaran->tahun_lahir_ibu ?? '-' }}</td>
+                                <td><strong>No. Handphone</strong></td>
+                                <td>: {{ $pendaftaran->no_hp_ibu }}</td>
                             </tr>
                         </table>
                     </div>
@@ -250,60 +262,16 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <td width="40%"><strong>Pendidikan</strong></td>
-                                <td>: {{ $pendaftaran->pendidikan_ibu ?? '-' }}</td>
+                                <td>: {{ $pendaftaran->pendidikan_ibu }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Pekerjaan</strong></td>
-                                <td>: {{ $pendaftaran->pekerjaan_ibu ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Penghasilan</strong></td>
-                                <td>: {{ $pendaftaran->penghasilan_ibu ?? '-' }}</td>
+                                <td>: {{ $pendaftaran->pekerjaan_ibu }}</td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
-            
-            @if($pendaftaran->ada_wali == 1)
-            <div class="mb-4">
-                <h6 class="border-bottom pb-2 mb-3">Data Wali</h6>
-                <div class="row">
-                    <div class="col-md-6">
-                        <table class="table table-sm table-borderless">
-                            <tr>
-                                <td width="40%"><strong>Nama Wali</strong></td>
-                                <td>: {{ $pendaftaran->nama_wali ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>NIK Wali</strong></td>
-                                <td>: {{ $pendaftaran->nik_wali ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Tahun Lahir</strong></td>
-                                <td>: {{ $pendaftaran->tahun_lahir_wali ?? '-' }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-6">
-                        <table class="table table-sm table-borderless">
-                            <tr>
-                                <td width="40%"><strong>Pendidikan</strong></td>
-                                <td>: {{ $pendaftaran->pendidikan_wali ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Pekerjaan</strong></td>
-                                <td>: {{ $pendaftaran->pekerjaan_wali ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Penghasilan</strong></td>
-                                <td>: {{ $pendaftaran->penghasilan_wali ?? '-' }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            @endif
             
             <div class="d-flex justify-content-end">
                 <a href="{{ route('admin.siswa.pendaftaran.index', ['siswa_id' => $siswa->id, 'step' => 3]) }}" class="btn btn-sm btn-outline-info">
@@ -329,8 +297,45 @@
         <a href="{{ route('admin.siswa.pendaftaran.index', ['siswa_id' => $siswa->id, 'step' => 3]) }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left mr-1"></i> Sebelumnya
         </a>
-        <button type="submit" class="btn btn-primary">
+        <button type="button" class="btn btn-primary" id="btnSimpan">
             <i class="fas fa-check-circle mr-1"></i> Selesaikan Pendaftaran
         </button>
     </div>
-</form> 
+</form>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnSimpan = document.getElementById('btnSimpan');
+        const formKonfirmasi = document.getElementById('formKonfirmasi');
+        const checkboxKonfirmasi = document.getElementById('konfirmasi');
+
+        btnSimpan.addEventListener('click', function() {
+            if (!checkboxKonfirmasi.checked) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Anda harus menyetujui pernyataan konfirmasi terlebih dahulu',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Konfirmasi Pendaftaran',
+                text: 'Apakah Anda yakin ingin menyelesaikan pendaftaran? Data yang telah disimpan tidak dapat diubah kembali.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Selesaikan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    formKonfirmasi.submit();
+                }
+            });
+        });
+    });
+</script>
+@endpush 

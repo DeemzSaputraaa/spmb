@@ -36,6 +36,13 @@ class Pendaftaran extends Model
         'provinsi',
         'jalur_pendaftaran',
         
+        // Dokumen Umum
+        'foto',
+        'ijazah',
+        'akte_kelahiran',
+        'kartu_keluarga',
+        'ktp_ortu',
+        
         // Jalur Afirmasi
         'bukti_afirmasi',
         'keterangan_afirmasi',

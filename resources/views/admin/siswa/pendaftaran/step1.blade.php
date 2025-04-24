@@ -132,7 +132,75 @@
                 <input type="text" name="provinsi" id="provinsi" class="form-control @error('provinsi') is-invalid @enderror" 
                        value="{{ old('provinsi', $pendaftaran->provinsi ?? '') }}" required>
                 @error('provinsi')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="alert alert-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ $errors->first('provinsi') }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="jurusan" class="form-label">Pilih Jurusan <span class="text-danger">*</span></label>
+                <select name="jurusan" id="jurusan" class="form-select @error('jurusan') is-invalid @enderror" required>
+                    <option value="" disabled {{ old('jurusan', $pendaftaran->jurusan ?? '') ? '' : 'selected' }}>-- Pilih Jurusan --</option>
+                    <option value="IPA" {{ old('jurusan', $pendaftaran->jurusan ?? '') == 'IPA' ? 'selected' : '' }}>IPA</option>
+                    <option value="IPS" {{ old('jurusan', $pendaftaran->jurusan ?? '') == 'IPS' ? 'selected' : '' }}>IPS</option>
+                    <option value="Bahasa" {{ old('jurusan', $pendaftaran->jurusan ?? '') == 'Bahasa' ? 'selected' : '' }}>Bahasa</option>
+                </select>
+                @error('jurusan')
+                    <div class="alert alert-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ $errors->first('jurusan') }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="asal_sekolah" class="form-label">Asal Sekolah <span class="text-danger">*</span></label>
+                <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control @error('asal_sekolah') is-invalid @enderror" 
+                       value="{{ old('asal_sekolah', $pendaftaran->asal_sekolah ?? '') }}" required>
+                @error('asal_sekolah')
+                    <div class="alert alert-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ $errors->first('asal_sekolah') }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="no_hp" class="form-label">No. Handphone <span class="text-danger">*</span></label>
+                <input type="tel" name="no_hp" id="no_hp" class="form-control @error('no_hp') is-invalid @enderror" 
+                       value="{{ old('no_hp', $pendaftaran->no_hp ?? '') }}" required pattern="[0-9]{10,13}">
+                @error('no_hp')
+                    <div class="alert alert-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ $errors->first('no_hp') }}
+                    </div>
+                @enderror
+                <small class="text-muted">Format: 08xxxxxxxxxx (10-13 digit)</small>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" 
+                       value="{{ old('email', $pendaftaran->email ?? '') }}" required>
+                @error('email')
+                    <div class="alert alert-danger mt-2">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {{ $errors->first('email') }}
+                    </div>
                 @enderror
             </div>
         </div>
@@ -196,6 +264,15 @@
         // Panggil fungsi saat halaman dimuat dan saat nilai input berubah
         tampilkanUsia();
         tanggalLahirInput.addEventListener('change', tampilkanUsia);
+
+        // Validasi format nomor handphone
+        const noHpInput = document.getElementById('no_hp');
+        noHpInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value.length > 13) {
+                this.value = this.value.slice(0, 13);
+            }
+        });
     });
 </script>
 @endsection 

@@ -119,9 +119,14 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Pendaftaran Siswa</h1>
-    <a href="{{ route('admin.siswa.index') }}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left fa-sm"></i> Kembali
-    </a>
+    <form action="{{ route('admin.siswa.pendaftaran.save-draft', $siswa->id) }}" method="POST" id="formSaveDraft">
+        @csrf
+        <input type="hidden" name="current_step" value="{{ $currentStep }}">
+        <input type="hidden" name="form_data" id="formDataInput">
+        <button type="submit" class="btn btn-secondary" id="btnSaveDraft">
+            <i class="fas fa-arrow-left fa-sm me-2"></i> Simpan & Kembali
+        </button>
+    </form>
 </div>
 
 <div class="card shadow mb-4">
@@ -171,4 +176,47 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tangkap form yang sedang aktif
+    const currentForm = document.querySelector('.wizard-content form');
+    const formSaveDraft = document.getElementById('formSaveDraft');
+    const formDataInput = document.getElementById('formDataInput');
+    
+    formSaveDraft.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Kumpulkan semua data form yang sedang aktif
+        const formData = new FormData(currentForm);
+        const formDataObj = {};
+        
+        formData.forEach((value, key) => {
+            formDataObj[key] = value;
+        });
+        
+        // Simpan data form ke input hidden
+        formDataInput.value = JSON.stringify(formDataObj);
+        
+        // Tampilkan konfirmasi
+        Swal.fire({
+            title: 'Simpan Progress?',
+            text: "Data yang sudah diisi akan disimpan sebagai draft",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Simpan!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form jika user mengkonfirmasi
+                this.submit();
+            }
+        });
+    });
+});
+</script>
+@endpush 
