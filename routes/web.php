@@ -1,48 +1,53 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 use Illuminate\Support\Facades\Route;
 
+// Redirect root to login
 Route::redirect('/', '/login');
 
-Route::middleware('guest')->group(function () {
+// Guest routes
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
-});
 
-Route::middleware('auth')->group(function () {
+// Protected routes
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/dashboard', [StudentController::class, 'index'])->name('dashboard');
-    Route::resource('students', StudentController::class);
-});
 
-// Rute untuk siswa
-Route::middleware('guest:siswa')->group(function () {
-    Route::get('/siswa/login', [App\Http\Controllers\SiswaAuthController::class, 'showLoginForm'])->name('siswa.login');
-    Route::post('/siswa/login', [App\Http\Controllers\SiswaAuthController::class, 'login']);
-});
+// Admin Dashboard
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+Route::resource('/admin/siswa', SiswaController::class)->names([
+    'index' => 'admin.siswa.index',
+    'create' => 'admin.siswa.create',
+    'store' => 'admin.siswa.store',
+    'edit' => 'admin.siswa.edit',
+    'update' => 'admin.siswa.update',
+    'destroy' => 'admin.siswa.destroy',
+])->except(['show']);
 
-Route::middleware('auth:siswa')->prefix('siswa')->group(function () {
-    Route::post('/logout', [App\Http\Controllers\SiswaAuthController::class, 'logout'])->name('siswa.logout');
+// Pendaftaran Wizard Routes
+Route::get('/admin/siswa/{siswa_id}/pendaftaran', [App\Http\Controllers\Admin\PendaftaranController::class, 'index'])->name('admin.siswa.pendaftaran.index');
+Route::post('/admin/siswa/{siswa_id}/pendaftaran/step1', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep1'])->name('admin.siswa.pendaftaran.step1');
+Route::post('/admin/siswa/{siswa_id}/pendaftaran/step2', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep2'])->name('admin.siswa.pendaftaran.step2');
+Route::post('/admin/siswa/{siswa_id}/pendaftaran/step3', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep3'])->name('admin.siswa.pendaftaran.step3');
+Route::post('/admin/siswa/{siswa_id}/pendaftaran/step4', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep4'])->name('admin.siswa.pendaftaran.step4');
+
+// Siswa Dashboard
+Route::get('/siswa/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
+
+// Fallback route for dashboard (will be redirected based on role)
+    Route::get('/dashboard', function () {
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
     
-    // Rute pendaftaran siswa
-    Route::get('/pendaftaran', [App\Http\Controllers\PendaftaranSiswaController::class, 'index'])->name('siswa.pendaftaran');
-    
-    // Step 1 - Data Siswa
-    Route::get('/pendaftaran/step1', [App\Http\Controllers\PendaftaranSiswaController::class, 'step1'])->name('siswa.pendaftaran.step1');
-    Route::post('/pendaftaran/step1', [App\Http\Controllers\PendaftaranSiswaController::class, 'storeStep1']);
-    
-    // Step 2 - Jalur Pendaftaran
-    Route::get('/pendaftaran/step2', [App\Http\Controllers\PendaftaranSiswaController::class, 'step2'])->name('siswa.pendaftaran.step2');
-    Route::post('/pendaftaran/step2', [App\Http\Controllers\PendaftaranSiswaController::class, 'storeStep2']);
-    
-    // Step 3 - Data Wali Siswa
-    Route::get('/pendaftaran/step3', [App\Http\Controllers\PendaftaranSiswaController::class, 'step3'])->name('siswa.pendaftaran.step3');
-    Route::post('/pendaftaran/step3', [App\Http\Controllers\PendaftaranSiswaController::class, 'storeStep3']);
-    
-    // Finish
-    Route::get('/pendaftaran/finish', [App\Http\Controllers\PendaftaranSiswaController::class, 'finish'])->name('siswa.pendaftaran.finish');
-});
+    if (auth()->user()->isAdmin()) {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('siswa.dashboard');
+    }
+    })->name('dashboard');

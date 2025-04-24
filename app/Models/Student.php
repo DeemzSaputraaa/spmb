@@ -7,6 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Student extends Authenticatable
 {
+    /**
+     * Nama tabel yang terkait dengan model
+     */
+    protected $table = 'siswas';
+    
     protected $fillable = [
         'nisn',
         'nik',
