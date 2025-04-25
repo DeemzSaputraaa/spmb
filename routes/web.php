@@ -9,14 +9,18 @@ use Illuminate\Support\Facades\Route;
 // Redirect root to login
 Route::redirect('/', '/login');
 
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
 // Guest routes
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
 
 // Protected routes
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Admin Dashboard
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
@@ -42,14 +46,14 @@ Route::post('/admin/siswa/{siswa}/pendaftaran/save-draft', [App\Http\Controllers
 Route::get('/siswa/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
 
 // Fallback route for dashboard (will be redirected based on role)
-    Route::get('/dashboard', function () {
+Route::get('/dashboard', function () {
     if (!auth()->check()) {
         return redirect()->route('login');
     }
-    
+
     if (auth()->user()->isAdmin()) {
         return redirect()->route('admin.dashboard');
     } else {
         return redirect()->route('siswa.dashboard');
     }
-    })->name('dashboard');
+})->name('dashboard');
