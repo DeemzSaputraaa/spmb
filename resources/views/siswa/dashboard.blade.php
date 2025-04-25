@@ -1,62 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard SPMB 2025</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@section('title', 'Dashboard')
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">SPMB 2025</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link">Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+@section('content')
+
+<!-- Main Content -->
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Foto Pribadi</h5>
         </div>
-    </nav>
-
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow">
-                    <div class="card-header bg-white">
-                        <h4 class="mb-0">Dashboard Siswa</h4>
+        <div class="card-body p-0">
+            <div class="row g-0">
+                <!-- Photo Column -->
+                <div class="col-md-3 border-end p-3 text-center">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ asset('images/pasFOTO.jpg') }}" alt="Foto Siswa" class="img-thumbnail"
+                            style="width: 250px; height: 300px; object-fit: cover;">
                     </div>
-                    <div class="card-body">
-                        @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                        @endif
-                        
-                        @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                        @endif
+                </div>
 
-                        <h5>Selamat datang, {{ Auth::user()->name }}!</h5>
-                        <p class="mb-0">Anda telah berhasil login sebagai Siswa ke sistem SPMB 2025.</p>
+                <!-- Data Column -->
+                <div class="col-md-9 p-3">
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">NISN</div>
+                        <div class="col-sm-8 col-md-9">: 121231231231</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">NIK</div>
+                        <div class="col-sm-8 col-md-9">: 123123123123123</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Nama Siswa</div>
+                        <div class="col-sm-8 col-md-9">: Julian Dewi</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Tempat Lahir</div>
+                        <div class="col-sm-8 col-md-9">: blablabla</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Tanggal Lahir</div>
+                        <div class="col-sm-8 col-md-9">: 12123123123</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">No.Reg. Akta Lahir</div>
+                        <div class="col-sm-8 col-md-9">: 2231231021</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Agama</div>
+                        <div class="col-sm-8 col-md-9">: Taelelooo</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Alamat jalan</div>
+                        <div class="col-sm-8 col-md-9">: asdfsdf, ataf</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Kelurahan</div>
+                        <div class="col-sm-8 col-md-9">: sadfasdasd</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Kecamatan</div>
+                        <div class="col-sm-8 col-md-9">: Jawa Tengah
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Kabupaten</div>
+                        <div class="col-sm-8 col-md-9">: Jawa Tengah</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Propinsi</div>
+                        <div class="col-sm-8 col-md-9">: Jawa</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Jalur</div>
+                        <div class="col-sm-8 col-md-9">: Afirmasi</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Jurusan</div>
+                        <div class="col-sm-8 col-md-9">: Jogja-Solo</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 col-md-3 fw-semibold text-muted">Asal Sekolah</div>
+                        <div class="col-sm-8 col-md-9">: Jawa</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+<!-- Footer -->
+<footer class="mt-4 py-3 text-center text-muted small">
+    <p class="mb-0">© 2025 Sistem Penerimaan Mahasiswa Baru</p>
+</footer>
+@endsection

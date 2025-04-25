@@ -668,7 +668,7 @@
                         <a class="nav-link text-dark" href="#hubungi">Hubungi</a>
                     </li>
                     <li class="nav-item ms-2 mt-3 mt-lg-0">
-                        <a class="btn btn-primary text-white fw-bold px-4 py-2" href="">SIGN UP</a>
+                        <a class="btn btn-primary text-white fw-bold px-4 py-2" href="{{ route('login') }}">SIGN UP</a>
                     </li>
                 </ul>
             </div>

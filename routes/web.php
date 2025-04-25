@@ -7,7 +7,7 @@ use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to login
-Route::redirect('/', '/login');
+Route::redirect('/', '/home');
 
 Route::get('/home', function () {
     return view('home');
