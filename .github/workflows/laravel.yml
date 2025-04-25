@@ -18,56 +18,10 @@ jobs:
     - name: Deploy to server via SSH
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ 192.168.59.150 }}
-        username: ${{ root }}
-        key: ${{ b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAACFwAAAAdzc2gtcn
-                  NhAAAAAwEAAQAAAgEAlmb0nFQXU+wtH6/YTKJTsf5+JA90fmrfUGjw0XScyAtlXByQrQfe
-                  JKKJm3rfbywxqAn/8Lwo0iK4BM/68YvkOrdODed1IFUmLyqY7yNCSV9J4dpmSijakEee4b
-                  VEAd8DLFAryl8gocwQAz18K6sivJU6pXQqPAJlsqN1cns0h5OY8s4ICG7urme0cwTA3KN8
-                  T0Mlo2d/6yA+8rMnm6pHICTHphKPJiHRkm64CqJRBUZyAj1/GNw3n3XJ4ANiLXnyYQ39Pn
-                  tVfk17mskTxQ2C3R6Qk9NZrJdjHoul2Be/pBBf0/wiAmgdJ7K22iNpTgHOuwX7NGRi9UnM
-                  w+JPkADD52UYtvkRFQOvGzrC8JDnBNHmTb9fW3USVqLpz7izM/HXb57YQMV/y248rqT7pK
-                  FicGoEJCVgKnFzsB86/HAzxEv/cTU8z/6ZlegCNYKeWJhCw0W1Jd59c77DnswNosezesCx
-                  GoNIhlUvP6bA/PbUQs2vRMwnwEDQ1iCaCZ/tuh/Xw+I656Cf28ga5FievKTx/FwMDmPjd6
-                  o2jt9gL7SVId3yHBVedm1h2npHr74Z7ionap9fPgROKhqJqzjOH2ZWOBA3MgRBc9/2BOgq
-                  mKnimORHzqiwGU+mcnbBA3mwyWBONLoE4T7+RPCzaJtqJhYVdsAlRGgykaqg/n2+H639xR
-                  EAAAdQpsvIyKbLyMgAAAAHc3NoLXJzYQAAAgEAlmb0nFQXU+wtH6/YTKJTsf5+JA90fmrf
-                  UGjw0XScyAtlXByQrQfeJKKJm3rfbywxqAn/8Lwo0iK4BM/68YvkOrdODed1IFUmLyqY7y
-                  NCSV9J4dpmSijakEee4bVEAd8DLFAryl8gocwQAz18K6sivJU6pXQqPAJlsqN1cns0h5OY
-                  8s4ICG7urme0cwTA3KN8T0Mlo2d/6yA+8rMnm6pHICTHphKPJiHRkm64CqJRBUZyAj1/GN
-                  w3n3XJ4ANiLXnyYQ39PntVfk17mskTxQ2C3R6Qk9NZrJdjHoul2Be/pBBf0/wiAmgdJ7K2
-                  2iNpTgHOuwX7NGRi9UnMw+JPkADD52UYtvkRFQOvGzrC8JDnBNHmTb9fW3USVqLpz7izM/
-                  HXb57YQMV/y248rqT7pKFicGoEJCVgKnFzsB86/HAzxEv/cTU8z/6ZlegCNYKeWJhCw0W1
-                  Jd59c77DnswNosezesCxGoNIhlUvP6bA/PbUQs2vRMwnwEDQ1iCaCZ/tuh/Xw+I656Cf28
-                  ga5FievKTx/FwMDmPjd6o2jt9gL7SVId3yHBVedm1h2npHr74Z7ionap9fPgROKhqJqzjO
-                  H2ZWOBA3MgRBc9/2BOgqmKnimORHzqiwGU+mcnbBA3mwyWBONLoE4T7+RPCzaJtqJhYVds
-                  AlRGgykaqg/n2+H639xREAAAADAQABAAACADpzUZ4NijFZyGGXp8KElW1Hv8MI5JeatiXc
-                  Wra0EJgn4aDuEwXD2H+5USxFEN92N+gb1sU6gszDpGtuXpKP8Mcm5OU/bgP+Q4QyFFRfig
-                  vUxfRJudYZUXOf+e2y0fa+Mk/+6j3QQXDPyutPclnQPQQ4JJ4XarB+qAJIR0UR/6Su5lJ6
-                  YqHQZt8Nu5G1p7Q3rwBo0pBSEWMR2ZTdrkdvYgvqb1KpxMsnenhjog+z7DPWIEmhl6rULq
-                  PAlY+DER0mVt2EH8awDNY0i5Roj8/Vg+WmUr64dRG/lcxRrkawWBCNMojCZH818hqy+CAH
-                  gg3IYwzI8sr2NoUoRLVd1tjai0dh/luO+tcH5oubpsc0m8IJm2nFHZDgjOw57ijREwXH39
-                  OgGWKZpPdLQjUlHNRaYe3N1cg9fUnEmiR0WsmsjEy+H6puYnwefCJzQoZ6CSX8Oah8cVdf
-                  h0WxUNzYmIZE7KpRjLioJAMvttunJjZqmSAWnhezLILbBpA9SQQZJ8j/Cec8nQcjv4e26f
-                  gTuxIh+B/DM3oIyUWVpyl9IcNBwxHvr+fR3UWxD0/zdh/OKW/SNpDQNvL/rZO81wc3bXEO
-                  jRMDhbwRc8x4HRDnJuP7jZUKA+jcwA7jHd5pZAyBaTNQ0CuDJXect9MA4rc3eqzbm0zWRF
-                  umlgSWG5JALF528bC/AAABAHHJuBNARPcTqZRJd4EBv3Bm9fGwwgK67IXmPirM1xCV50A1
-                  2h9sNixi2H8IL0wv4OjCV6KRbSrWOB/4plMaBjUcqOr5nodkUVoe0LloqvG+0F6k+HAZRs
-                  OVYVkZAx0Po/5cIXBSreXzgajKFKSaKh/WCwa7XpV5KRsTTrIcJ6m4smgKagAvRPdW1GeW
-                  WibBwKtRvFQ676WfhvhuzxL8c0HGONI7pLb1l3s9wmLc5BBNaGA71jcnQwgEFwvZY+tDya
-                  twq3u9hxs1ZO5Ik8yTF7A/54WsxIcx9wr3REsmwcC+v3EhAZajQuzw9LmLoHDEAZqaHIde
-                  PatzU18AY4U/X5wAAAEBAM+mx7dHrxteSNe4Qq9qVrnTe1zmGYdcu6K9Izw+IV5BY0r5xU
-                  4gGKtVEoTMMI+PO8l8GjBu8DKR0OmWy5fYGx3B3cq7wXuDXpi5e375no6PCyoWW/Y8Mt5q
-                  7458w5vxGmV4sx+z7yPWRomThIMec0z6QZ/SblY7WP41V+WKIiMwFNJbKiIP6SHdZ80B+m
-                  ShkbKs3r4y6y4fnHr9LGUbyvCXsnqqYkLCthS5HrPSqQoSal0Je+kNhHXoXRf4+4cTrDsv
-                  ojCVmGJVIOibqZwPVsA5yTrxFXhkOvvCRaPtMZhLipCohB76SY3eJjnxgfHYE6CJhe0BUf
-                  tj+NBpmMh7hOMAAAEBALlryal2Er26VF9ef3hpaQ2uWInKbScZVMEJ7yigZ6f/xah5qpdb
-                  L5cm0/4IEWZHGC83yLYkUgXfYjenei49ubDIKrJbMtuOI1V8ZxX8V9f2SAfSMUz07+rzLj
-                  P/mPk+Dzh3v+08RvJJH6Z9KobSfCAT40sB7fn8/7JIxzIgJfuHwNj2HyywMASMkdobImal
-                  n6nd8J5IqRTM9pnEMH2SGUpWuUCsbyrEcTSclJC0zGxsHWUUWP/Xj+xWhf5UgnMFmZI7Rk
-                  exsBm1cfrYrGEzGJKt4Jgl6cVuIqRBfOJi5dBeP5CkepLFa7yX6mKeQSoIYe/OyPr0/WfI
-                  VCeY5itHJHsAAAAVcGFuZHVreW91a2FAZ21haWwuY29tAQIDBAUG }}
-        port: ${{ secrets.SSH_PORT || 22 }}
+        host: ${{ secrets.SSH_HOST }}              # Ambil dari secrets
+        username: ${{ secrets.SSH_USERNAME }}        # Ambil dari secrets
+        key: ${{ secrets.SSH_PRIVATE_KEY }}       # Ambil dari secrets
+        port: ${{ secrets.SSH_PORT || 22 }}         # Ambil dari secrets, default 22
         script: |
           echo "Navigating to project directory..."
           cd ${{ secrets.DEPLOY_PATH }} # Pindah ke direktori proyek di server
