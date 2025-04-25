@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pendaftaran', function (Blueprint $table) {
-            $table->decimal('nilai', 5, 2)->nullable()->after('ktp_ortu')->comment('Nilai rata-rata siswa');
+            $table->decimal('nilai', 5, 2)->nullable()->comment('Nilai rata-rata siswa');
         });
     }
 

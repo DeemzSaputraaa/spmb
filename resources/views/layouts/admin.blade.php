@@ -19,14 +19,14 @@
             --sidebar-width: 250px;
             --sidebar-collapsed-width: 100px;
         }
-        
+
         body {
             font-family: 'Nunito', sans-serif;
             background-color: #f8f9fc;
             overflow-x: hidden;
             position: relative;
         }
-        
+
         /* Sidebar */
         .sidebar {
             min-height: 100vh;
@@ -39,21 +39,21 @@
             transition: all 0.3s ease;
             overflow-y: auto;
         }
-        
+
         .sidebar-brand {
             height: 70px;
             display: flex;
             align-items: center;
             padding: 0 1rem;
         }
-        
+
         .sidebar-brand-icon {
             font-size: 1.8rem;
             color: white;
             margin-right: 0.8rem;
             transition: all 0.3s ease;
         }
-        
+
         .sidebar-brand-text {
             color: white;
             font-size: 1.2rem;
@@ -61,16 +61,16 @@
             text-transform: uppercase;
             letter-spacing: 0.05rem;
         }
-        
+
         .sidebar-divider {
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             margin: 0.5rem 1rem;
         }
-        
+
         .nav-item {
             margin: 0.2rem 0;
         }
-        
+
         .nav-link {
             display: flex;
             align-items: center;
@@ -78,29 +78,29 @@
             color: rgba(255, 255, 255, 0.8);
             transition: all 0.2s;
         }
-        
+
         .nav-link:hover {
             color: #fff;
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .nav-link.active {
             color: #fff;
             background-color: rgba(255, 255, 255, 0.2);
             font-weight: 600;
         }
-        
+
         .nav-icon {
             width: 1.25rem;
             text-align: center;
             margin-right: 0.75rem;
             font-size: 0.85rem;
         }
-        
+
         .nav-text {
             white-space: nowrap;
         }
-        
+
         .sidebar-heading {
             color: rgba(255, 255, 255, 0.4);
             font-size: 0.7rem;
@@ -110,7 +110,7 @@
             padding: 0.5rem 1rem;
             margin-top: 0.5rem;
         }
-        
+
         /* Content area */
         .content-wrapper {
             margin-left: var(--sidebar-width);
@@ -118,7 +118,7 @@
             min-height: 100vh;
             transition: all 0.3s ease;
         }
-        
+
         /* Topbar */
         .topbar {
             height: 70px;
@@ -126,7 +126,7 @@
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
             padding: 0 1rem;
         }
-        
+
         .topbar-content {
             display: flex;
             justify-content: space-between;
@@ -134,7 +134,7 @@
             height: 100%;
             width: 100%;
         }
-        
+
         /* Toggle button */
         #sidebarToggle {
             position: absolute;
@@ -151,12 +151,12 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         #sidebarToggle:hover {
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
         }
-        
+
         #sidebarToggleTop {
             background: transparent;
             border: none;
@@ -164,95 +164,95 @@
             font-size: 1.5rem;
             display: none;
         }
-        
+
         /* Card styling */
         .card {
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
             border: none;
             border-radius: 0.5rem;
         }
-        
+
         .card-header {
             background-color: #f8f9fc;
             border-bottom: 1px solid #e3e6f0;
         }
-        
+
         /* Collapsed sidebar */
         .sidebar-collapsed .sidebar {
             width: var(--sidebar-collapsed-width);
         }
-        
+
         .sidebar-collapsed .content-wrapper {
             margin-left: var(--sidebar-collapsed-width);
             width: calc(100% - var(--sidebar-collapsed-width));
         }
-        
+
         .sidebar-collapsed .sidebar-brand-text,
         .sidebar-collapsed .nav-text,
         .sidebar-collapsed .sidebar-heading {
             display: none;
         }
-        
+
         .sidebar-collapsed .sidebar-brand {
             justify-content: center;
         }
-        
+
         .sidebar-collapsed .sidebar-brand-icon {
             margin-right: 0;
             text-align: center;
         }
-        
+
         .sidebar-collapsed .nav-icon {
             margin-right: 0;
             font-size: 1.1rem;
             width: 100%;
             text-align: center;
         }
-        
+
         .sidebar-collapsed .nav-link {
             justify-content: center;
             padding: 0.75rem;
         }
-        
+
         /* User dropdown */
         .user-profile {
             display: flex;
             align-items: center;
             cursor: pointer;
         }
-        
+
         .img-profile {
             height: 40px;
             width: 40px;
             border-radius: 50%;
             margin-left: 0.5rem;
         }
-        
+
         .user-name {
             color: #5a5c69;
             font-weight: 600;
         }
-        
+
         .dropdown-menu {
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
             margin-top: 0.5rem;
             border: none;
         }
-        
+
         .dropdown-item {
             padding: 0.5rem 1rem;
         }
-        
+
         .dropdown-item:hover {
             background-color: #f8f9fc;
         }
-        
+
         /* Search box */
         .search-box {
             position: relative;
             width: 300px;
         }
-        
+
         .search-box input {
             width: 100%;
             padding: 0.5rem 1rem 0.5rem 2.5rem;
@@ -261,13 +261,13 @@
             background-color: #f8f9fc;
             transition: all 0.2s;
         }
-        
+
         .search-box input:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
             outline: none;
         }
-        
+
         .search-icon {
             position: absolute;
             left: 1rem;
@@ -275,13 +275,13 @@
             transform: translateY(-50%);
             color: #858796;
         }
-        
+
         /* Alerts */
         .alert {
             border-radius: 0.5rem;
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
         }
-        
+
         /* Footer */
         .footer {
             background-color: #fff;
@@ -290,12 +290,12 @@
             color: #858796;
             font-size: 0.85rem;
         }
-        
+
         /* Pagination styling */
         .pagination {
             margin-bottom: 0;
         }
-        
+
         .pagination .page-item .page-link {
             color: var(--primary-color);
             border: 1px solid #dddfeb;
@@ -303,64 +303,64 @@
             line-height: 1;
             padding: 0.75rem 1rem;
         }
-        
+
         .pagination .page-item.active .page-link {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
             color: white;
         }
-        
+
         .pagination .page-item.disabled .page-link {
             color: #b7b9cc;
         }
-        
+
         /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 width: 0;
             }
-            
+
             .content-wrapper {
                 margin-left: 0;
                 width: 100%;
             }
-            
+
             #sidebarToggleTop {
                 display: block;
             }
-            
+
             .sidebar-collapsed .sidebar {
                 width: 100%;
                 z-index: 1050;
             }
-            
+
             .sidebar-collapsed .content-wrapper {
                 margin-left: 0;
                 width: 100%;
             }
-            
+
             .sidebar-collapsed .sidebar-brand-text,
             .sidebar-collapsed .nav-text,
             .sidebar-collapsed .sidebar-heading {
                 display: block;
             }
-            
+
             .sidebar-collapsed .nav-link {
                 justify-content: flex-start;
                 padding: 0.75rem 1rem;
             }
-            
+
             .sidebar-collapsed .nav-icon {
                 margin-right: 0.75rem;
                 width: auto;
                 text-align: left;
             }
-            
+
             .search-box {
                 width: 100%;
                 margin: 0.5rem 0;
             }
-            
+
             .topbar-content {
                 flex-direction: column;
                 padding: 0.5rem 0;
@@ -381,62 +381,72 @@
                 </div>
                 <div class="sidebar-brand-text ms-2">SPMB 2025</div>
             </div>
-            
+
             <hr class="sidebar-divider">
-            
+
             <ul class="nav flex-column">
                 <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                        href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-tachometer-alt nav-icon"></i>
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
-                
+
                 <div class="sidebar-heading">
                     Manajemen
                 </div>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.siswa.*') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.siswa.*') ? 'active' : '' }}"
+                        href="{{ route('admin.siswa.index') }}">
                         <i class="fas fa-users nav-icon"></i>
                         <span class="nav-text">Data Siswa</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fas fa-chart-bar nav-icon"></i>
                         <span class="nav-text">Statistik</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fas fa-university nav-icon"></i>
                         <span class="nav-text">Data Sekolah</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fas fa-calendar nav-icon"></i>
                         <span class="nav-text">Jadwal</span>
                     </a>
                 </li>
-                
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.tabulasi.*') ? 'active' : '' }}"
+                        href="{{ route('admin.tabulasi.index') }}">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        <span class="nav-text">Tabulasi Nilai</span>
+                    </a>
+                </li>
+
                 <hr class="sidebar-divider">
-                
+
                 <div class="sidebar-heading">
                     Pengaturan
                 </div>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fas fa-cog nav-icon"></i>
                         <span class="nav-text">Konfigurasi</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fas fa-user-shield nav-icon"></i>
@@ -444,7 +454,7 @@
                     </a>
                 </li>
             </ul>
-            
+
             <!-- Sidebar Toggle Button -->
             <button id="sidebarToggle">
                 <i class="fas fa-angle-left"></i>
@@ -462,16 +472,17 @@
                         <button id="sidebarToggleTop" class="mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-                        
+
                         <!-- Global Search -->
                         <div class="search-box d-none d-md-block">
                             <form action="#" method="GET">
                                 <i class="fas fa-search search-icon"></i>
-                                <input type="text" name="search" placeholder="Cari di seluruh aplikasi..." class="form-control bg-light border-0 small">
+                                <input type="text" name="search" placeholder="Cari di seluruh aplikasi..."
+                                    class="form-control bg-light border-0 small">
                             </form>
                         </div>
                     </div>
-                    
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav">
                         <!-- Nav Item - User Information -->
@@ -480,7 +491,8 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="user-profile">
                                     <span class="user-name d-none d-lg-inline mr-2">{{ Auth::user()->name }}</span>
-                                    <img class="img-profile" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=4e73df&color=ffffff">
+                                    <img class="img-profile"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=4e73df&color=ffffff">
                                 </div>
                             </a>
                             <!-- Dropdown - User Information -->
@@ -549,7 +561,7 @@
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebarToggleTop = document.getElementById('sidebarToggleTop');
             const wrapper = document.getElementById('wrapper');
-            
+
             // Check for saved sidebar state
             if (localStorage.getItem('sidebarCollapsed') === 'true') {
                 wrapper.classList.add('sidebar-collapsed');
@@ -559,15 +571,16 @@
                     icon.classList.add('fa-angle-right');
                 }
             }
-            
+
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     wrapper.classList.toggle('sidebar-collapsed');
-                    
+
                     // Save state to localStorage
-                    localStorage.setItem('sidebarCollapsed', wrapper.classList.contains('sidebar-collapsed'));
-                    
+                    localStorage.setItem('sidebarCollapsed', wrapper.classList.contains(
+                        'sidebar-collapsed'));
+
                     const icon = this.querySelector('i');
                     if (icon) {
                         if (wrapper.classList.contains('sidebar-collapsed')) {
@@ -580,17 +593,18 @@
                     }
                 });
             }
-            
+
             if (sidebarToggleTop) {
                 sidebarToggleTop.addEventListener('click', function(e) {
                     e.preventDefault();
                     wrapper.classList.toggle('sidebar-collapsed');
-                    
+
                     // Save state to localStorage
-                    localStorage.setItem('sidebarCollapsed', wrapper.classList.contains('sidebar-collapsed'));
+                    localStorage.setItem('sidebarCollapsed', wrapper.classList.contains(
+                        'sidebar-collapsed'));
                 });
             }
-            
+
             // Auto close alerts after 5 seconds
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(function(alert) {
@@ -604,4 +618,4 @@
     @yield('scripts')
 </body>
 
-</html> 
+</html>

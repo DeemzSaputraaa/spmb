@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\TabulasiController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
+
 use Illuminate\Support\Facades\Route;
+
 
 // Redirect root to login
 Route::redirect('/', '/home');
@@ -33,7 +36,16 @@ Route::resource('/admin/siswa', SiswaController::class)->names([
     'destroy' => 'admin.siswa.destroy',
 ])->except(['show']);
 
-// Route untuk mengunduh kredensial
+// Tabulasi Routes
+Route::resource('/admin/tabulasi', TabulasiController::class)->names([
+    'index' => 'admin.tabulasi.index',
+    'create' => 'admin.tabulasi.create',
+    'store' => 'admin.tabulasi.store',
+    'edit' => 'admin.tabulasi.edit',
+    'update' => 'admin.tabulasi.update',
+    'destroy' => 'admin.tabulasi.destroy',
+]);
+
 Route::get('/admin/siswa/{id}/download-kredensial', [SiswaController::class, 'downloadKredensial'])
     ->name('admin.siswa.download-kredensial');
 
