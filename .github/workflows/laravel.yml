@@ -1,46 +1,82 @@
-name: Deploy Laravel to Debian Server
+# Nama Workflow
+name: Deploy Laravel Locally (Self-Hosted)
 
-
+# Pemicu: Jalankan workflow ini setiap kali ada push ke branch 'main'
 on:
   push:
     branches:
-      - main
+      - main  # Ganti 'main' jika Anda menggunakan branch lain seperti 'master'
 
 jobs:
   deploy:
-    name: Deploy to Server
-    runs-on: ubuntu-latest
+    name: Deploy to Local Server
+    # Targetkan runner self-hosted.
+    # 'self-hosted' adalah label default. Anda bisa menggunakan label spesifik
+    # yang Anda atur saat konfigurasi runner jika perlu (misal: [self-hosted, local-debian]).
+    runs-on: self-hosted
+
+    # Menetapkan direktori kerja default untuk semua langkah 'run'
+    # Ganti '/var/www/html/nama_proyek_anda' dengan path absolut ke proyek Laravel Anda di server
+    defaults:
+      run:
+        working-directory: /var/www/html/spmb # <-- PENTING: Ganti path ini
 
     steps:
-    - name: Checkout code (Opsional jika hanya perlu SSH)
-      uses: actions/checkout@v4
+    # Langkah SSH tidak diperlukan lagi karena kode dijalankan langsung di server target.
 
-    - name: Deploy to server via SSH
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.SSH_HOST }}              # Ambil dari secrets
-        username: ${{ secrets.SSH_USERNAME }}        # Ambil dari secrets
-        key: ${{ secrets.SSH_PRIVATE_KEY }}       # Ambil dari secrets
-        port: ${{ secrets.SSH_PORT || 22 }}         # Ambil dari secrets, default 22
-        script: |
-          echo "Navigating to project directory..."
-          cd ${{ secrets.DEPLOY_PATH }} # Pindah ke direktori proyek di server
+    # Opsional: Checkout code jika perlu memastikan direktori kerja bersih
+    # - name: Checkout code
+    #   uses: actions/checkout@v4
 
-          echo "Pulling latest code from ${{ github.ref_name }} branch..." # github.ref_name berisi nama branch yang dipush
-          git checkout ${{ github.ref_name }} # Pindah ke branch yang benar (jika perlu)
-          git pull origin ${{ github.ref_name }} # Tarik perubahan terbaru
+    - name: Pull latest code
+      # Menjalankan perintah shell langsung di runner (server lokal Anda)
+      run: |
+        echo "Pulling latest code from ${{ github.ref_name }} branch..."
+        # Pastikan user yang menjalankan runner memiliki akses Git ke repositori ini.
+        # Jika clone via SSH, pastikan SSH key user runner terdaftar di GitHub.
+        git checkout ${{ github.ref_name }} # Pindah ke branch yang benar
+        git reset --hard HEAD # Opsional: Hapus perubahan lokal yang mungkin ada
+        git pull origin ${{ github.ref_name }} # Tarik perubahan terbaru
 
-          echo "Installing/updating Composer dependencies..."
-          composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+    - name: Install Composer Dependencies
+      run: |
+        echo "Installing/updating Composer dependencies..."
+        # Pastikan 'composer' terinstal dan bisa diakses oleh user yang menjalankan runner.
+        # --no-interaction: Jangan tanya interaktif
+        # --prefer-dist: Download versi zip jika ada (lebih cepat)
+        # --optimize-autoloader: Optimasi autoloader
+        # --no-dev: Jangan install dependensi dev (untuk produksi)
+        composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-          echo "Running database migrations..."
-          php artisan migrate --force
+    - name: Run Database Migrations
+      run: |
+        echo "Running database migrations..."
+        # Pastikan 'php' bisa diakses dan file .env sudah dikonfigurasi dengan benar di server.
+        # --force: Wajib untuk environment non-interaktif (produksi)
+        php artisan migrate --force
 
-          echo "Optimizing Laravel application..."
-          php artisan optimize:clear
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
-          php artisan key:generate
+    - name: Optimize Laravel Application
+      run: |
+        echo "Optimizing Laravel application..."
+        php artisan optimize:clear  # Bersihkan cache lama (config, route, view)
+        php artisan config:cache
+        php artisan route:cache
+        php artisan view:cache
+        # php artisan event:cache # Aktifkan jika Anda menggunakan event discovery
 
-          echo "Deployment finished successfully!"
+    # (Opsional) Restart services jika diperlukan.
+    # Perhatian: User yang menjalankan runner mungkin memerlukan izin 'sudo' untuk ini.
+    # Anda perlu mengkonfigurasi /etc/sudoers agar user runner bisa menjalankan perintah ini tanpa password.
+    # - name: Restart PHP-FPM
+    #   run: |
+    #     echo "Restarting PHP-FPM..."
+    #     sudo systemctl restart php8.1-fpm # Ganti versi PHP sesuai milik Anda
+
+    # - name: Restart Queue Worker
+    #   run: |
+    #     echo "Restarting Queue Worker..."
+    #     php artisan queue:restart
+
+    - name: Deployment Finished
+      run: echo "Local deployment finished successfully!"
+
