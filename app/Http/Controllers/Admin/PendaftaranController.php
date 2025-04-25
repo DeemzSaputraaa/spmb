@@ -29,9 +29,14 @@ class PendaftaranController extends Controller
             $pendaftaran->save();
         }
         
-        // Validasi step
-        if ($currentStep < 1 || $currentStep > 4) {
-            $currentStep = 1;
+        // Jika pendaftaran sudah selesai, langsung arahkan ke step 4
+        if ($pendaftaran->status == 'Selesai') {
+            $currentStep = 4;
+        } else {
+            // Validasi step
+            if ($currentStep < 1 || $currentStep > 4) {
+                $currentStep = 1;
+            }
         }
         
         return view('admin.siswa.pendaftaran.index', [
@@ -51,6 +56,7 @@ class PendaftaranController extends Controller
             'nik' => 'required|string|max:20',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
+            'usia' => 'required|integer',
             'no_akta_lahir' => 'required|string|max:50',
             'agama' => 'required|string|max:20',
             'alamat_jalan' => 'required|string',
@@ -58,7 +64,18 @@ class PendaftaranController extends Controller
             'kecamatan' => 'required|string|max:100',
             'kabupaten' => 'required|string|max:100',
             'provinsi' => 'required|string|max:100',
+            'sekolah_tujuan' => 'required|string|max:255',
+            'jurusan' => 'required|string|max:100',
+            'asal_sekolah' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:15',
+            'email' => 'required|email|max:255',
             'jalur_pendaftaran' => 'required|string|max:100',
+        ], [
+            'required' => 'Field :attribute wajib diisi',
+            'email' => 'Format email tidak valid',
+            'max' => 'Field :attribute tidak boleh lebih dari :max karakter',
+            'date' => 'Format tanggal tidak valid',
+            'integer' => 'Field :attribute harus berupa angka',
         ]);
         
         $siswa = Siswa::findOrFail($siswa_id);
@@ -92,11 +109,82 @@ class PendaftaranController extends Controller
         $pendaftaran = Pendaftaran::where('siswa_id', $siswa_id)->firstOrFail();
         $jalur = $pendaftaran->jalur_pendaftaran;
         
+        // Validasi berkas umum yang wajib diupload
+        $request->validate([
+            'foto' => 'required_without:foto_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ijazah' => 'required_without:ijazah_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'akte_kelahiran' => 'required_without:akte_kelahiran_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'kartu_keluarga' => 'required_without:kartu_keluarga_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'ktp_ortu' => 'required_without:ktp_ortu_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ], [
+            'required_without' => 'File :attribute wajib diunggah',
+            'file' => 'Upload harus berupa file',
+            'mimes' => 'Format file harus pdf, jpg, jpeg, atau png',
+            'max' => 'Ukuran file tidak boleh lebih dari 2MB',
+        ]);
+
+        // Handle upload berkas umum
+        if ($request->hasFile('foto')) {
+            if ($pendaftaran->foto) {
+                Storage::delete('public/pendaftaran/'.$pendaftaran->foto);
+            }
+            $file = $request->file('foto');
+            $filename = 'foto_'.$siswa_id.'_'.time().'.'.$file->getClientOriginalExtension();
+            $file->storeAs('public/pendaftaran', $filename);
+            $pendaftaran->foto = $filename;
+        }
+        
+        if ($request->hasFile('ijazah')) {
+            if ($pendaftaran->ijazah) {
+                Storage::delete('public/pendaftaran/'.$pendaftaran->ijazah);
+            }
+            $file = $request->file('ijazah');
+            $filename = 'ijazah_'.$siswa_id.'_'.time().'.'.$file->getClientOriginalExtension();
+            $file->storeAs('public/pendaftaran', $filename);
+            $pendaftaran->ijazah = $filename;
+        }
+        
+        if ($request->hasFile('akte_kelahiran')) {
+            if ($pendaftaran->akte_kelahiran) {
+                Storage::delete('public/pendaftaran/'.$pendaftaran->akte_kelahiran);
+            }
+            $file = $request->file('akte_kelahiran');
+            $filename = 'akte_'.$siswa_id.'_'.time().'.'.$file->getClientOriginalExtension();
+            $file->storeAs('public/pendaftaran', $filename);
+            $pendaftaran->akte_kelahiran = $filename;
+        }
+        
+        if ($request->hasFile('kartu_keluarga')) {
+            if ($pendaftaran->kartu_keluarga) {
+                Storage::delete('public/pendaftaran/'.$pendaftaran->kartu_keluarga);
+            }
+            $file = $request->file('kartu_keluarga');
+            $filename = 'kk_'.$siswa_id.'_'.time().'.'.$file->getClientOriginalExtension();
+            $file->storeAs('public/pendaftaran', $filename);
+            $pendaftaran->kartu_keluarga = $filename;
+        }
+        
+        if ($request->hasFile('ktp_ortu')) {
+            if ($pendaftaran->ktp_ortu) {
+                Storage::delete('public/pendaftaran/'.$pendaftaran->ktp_ortu);
+            }
+            $file = $request->file('ktp_ortu');
+            $filename = 'ktp_'.$siswa_id.'_'.time().'.'.$file->getClientOriginalExtension();
+            $file->storeAs('public/pendaftaran', $filename);
+            $pendaftaran->ktp_ortu = $filename;
+        }
+        
         // Validasi berdasarkan jalur pendaftaran
         if ($jalur == 'Jalur Afirmasi') {
             $request->validate([
-                'keterangan_afirmasi' => 'nullable|string',
-                'bukti_afirmasi' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'keterangan_afirmasi' => 'required|string',
+                'bukti_afirmasi' => 'required_without:bukti_afirmasi_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            ], [
+                'required' => 'Field :attribute wajib diisi',
+                'required_without' => 'File :attribute wajib diunggah',
+                'file' => 'Upload harus berupa file',
+                'mimes' => 'Format file harus pdf, jpg, jpeg, atau png',
+                'max' => 'Ukuran file tidak boleh lebih dari 2MB',
             ]);
             
             if ($request->hasFile('bukti_afirmasi')) {
@@ -114,8 +202,15 @@ class PendaftaranController extends Controller
         } 
         elseif ($jalur == 'Jalur Domisili') {
             $request->validate([
-                'jarak_rumah' => 'nullable|numeric',
-                'bukti_domisili' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'jarak_rumah' => 'required|numeric',
+                'bukti_domisili' => 'required_without:bukti_domisili_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            ], [
+                'required' => 'Field :attribute wajib diisi',
+                'numeric' => 'Field :attribute harus berupa angka',
+                'required_without' => 'File :attribute wajib diunggah',
+                'file' => 'Upload harus berupa file',
+                'mimes' => 'Format file harus pdf, jpg, jpeg, atau png',
+                'max' => 'Ukuran file tidak boleh lebih dari 2MB',
             ]);
             
             if ($request->hasFile('bukti_domisili')) {
@@ -133,11 +228,21 @@ class PendaftaranController extends Controller
         } 
         elseif ($jalur == 'Jalur Prestasi') {
             $request->validate([
-                'jenis_prestasi' => 'nullable|string|max:100',
-                'tingkat_prestasi' => 'nullable|string|max:100',
-                'nama_prestasi' => 'nullable|string|max:255',
-                'tahun_prestasi' => 'nullable|numeric|min:2000',
-                'bukti_prestasi' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'jenis_prestasi' => 'required|string|max:100',
+                'tingkat_prestasi' => 'required|string|max:100',
+                'nama_prestasi' => 'required|string|max:255',
+                'tahun_prestasi' => 'required|numeric|min:2000',
+                'bukti_prestasi' => 'required_without:bukti_prestasi_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            ], [
+                'required' => 'Field :attribute wajib diisi',
+                'string' => 'Field :attribute harus berupa teks',
+                'max' => 'Field :attribute tidak boleh lebih dari :max karakter',
+                'numeric' => 'Field :attribute harus berupa angka',
+                'min' => 'Tahun prestasi minimal tahun 2000',
+                'required_without' => 'File :attribute wajib diunggah',
+                'file' => 'Upload harus berupa file',
+                'mimes' => 'Format file harus pdf, jpg, jpeg, atau png',
+                'max' => 'Ukuran file tidak boleh lebih dari 2MB',
             ]);
             
             if ($request->hasFile('bukti_prestasi')) {
@@ -158,9 +263,17 @@ class PendaftaranController extends Controller
         } 
         elseif ($jalur == 'Jalur Mutasi') {
             $request->validate([
-                'asal_sekolah' => 'nullable|string|max:255',
-                'alasan_mutasi' => 'nullable|string',
-                'bukti_mutasi' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'asal_sekolah' => 'required|string|max:255',
+                'alasan_mutasi' => 'required|string',
+                'bukti_mutasi' => 'required_without:bukti_mutasi_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            ], [
+                'required' => 'Field :attribute wajib diisi',
+                'string' => 'Field :attribute harus berupa teks',
+                'max' => 'Field :attribute tidak boleh lebih dari :max karakter',
+                'required_without' => 'File :attribute wajib diunggah',
+                'file' => 'Upload harus berupa file',
+                'mimes' => 'Format file harus pdf, jpg, jpeg, atau png',
+                'max' => 'Ukuran file tidak boleh lebih dari 2MB',
             ]);
             
             if ($request->hasFile('bukti_mutasi')) {
@@ -193,26 +306,31 @@ class PendaftaranController extends Controller
     {
         $request->validate([
             'nama_ayah' => 'required|string|max:100',
-            'nik_ayah' => 'nullable|string|max:20',
-            'tahun_lahir_ayah' => 'nullable|numeric|min:1950|max:'.(date('Y')-15),
-            'pendidikan_ayah' => 'nullable|string|max:50',
-            'pekerjaan_ayah' => 'nullable|string|max:100',
-            'penghasilan_ayah' => 'nullable|string|max:100',
+            'nik_ayah' => 'required|string|max:20',
+            'pendidikan_ayah' => 'required|string|max:50',
+            'pekerjaan_ayah' => 'required|string|max:100',
+            'no_hp_ayah' => 'required|string|max:15',
             
             'nama_ibu' => 'required|string|max:100',
-            'nik_ibu' => 'nullable|string|max:20',
-            'tahun_lahir_ibu' => 'nullable|numeric|min:1950|max:'.(date('Y')-15),
-            'pendidikan_ibu' => 'nullable|string|max:50',
-            'pekerjaan_ibu' => 'nullable|string|max:100',
-            'penghasilan_ibu' => 'nullable|string|max:100',
+            'nik_ibu' => 'required|string|max:20',
+            'pendidikan_ibu' => 'required|string|max:50',
+            'pekerjaan_ibu' => 'required|string|max:100',
+            'no_hp_ibu' => 'required|string|max:15',
             
             'ada_wali' => 'nullable|boolean',
-            'nama_wali' => 'nullable|string|max:100',
-            'nik_wali' => 'nullable|string|max:20',
-            'tahun_lahir_wali' => 'nullable|numeric|min:1950|max:'.(date('Y')-15),
-            'pendidikan_wali' => 'nullable|string|max:50',
-            'pekerjaan_wali' => 'nullable|string|max:100',
-            'penghasilan_wali' => 'nullable|string|max:100',
+            'nama_wali' => 'required_if:ada_wali,1|nullable|string|max:100',
+            'nik_wali' => 'required_if:ada_wali,1|nullable|string|max:20',
+            'tahun_lahir_wali' => 'required_if:ada_wali,1|nullable|numeric|min:1950|max:'.(date('Y')-15),
+            'pendidikan_wali' => 'required_if:ada_wali,1|nullable|string|max:50',
+            'pekerjaan_wali' => 'required_if:ada_wali,1|nullable|string|max:100',
+            'penghasilan_wali' => 'required_if:ada_wali,1|nullable|string|max:100',
+        ], [
+            'required' => 'Field :attribute wajib diisi',
+            'required_if' => 'Field :attribute wajib diisi jika ada wali',
+            'string' => 'Field :attribute harus berupa teks',
+            'max' => 'Field :attribute tidak boleh lebih dari :max karakter',
+            'numeric' => 'Field :attribute harus berupa angka',
+            'min' => 'Tahun lahir minimal 1950',
         ]);
         
         $pendaftaran = Pendaftaran::where('siswa_id', $siswa_id)->firstOrFail();
@@ -238,6 +356,7 @@ class PendaftaranController extends Controller
         ]);
         
         $pendaftaran = Pendaftaran::where('siswa_id', $siswa_id)->firstOrFail();
+        $siswa = Siswa::findOrFail($siswa_id);
         
         // Set status pendaftaran menjadi selesai
         $pendaftaran->status = 'Selesai';
@@ -246,6 +365,6 @@ class PendaftaranController extends Controller
         $pendaftaran->save();
         
         return redirect()->route('admin.siswa.index')
-            ->with('success', 'Pendaftaran siswa berhasil diselesaikan dengan Nomor Pendaftaran: '.$pendaftaran->nomor_pendaftaran);
+            ->with('success', '<strong>Pendaftaran Berhasil!</strong> Data pendaftaran siswa <strong>'.$siswa->nama_lengkap.'</strong> telah disimpan dengan Nomor Pendaftaran: <strong>'.$pendaftaran->nomor_pendaftaran.'</strong>');
     }
 } 

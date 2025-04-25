@@ -1,14 +1,15 @@
 <form action="{{ route('admin.siswa.pendaftaran.step4', $siswa->id) }}" method="POST" id="formKonfirmasi">
     @csrf
     
-    <div class="alert alert-info mb-4">
-        <div class="d-flex align-items-center">
-            <div class="me-3">
-                <i class="fas fa-info-circle fa-2x"></i>
-            </div>
-            <div>
-                <h5 class="alert-heading mb-1">Konfirmasi Data Pendaftaran</h5>
-                <p class="mb-0">Silakan periksa kembali data yang telah dimasukkan sebelum menyelesaikan pendaftaran</p>
+    <div class="card mb-4">
+        <div class="card-body bg-light">
+            <div class="d-flex">
+                <i class="fas fa-info-circle text-primary me-2 mt-1"></i>
+                <div>
+                    <h5 class="card-title mb-1">Konfirmasi Data Pendaftaran</h5>
+                    <p class="mb-0">Silakan periksa kembali data yang telah dimasukkan sebelum menyelesaikan pendaftaran</p>
+                    <p class="mb-0"><span class="text-danger">*</span> menandakan field yang wajib diisi</p>
+                </div>
             </div>
         </div>
     </div>
@@ -38,12 +39,20 @@
                             <td>: {{ $pendaftaran->tempat_lahir }}, {{ \Carbon\Carbon::parse($pendaftaran->tanggal_lahir)->format('d F Y') }}</td>
                         </tr>
                         <tr>
+                            <td><strong>Usia</strong></td>
+                            <td>: {{ $pendaftaran->usia }} tahun</td>
+                        </tr>
+                        <tr>
                             <td><strong>No. Akta Lahir</strong></td>
                             <td>: {{ $pendaftaran->no_akta_lahir }}</td>
                         </tr>
                         <tr>
                             <td><strong>Jurusan</strong></td>
                             <td>: {{ $pendaftaran->jurusan }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sekolah Tujuan</strong></td>
+                            <td>: {{ $pendaftaran->sekolah_tujuan }}</td>
                         </tr>
                     </table>
                 </div>
@@ -297,45 +306,133 @@
         <a href="{{ route('admin.siswa.pendaftaran.index', ['siswa_id' => $siswa->id, 'step' => 3]) }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left mr-1"></i> Sebelumnya
         </a>
-        <button type="button" class="btn btn-primary" id="btnSimpan">
+        <button type="button" class="btn btn-primary" id="btnSubmit" onclick="konfirmasiPendaftaran()">
             <i class="fas fa-check-circle mr-1"></i> Selesaikan Pendaftaran
         </button>
     </div>
 </form>
 
-@push('scripts')
+<!-- Custom Dialog Modal -->
+<div id="customDialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background-color: white; border-radius: 10px; width: 400px; max-width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); overflow: hidden;">
+        <div style="background-color: #4e73df; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px;">
+            <i class="fas fa-info-circle mr-2"></i> Konfirmasi Pendaftaran
+        </div>
+        <div style="padding: 20px; text-align: center;">
+            <div style="margin-bottom: 15px; font-size: 16px;">
+                <p style="margin-bottom: 10px;"><b>Apakah Anda yakin ingin menyelesaikan pendaftaran?</b></p>
+                <p style="color: #555; font-size: 14px;">Setelah pendaftaran diselesaikan, data tidak dapat diubah lagi.</p>
+            </div>
+            <div id="dialogButtons" style="display: flex; justify-content: center; gap: 10px;">
+                <button id="btnConfirmYes" style="background-color: #4e73df; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-check mr-1"></i> Ya, Selesaikan
+                </button>
+                <button id="btnConfirmNo" style="background-color: #e74a3b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s;">
+                    <i class="fas fa-times mr-1"></i> Batal
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div id="loadingDialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background-color: white; border-radius: 10px; width: 300px; max-width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; text-align: center;">
+        <div style="margin-bottom: 15px;">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div style="font-size: 16px; color: #333;">
+            <p><b>Memproses Pendaftaran</b></p>
+            <p style="font-size: 14px; color: #555;">Mohon tunggu, data sedang diproses...</p>
+        </div>
+    </div>
+</div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const btnSimpan = document.getElementById('btnSimpan');
-        const formKonfirmasi = document.getElementById('formKonfirmasi');
-        const checkboxKonfirmasi = document.getElementById('konfirmasi');
+function showCustomDialog(show) {
+    const dialog = document.getElementById('customDialog');
+    if (show) {
+        dialog.style.display = 'flex';
+    } else {
+        dialog.style.display = 'none';
+    }
+}
 
-        btnSimpan.addEventListener('click', function() {
-            if (!checkboxKonfirmasi.checked) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Anda harus menyetujui pernyataan konfirmasi terlebih dahulu',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
+function showLoadingDialog(show) {
+    const dialog = document.getElementById('loadingDialog');
+    if (show) {
+        dialog.style.display = 'flex';
+    } else {
+        dialog.style.display = 'none';
+    }
+}
 
-            Swal.fire({
-                title: 'Konfirmasi Pendaftaran',
-                text: 'Apakah Anda yakin ingin menyelesaikan pendaftaran? Data yang telah disimpan tidak dapat diubah kembali.',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Selesaikan',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    formKonfirmasi.submit();
-                }
-            });
-        });
+function konfirmasiPendaftaran() {
+    // Periksa checkbox
+    const checkboxKonfirmasi = document.getElementById('konfirmasi');
+    if (!checkboxKonfirmasi.checked) {
+        alert('Anda harus menyetujui pernyataan konfirmasi terlebih dahulu');
+        return false;
+    }
+    
+    // Tampilkan dialog konfirmasi
+    showCustomDialog(true);
+    
+    // Event handler untuk tombol Ya dan Batal
+    document.getElementById('btnConfirmYes').onclick = function() {
+        showCustomDialog(false);
+        showLoadingDialog(true);
+        
+        // Hapus data tersimpan di localStorage
+        localStorage.removeItem('pendaftaran_step1_{{ $siswa->id }}');
+        localStorage.removeItem('pendaftaran_step2_{{ $siswa->id }}');
+        localStorage.removeItem('pendaftaran_step3_{{ $siswa->id }}');
+        localStorage.removeItem('pendaftaran_step4_{{ $siswa->id }}');
+        
+        // Submit form setelah delay singkat agar loading spinner terlihat
+        setTimeout(function() {
+            document.getElementById('formKonfirmasi').submit();
+        }, 800);
+    };
+    
+    document.getElementById('btnConfirmNo').onclick = function() {
+        showCustomDialog(false);
+    };
+}
+
+// Tambahkan efek hover untuk tombol
+document.addEventListener('DOMContentLoaded', function() {
+    const btnConfirmYes = document.getElementById('btnConfirmYes');
+    const btnConfirmNo = document.getElementById('btnConfirmNo');
+    
+    btnConfirmYes.addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#2e59d9';
     });
-</script>
-@endpush 
+    
+    btnConfirmYes.addEventListener('mouseout', function() {
+        this.style.backgroundColor = '#4e73df';
+    });
+    
+    btnConfirmNo.addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#be3024';
+    });
+    
+    btnConfirmNo.addEventListener('mouseout', function() {
+        this.style.backgroundColor = '#e74a3b';
+    });
+    
+    // Simpan status checkbox saat diubah
+    const checkboxKonfirmasi = document.getElementById('konfirmasi');
+    checkboxKonfirmasi.addEventListener('change', function() {
+        localStorage.setItem('konfirmasi_{{ $siswa->id }}', this.checked ? '1' : '0');
+    });
+    
+    // Muat status tersimpan
+    const savedState = localStorage.getItem('konfirmasi_{{ $siswa->id }}');
+    if (savedState === '1') {
+        checkboxKonfirmasi.checked = true;
+    }
+});
+</script> 

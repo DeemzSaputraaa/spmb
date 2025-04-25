@@ -27,6 +27,7 @@ class Pendaftaran extends Model
         'nik',
         'tempat_lahir',
         'tanggal_lahir',
+        'usia',
         'no_akta_lahir',
         'agama',
         'alamat_jalan',
@@ -34,6 +35,11 @@ class Pendaftaran extends Model
         'kecamatan',
         'kabupaten',
         'provinsi',
+        'sekolah_tujuan',
+        'jurusan',
+        'asal_sekolah',
+        'no_hp',
+        'email',
         'jalur_pendaftaran',
         
         // Dokumen Umum
@@ -66,18 +72,16 @@ class Pendaftaran extends Model
         // Data Ayah
         'nama_ayah',
         'nik_ayah',
-        'tahun_lahir_ayah',
         'pendidikan_ayah',
         'pekerjaan_ayah',
-        'penghasilan_ayah',
+        'no_hp_ayah',
         
         // Data Ibu
         'nama_ibu',
         'nik_ibu',
-        'tahun_lahir_ibu',
         'pendidikan_ibu',
         'pekerjaan_ibu',
-        'penghasilan_ibu',
+        'no_hp_ibu',
         
         // Data Wali
         'ada_wali',

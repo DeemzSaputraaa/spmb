@@ -1,9 +1,17 @@
 <form action="{{ route('admin.siswa.pendaftaran.step3', $siswa->id) }}" method="POST">
     @csrf
     
+    <div class="card mb-4">
+        <div class="card-body bg-light">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-info-circle text-primary me-2"></i>
+                <p class="mb-0"><span class="text-danger">*</span> menandakan field yang wajib diisi</p>
+            </div>
+        </div>
+    </div>
+    
     <div class="mb-4">
         <h5 class="border-bottom pb-2">Data Orang Tua</h5>
-        <p class="small text-danger">* Wajib diisi</p>
     </div>
 
     <h5 class="mb-4">Data Ayah</h5>
@@ -38,7 +46,7 @@
         </div>
     </div>
     
-    <div class="row">
+    <div class="row mb-4">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="pekerjaan_ayah" class="form-label">Pekerjaan Ayah <span class="text-danger">*</span></label>
@@ -130,7 +138,7 @@
         </div>
     </div>
     
-    <div class="row">
+    <div class="row mb-4">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="pekerjaan_ibu" class="form-label">Pekerjaan Ibu <span class="text-danger">*</span></label>
@@ -208,6 +216,58 @@
                 this.value = this.value.slice(0, 13);
             }
         });
+    });
+
+    // Implementasi auto-save form
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const formInputs = form.querySelectorAll('input, select, textarea');
+        
+        // Fungsi untuk menyimpan data form ke localStorage
+        function saveFormData() {
+            const formData = {};
+            formInputs.forEach(input => {
+                if (input.name && input.name !== '_token') {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        formData[input.name] = input.checked;
+                    } else {
+                        formData[input.name] = input.value;
+                    }
+                }
+            });
+            localStorage.setItem('pendaftaran_step3_{{ $siswa->id }}', JSON.stringify(formData));
+        }
+        
+        // Muat data form dari localStorage jika ada
+        function loadFormData() {
+            const savedData = localStorage.getItem('pendaftaran_step3_{{ $siswa->id }}');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                formInputs.forEach(input => {
+                    if (input.name && formData[input.name] !== undefined && input.name !== '_token') {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = formData[input.name];
+                        } else {
+                            input.value = formData[input.name];
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Auto-save pada perubahan input
+        formInputs.forEach(input => {
+            input.addEventListener('change', saveFormData);
+            input.addEventListener('keyup', saveFormData);
+        });
+        
+        // Hapus data tersimpan setelah submit berhasil
+        form.addEventListener('submit', function() {
+            localStorage.removeItem('pendaftaran_step3_{{ $siswa->id }}');
+        });
+        
+        // Load saved data on page load
+        loadFormData();
     });
 </script>
 @endpush 

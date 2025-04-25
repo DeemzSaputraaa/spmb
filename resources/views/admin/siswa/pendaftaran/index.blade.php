@@ -165,8 +165,14 @@
                 </div>
                 <div class="wizard-step-label">Data Orang Tua/Wali</div>
             </div>
-            <div class="wizard-step {{ $currentStep == 4 ? 'active' : '' }}">
-                <div class="wizard-step-number">4</div>
+            <div class="wizard-step {{ $currentStep == 4 ? 'active' : ($pendaftaran->status == 'Selesai' ? 'completed' : '') }}">
+                <div class="wizard-step-number">
+                    @if($pendaftaran->status == 'Selesai')
+                        <i class="fas fa-check"></i>
+                    @else
+                        4
+                    @endif
+                </div>
                 <div class="wizard-step-label">Konfirmasi</div>
             </div>
         </div>

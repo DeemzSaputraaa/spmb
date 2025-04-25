@@ -1,22 +1,28 @@
 <form action="{{ route('admin.siswa.pendaftaran.step2', $siswa->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     
-    <div class="alert alert-info">
-        <i class="fas fa-info-circle me-2"></i>
-        Jalur pendaftaran yang Anda pilih: <strong>{{ $pendaftaran->jalur_pendaftaran }}</strong>
+    <div class="card mb-4">
+        <div class="card-body bg-light">
+            <div class="d-flex">
+                <i class="fas fa-info-circle text-primary me-2 mt-1"></i>
+                <div>
+                    <p class="mb-0">Jalur pendaftaran yang Anda pilih: <strong>{{ $pendaftaran->jalur_pendaftaran }}</strong></p>
+                    <p class="mb-0"><span class="text-danger">*</span> menandakan field yang wajib diisi</p>
+                    <p class="small mb-0">Semua berkas dalam format PDF/JPEG/PNG, maksimal ukuran 2 MB</p>
+                </div>
+            </div>
+        </div>
     </div>
     
     <div class="mb-4">
         <h5 class="border-bottom pb-2">Persyaratan Berkas</h5>
-        <p class="small text-muted">Semua berkas dalam format PDF/JPEG/PNG, maksimal ukuran 2 MB</p>
-        <p class="small text-danger">* Wajib diisi</p>
     </div>
     
     <!-- Foto 3x4 (Semua jalur) -->
     <div class="form-group">
         <label for="foto" class="form-label">1. Foto 3X4 <span class="text-danger">*</span></label>
         <input type="file" name="foto" id="foto" class="form-control @error('foto') is-invalid @enderror"
-             accept="application/pdf,image/*" required {{ empty($pendaftaran->foto) ? '' : 'disabled' }}>
+             accept="application/pdf,image/*" {{ empty($pendaftaran->foto) ? 'required' : '' }}>
         @error('foto')
             <div class="alert alert-danger mt-2">
                 <i class="fas fa-exclamation-circle me-2"></i>
@@ -31,6 +37,7 @@
                     File telah diupload: {{ $pendaftaran->foto }}
                 </small>
             </div>
+            <input type="hidden" name="foto_exists" value="1">
         @endif
     </div>
     
@@ -38,7 +45,7 @@
     <div class="form-group">
         <label for="ijazah" class="form-label">2. Ijazah <span class="text-danger">*</span></label>
         <input type="file" name="ijazah" id="ijazah" class="form-control @error('ijazah') is-invalid @enderror"
-             accept="application/pdf,image/*" required {{ empty($pendaftaran->ijazah) ? '' : 'disabled' }}>
+             accept="application/pdf,image/*" {{ empty($pendaftaran->ijazah) ? 'required' : '' }}>
         @error('ijazah')
             <div class="alert alert-danger mt-2">
                 <i class="fas fa-exclamation-circle me-2"></i>
@@ -53,6 +60,7 @@
                     File telah diupload: {{ $pendaftaran->ijazah }}
                 </small>
             </div>
+            <input type="hidden" name="ijazah_exists" value="1">
         @endif
     </div>
     
@@ -60,7 +68,7 @@
     <div class="form-group">
         <label for="akte_kelahiran" class="form-label">3. Akte Kelahiran <span class="text-danger">*</span></label>
         <input type="file" name="akte_kelahiran" id="akte_kelahiran" class="form-control @error('akte_kelahiran') is-invalid @enderror"
-             accept="application/pdf,image/*" required {{ empty($pendaftaran->akte_kelahiran) ? '' : 'disabled' }}>
+             accept="application/pdf,image/*" {{ empty($pendaftaran->akte_kelahiran) ? 'required' : '' }}>
         @error('akte_kelahiran')
             <div class="alert alert-danger mt-2">
                 <i class="fas fa-exclamation-circle me-2"></i>
@@ -75,6 +83,7 @@
                     File telah diupload: {{ $pendaftaran->akte_kelahiran }}
                 </small>
             </div>
+            <input type="hidden" name="akte_kelahiran_exists" value="1">
         @endif
     </div>
     
@@ -82,7 +91,7 @@
     <div class="form-group">
         <label for="kartu_keluarga" class="form-label">4. Kartu Keluarga <span class="text-danger">*</span></label>
         <input type="file" name="kartu_keluarga" id="kartu_keluarga" class="form-control @error('kartu_keluarga') is-invalid @enderror"
-             accept="application/pdf,image/*" required {{ empty($pendaftaran->kartu_keluarga) ? '' : 'disabled' }}>
+             accept="application/pdf,image/*" {{ empty($pendaftaran->kartu_keluarga) ? 'required' : '' }}>
         @error('kartu_keluarga')
             <div class="alert alert-danger mt-2">
                 <i class="fas fa-exclamation-circle me-2"></i>
@@ -97,6 +106,7 @@
                     File telah diupload: {{ $pendaftaran->kartu_keluarga }}
                 </small>
             </div>
+            <input type="hidden" name="kartu_keluarga_exists" value="1">
         @endif
     </div>
     
@@ -104,7 +114,7 @@
     <div class="form-group">
         <label for="ktp_ortu" class="form-label">5. KTP Orang Tua <span class="text-danger">*</span></label>
         <input type="file" name="ktp_ortu" id="ktp_ortu" class="form-control @error('ktp_ortu') is-invalid @enderror"
-             accept="application/pdf,image/*" required {{ empty($pendaftaran->ktp_ortu) ? '' : 'disabled' }}>
+             accept="application/pdf,image/*" {{ empty($pendaftaran->ktp_ortu) ? 'required' : '' }}>
         @error('ktp_ortu')
             <div class="alert alert-danger mt-2">
                 <i class="fas fa-exclamation-circle me-2"></i>
@@ -119,6 +129,7 @@
                     File telah diupload: {{ $pendaftaran->ktp_ortu }}
                 </small>
             </div>
+            <input type="hidden" name="ktp_ortu_exists" value="1">
         @endif
     </div>
     
@@ -127,7 +138,7 @@
         <div class="form-group">
             <label for="bukti_afirmasi" class="form-label">6. SKTM (Surat Keterangan Tidak Mampu) <span class="text-danger">*</span></label>
             <input type="file" name="bukti_afirmasi" id="bukti_afirmasi" class="form-control @error('bukti_afirmasi') is-invalid @enderror"
-                 accept="application/pdf,image/*" required {{ empty($pendaftaran->bukti_afirmasi) ? '' : 'disabled' }}>
+                 accept="application/pdf,image/*" {{ empty($pendaftaran->bukti_afirmasi) ? 'required' : '' }}>
             @error('bukti_afirmasi')
                 <div class="alert alert-danger mt-2">
                     <i class="fas fa-exclamation-circle me-2"></i>
@@ -142,6 +153,7 @@
                         File telah diupload: {{ $pendaftaran->bukti_afirmasi }}
                     </small>
                 </div>
+                <input type="hidden" name="bukti_afirmasi_exists" value="1">
             @endif
         </div>
         
@@ -162,7 +174,7 @@
         <div class="form-group">
             <label for="bukti_prestasi" class="form-label">6. Piagam atau Sertifikat Prestasi <span class="text-danger">*</span></label>
             <input type="file" name="bukti_prestasi" id="bukti_prestasi" class="form-control @error('bukti_prestasi') is-invalid @enderror"
-                 accept="application/pdf,image/*" required {{ empty($pendaftaran->bukti_prestasi) ? '' : 'disabled' }}>
+                 accept="application/pdf,image/*" {{ empty($pendaftaran->bukti_prestasi) ? 'required' : '' }}>
             @error('bukti_prestasi')
                 <div class="alert alert-danger mt-2">
                     <i class="fas fa-exclamation-circle me-2"></i>
@@ -177,6 +189,7 @@
                         File telah diupload: {{ $pendaftaran->bukti_prestasi }}
                     </small>
                 </div>
+                <input type="hidden" name="bukti_prestasi_exists" value="1">
             @endif
         </div>
         
@@ -266,7 +279,7 @@
         <div class="form-group">
             <label for="bukti_domisili" class="form-label">Bukti Domisili <span class="text-danger">*</span></label>
             <input type="file" name="bukti_domisili" id="bukti_domisili" class="form-control @error('bukti_domisili') is-invalid @enderror"
-                 accept="application/pdf,image/*" required {{ empty($pendaftaran->bukti_domisili) ? '' : 'disabled' }}>
+                 accept="application/pdf,image/*" {{ empty($pendaftaran->bukti_domisili) ? 'required' : '' }}>
             @error('bukti_domisili')
                 <div class="alert alert-danger mt-2">
                     <i class="fas fa-exclamation-circle me-2"></i>
@@ -282,6 +295,7 @@
                         File telah diupload: {{ $pendaftaran->bukti_domisili }}
                     </small>
                 </div>
+                <input type="hidden" name="bukti_domisili_exists" value="1">
             @endif
         </div>
     
@@ -290,7 +304,7 @@
         <div class="form-group">
             <label for="bukti_mutasi" class="form-label">6. Surat Keterangan Pindah <span class="text-danger">*</span></label>
             <input type="file" name="bukti_mutasi" id="bukti_mutasi" class="form-control @error('bukti_mutasi') is-invalid @enderror"
-                 accept="application/pdf,image/*" required {{ empty($pendaftaran->bukti_mutasi) ? '' : 'disabled' }}>
+                 accept="application/pdf,image/*" {{ empty($pendaftaran->bukti_mutasi) ? 'required' : '' }}>
             @error('bukti_mutasi')
                 <div class="alert alert-danger mt-2">
                     <i class="fas fa-exclamation-circle me-2"></i>
@@ -305,6 +319,7 @@
                         File telah diupload: {{ $pendaftaran->bukti_mutasi }}
                     </small>
                 </div>
+                <input type="hidden" name="bukti_mutasi_exists" value="1">
             @endif
         </div>
         
@@ -340,4 +355,65 @@
             Lanjutkan <i class="fas fa-arrow-right ml-1"></i>
         </button>
     </div>
-</form> 
+</form>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Implementasi auto-save form
+        const form = document.querySelector('form');
+        const formInputs = form.querySelectorAll('input, select, textarea');
+        
+        // Fungsi untuk menyimpan data form ke localStorage
+        function saveFormData() {
+            const formData = {};
+            formInputs.forEach(input => {
+                if (input.name && input.name !== '_token') {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        formData[input.name] = input.checked;
+                    } else if (input.type === 'file') {
+                        // Skip file inputs
+                    } else {
+                        formData[input.name] = input.value;
+                    }
+                }
+            });
+            localStorage.setItem('pendaftaran_step2_{{ $siswa->id }}', JSON.stringify(formData));
+        }
+        
+        // Muat data form dari localStorage jika ada
+        function loadFormData() {
+            const savedData = localStorage.getItem('pendaftaran_step2_{{ $siswa->id }}');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                formInputs.forEach(input => {
+                    if (input.name && formData[input.name] !== undefined && 
+                        input.name !== '_token' && input.type !== 'file') {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = formData[input.name];
+                        } else {
+                            input.value = formData[input.name];
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Auto-save pada perubahan input
+        formInputs.forEach(input => {
+            if (input.type !== 'file') { // Skip file inputs
+                input.addEventListener('change', saveFormData);
+                input.addEventListener('keyup', saveFormData);
+            }
+        });
+        
+        // Hapus data tersimpan setelah submit berhasil
+        form.addEventListener('submit', function() {
+            localStorage.removeItem('pendaftaran_step2_{{ $siswa->id }}');
+        });
+        
+        // Load saved data on page load
+        loadFormData();
+    });
+</script>
+@endpush 
