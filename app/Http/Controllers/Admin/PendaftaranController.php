@@ -116,11 +116,16 @@ class PendaftaranController extends Controller
             'akte_kelahiran' => 'required_without:akte_kelahiran_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'kartu_keluarga' => 'required_without:kartu_keluarga_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'ktp_ortu' => 'required_without:ktp_ortu_exists|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'nilai' => 'required|numeric|min:0|max:100',
         ], [
             'required_without' => 'File :attribute wajib diunggah',
             'file' => 'Upload harus berupa file',
             'mimes' => 'Format file harus pdf, jpg, jpeg, atau png',
             'max' => 'Ukuran file tidak boleh lebih dari 2MB',
+            'nilai.required' => 'Nilai wajib diisi',
+            'nilai.numeric' => 'Nilai harus berupa angka',
+            'nilai.min' => 'Nilai minimal 0',
+            'nilai.max' => 'Nilai maksimal 100',
         ]);
 
         // Handle upload berkas umum
@@ -173,6 +178,9 @@ class PendaftaranController extends Controller
             $file->storeAs('public/pendaftaran', $filename);
             $pendaftaran->ktp_ortu = $filename;
         }
+        
+        // Simpan nilai siswa
+        $pendaftaran->nilai = $request->nilai;
         
         // Validasi berdasarkan jalur pendaftaran
         if ($jalur == 'Jalur Afirmasi') {

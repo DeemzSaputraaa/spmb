@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
+use App\Mail\AkunAktifMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 
 class SiswaController extends Controller
 {
@@ -65,17 +69,41 @@ class SiswaController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        Siswa::create([
+        // Simpan plain password untuk dikirim via email
+        $plainPassword = $request->password;
+        
+        // Create siswa dengan password terenkripsi
+        $siswa = Siswa::create([
             'nisn' => $request->nisn,
             'nik' => $request->nik,
             'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
             'nomor_hp' => $request->nomor_hp,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($plainPassword),
         ]);
 
+        // Log untuk debugging
+        Log::info('Mencoba mengirim email ke: ' . $siswa->email);
+        
+        // Kirim email notifikasi
+        try {
+            // Gunakan driver log untuk testing
+            Mail::mailer('log')
+                ->to($siswa->email)
+                ->send(new AkunAktifMail($siswa, $plainPassword));
+                
+            Log::info('Email berhasil dikirim ke log: ' . $siswa->email);
+        } catch (\Exception $e) {
+            // Log error dengan detail
+            Log::error('Gagal mengirim email: ' . $e->getMessage());
+            Log::error('Error trace: ' . $e->getTraceAsString());
+        }
+
         return redirect()->route('admin.siswa.index')
-            ->with('success', 'Data siswa berhasil ditambahkan. Siswa dapat login menggunakan email dan password yang telah didaftarkan.');
+            ->with('success', 'Data siswa berhasil ditambahkan. Email notifikasi telah dikirim ke siswa dengan informasi akun yang telah diaktifkan. (Mode pengujian: Email tercatat di log sistem)')
+            ->with('siswa_id', $siswa->id)
+            ->with('show_download', true)
+            ->with('password', $plainPassword);
     }
 
     /**
@@ -126,5 +154,35 @@ class SiswaController extends Controller
 
         return redirect()->route('admin.siswa.index')
             ->with('success', 'Data siswa berhasil dihapus.');
+    }
+
+    /**
+     * Unduh kredensial siswa
+     */
+    public function downloadKredensial($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        $password = session('password');
+        
+        if (!$password) {
+            return redirect()->back()->with('error', 'Informasi password tidak tersedia.');
+        }
+        
+        $tanggalAktif = now()->format('d-m-Y H:i:s');
+        
+        $content = "INFORMASI AKUN SPMB 2025\n\n";
+        $content .= "Nama: " . $siswa->nama_lengkap . "\n";
+        $content .= "Email: " . $siswa->email . "\n";
+        $content .= "Password: " . $password . "\n";
+        $content .= "Tanggal Aktivasi: " . $tanggalAktif . "\n\n";
+        $content .= "PENTING: Simpan informasi ini dengan aman dan jangan bagikan kepada siapapun.\n";
+        $content .= "Untuk keamanan, segera ubah password Anda setelah login pertama kali.";
+        
+        $headers = [
+            'Content-type' => 'text/plain',
+            'Content-Disposition' => 'attachment; filename=info_akun_' . $siswa->nisn . '.txt',
+        ];
+        
+        return Response::make($content, 200, $headers);
     }
 }

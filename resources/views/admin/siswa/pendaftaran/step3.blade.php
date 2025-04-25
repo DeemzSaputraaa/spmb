@@ -16,7 +16,7 @@
 
     <h5 class="mb-4">Data Ayah</h5>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="nik_ayah" class="form-label">NIK Ayah <span class="text-danger">*</span></label>
                 <input type="text" name="nik_ayah" id="nik_ayah" class="form-control @error('nik_ayah') is-invalid @enderror" 
@@ -31,7 +31,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="nama_ayah" class="form-label">Nama Ayah <span class="text-danger">*</span></label>
                 <input type="text" name="nama_ayah" id="nama_ayah" class="form-control @error('nama_ayah') is-invalid @enderror" 
@@ -47,7 +47,7 @@
     </div>
     
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="pekerjaan_ayah" class="form-label">Pekerjaan Ayah <span class="text-danger">*</span></label>
                 <input type="text" name="pekerjaan_ayah" id="pekerjaan_ayah" class="form-control @error('pekerjaan_ayah') is-invalid @enderror" 
@@ -61,7 +61,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="pendidikan_ayah" class="form-label">Pendidikan Ayah <span class="text-danger">*</span></label>
                 <select name="pendidikan_ayah" id="pendidikan_ayah" class="form-select @error('pendidikan_ayah') is-invalid @enderror" required>
@@ -88,7 +88,7 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
             <div class="form-group">
                 <label for="no_hp_ayah" class="form-label">No. Handphone Ayah <span class="text-danger">*</span></label>
                 <input type="tel" name="no_hp_ayah" id="no_hp_ayah" class="form-control @error('no_hp_ayah') is-invalid @enderror" 
@@ -108,7 +108,7 @@
     
     <h5 class="mb-4">Data Ibu</h5>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="nik_ibu" class="form-label">NIK Ibu <span class="text-danger">*</span></label>
                 <input type="text" name="nik_ibu" id="nik_ibu" class="form-control @error('nik_ibu') is-invalid @enderror" 
@@ -123,7 +123,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="nama_ibu" class="form-label">Nama Ibu <span class="text-danger">*</span></label>
                 <input type="text" name="nama_ibu" id="nama_ibu" class="form-control @error('nama_ibu') is-invalid @enderror" 
@@ -139,7 +139,7 @@
     </div>
     
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="pekerjaan_ibu" class="form-label">Pekerjaan Ibu <span class="text-danger">*</span></label>
                 <input type="text" name="pekerjaan_ibu" id="pekerjaan_ibu" class="form-control @error('pekerjaan_ibu') is-invalid @enderror" 
@@ -153,7 +153,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="pendidikan_ibu" class="form-label">Pendidikan Ibu <span class="text-danger">*</span></label>
                 <select name="pendidikan_ibu" id="pendidikan_ibu" class="form-select @error('pendidikan_ibu') is-invalid @enderror" required>
@@ -180,7 +180,7 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
             <div class="form-group">
                 <label for="no_hp_ibu" class="form-label">No. Handphone Ibu <span class="text-danger">*</span></label>
                 <input type="tel" name="no_hp_ibu" id="no_hp_ibu" class="form-control @error('no_hp_ibu') is-invalid @enderror" 

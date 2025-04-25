@@ -48,6 +48,7 @@ class Pendaftaran extends Model
         'akte_kelahiran',
         'kartu_keluarga',
         'ktp_ortu',
+        'nilai',
         
         // Jalur Afirmasi
         'bukti_afirmasi',

@@ -11,7 +11,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="nisn" class="form-label">NISN (Nomor Induk Siswa Nasional) <span class="text-danger">*</span></label>
                 <input type="text" name="nisn" id="nisn" class="form-control @error('nisn') is-invalid @enderror" 
@@ -22,7 +22,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="nik" class="form-label">NIK <span class="text-danger">*</span></label>
                 <input type="text" name="nik" id="nik" class="form-control @error('nik') is-invalid @enderror" 
@@ -35,7 +35,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="tempat_lahir" class="form-label">Tempat Lahir <span class="text-danger">*</span></label>
                 <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control @error('tempat_lahir') is-invalid @enderror" 
@@ -46,7 +46,7 @@
             </div>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-8 mb-3">
             <div class="form-group">
                 <label for="tanggal_lahir" class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
                 <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror" 
@@ -57,7 +57,7 @@
             </div>
         </div>
         
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-4 mb-3">
             <div class="form-group">
                 <label for="usia_display" class="form-label">Usia <span class="text-danger">*</span></label>
                 <input type="text" id="usia_display" class="form-control" readonly style="background-color: #f8f9fa;">
@@ -67,7 +67,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="no_akta_lahir" class="form-label">No. Reg. Akta Lahir <span class="text-danger">*</span></label>
                 <input type="text" name="no_akta_lahir" id="no_akta_lahir" class="form-control @error('no_akta_lahir') is-invalid @enderror" 
@@ -78,7 +78,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="agama" class="form-label">Agama <span class="text-danger">*</span></label>
                 <select name="agama" id="agama" class="form-select @error('agama') is-invalid @enderror" required>
@@ -97,7 +97,7 @@
         </div>
     </div>
     
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label for="alamat_jalan" class="form-label">Alamat Jalan <span class="text-danger">*</span></label>
         <textarea name="alamat_jalan" id="alamat_jalan" class="form-control @error('alamat_jalan') is-invalid @enderror" 
                   rows="2" required>{{ old('alamat_jalan', $pendaftaran->alamat_jalan ?? '') }}</textarea>
@@ -107,7 +107,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="kelurahan" class="form-label">Kelurahan/Desa <span class="text-danger">*</span></label>
                 <input type="text" name="kelurahan" id="kelurahan" class="form-control @error('kelurahan') is-invalid @enderror" 
@@ -118,7 +118,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="kecamatan" class="form-label">Kecamatan <span class="text-danger">*</span></label>
                 <input type="text" name="kecamatan" id="kecamatan" class="form-control @error('kecamatan') is-invalid @enderror" 
@@ -131,7 +131,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="kabupaten" class="form-label">Kabupaten/Kota <span class="text-danger">*</span></label>
                 <input type="text" name="kabupaten" id="kabupaten" class="form-control @error('kabupaten') is-invalid @enderror" 
@@ -142,7 +142,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="provinsi" class="form-label">Provinsi <span class="text-danger">*</span></label>
                 <input type="text" name="provinsi" id="provinsi" class="form-control @error('provinsi') is-invalid @enderror" 
@@ -158,7 +158,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="sekolah_tujuan" class="form-label">Sekolah Tujuan <span class="text-danger">*</span></label>
                 <input type="text" name="sekolah_tujuan" id="sekolah_tujuan" class="form-control @error('sekolah_tujuan') is-invalid @enderror" 
@@ -172,7 +172,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="jurusan" class="form-label">Jurusan <span class="text-danger">*</span></label>
                 <input type="text" name="jurusan" id="jurusan" class="form-control @error('jurusan') is-invalid @enderror" 
@@ -188,7 +188,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="asal_sekolah" class="form-label">Asal Sekolah <span class="text-danger">*</span></label>
                 <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control @error('asal_sekolah') is-invalid @enderror" 
@@ -202,7 +202,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="no_hp" class="form-label">No. Handphone <span class="text-danger">*</span></label>
                 <input type="tel" name="no_hp" id="no_hp" class="form-control @error('no_hp') is-invalid @enderror" 
@@ -219,7 +219,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                 <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" 
@@ -233,7 +233,7 @@
             </div>
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="form-group">
                 <label for="jalur_pendaftaran" class="form-label">Pilih Jalur Pendaftaran <span class="text-danger">*</span></label>
                 <select name="jalur_pendaftaran" id="jalur_pendaftaran" class="form-select @error('jalur_pendaftaran') is-invalid @enderror" required>

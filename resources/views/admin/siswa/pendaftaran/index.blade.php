@@ -9,6 +9,7 @@
         justify-content: space-between;
         margin-bottom: 2rem;
         position: relative;
+        flex-wrap: wrap;
     }
     
     .wizard-steps::before {
@@ -27,6 +28,7 @@
         z-index: 1;
         text-align: center;
         width: 25%;
+        margin-bottom: 15px;
     }
     
     .wizard-step-number {
@@ -72,7 +74,7 @@
     .wizard-content {
         background: white;
         border-radius: 0.5rem;
-        padding: 2rem;
+        padding: 1.5rem;
         box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
     }
     
@@ -80,6 +82,8 @@
         display: flex;
         justify-content: space-between;
         margin-top: 2rem;
+        flex-wrap: wrap;
+        gap: 10px;
     }
     
     .form-group {
@@ -112,6 +116,38 @@
         border-color: #bac8f3;
         box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
     }
+    
+    @media (max-width: 767.98px) {
+        .wizard-steps::before {
+            display: none;
+        }
+        
+        .wizard-step {
+            width: 50%;
+            margin-bottom: 15px;
+        }
+        
+        .wizard-content {
+            padding: 1rem;
+        }
+        
+        .wizard-nav {
+            justify-content: center;
+        }
+        
+        .wizard-nav .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .d-sm-flex {
+            flex-direction: column;
+        }
+        
+        .d-sm-flex h1 {
+            margin-bottom: 1rem;
+        }
+    }
 </style>
 @endsection
 
@@ -119,11 +155,11 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Pendaftaran Siswa</h1>
-    <form action="{{ route('admin.siswa.pendaftaran.save-draft', $siswa->id) }}" method="POST" id="formSaveDraft">
+    <form action="{{ route('admin.siswa.pendaftaran.save-draft', $siswa->id) }}" method="POST" id="formSaveDraft" class="mt-2 mt-sm-0">
         @csrf
         <input type="hidden" name="current_step" value="{{ $currentStep }}">
         <input type="hidden" name="form_data" id="formDataInput">
-        <button type="submit" class="btn btn-secondary" id="btnSaveDraft">
+        <button type="submit" class="btn btn-secondary w-100" id="btnSaveDraft">
             <i class="fas fa-arrow-left fa-sm me-2"></i> Simpan & Kembali
         </button>
     </form>

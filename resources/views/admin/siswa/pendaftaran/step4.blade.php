@@ -97,6 +97,7 @@
                     </table>
                 </div>
             </div>
+            
             <div class="d-flex justify-content-end">
                 <a href="{{ route('admin.siswa.pendaftaran.index', ['siswa_id' => $siswa->id, 'step' => 1]) }}" class="btn btn-sm btn-outline-primary">
                     <i class="fas fa-edit"></i> Edit Data Siswa
@@ -116,6 +117,11 @@
                         <tr>
                             <td width="30%"><strong>Jalur Pendaftaran</strong></td>
                             <td>: {{ $pendaftaran->jalur_pendaftaran }}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><strong>Nilai Rata-Rata</strong></td>
+                            <td>: {{ $pendaftaran->nilai ?? '-' }}</td>
                         </tr>
                         
                         @if($pendaftaran->jalur_pendaftaran == 'Jalur Afirmasi')
@@ -314,7 +320,7 @@
 
 <!-- Custom Dialog Modal -->
 <div id="customDialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
-    <div style="background-color: white; border-radius: 10px; width: 400px; max-width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); overflow: hidden;">
+    <div style="background-color: white; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); overflow: hidden; margin: 10px;">
         <div style="background-color: #4e73df; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px;">
             <i class="fas fa-info-circle mr-2"></i> Konfirmasi Pendaftaran
         </div>
@@ -323,12 +329,32 @@
                 <p style="margin-bottom: 10px;"><b>Apakah Anda yakin ingin menyelesaikan pendaftaran?</b></p>
                 <p style="color: #555; font-size: 14px;">Setelah pendaftaran diselesaikan, data tidak dapat diubah lagi.</p>
             </div>
-            <div id="dialogButtons" style="display: flex; justify-content: center; gap: 10px;">
-                <button id="btnConfirmYes" style="background-color: #4e73df; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s;">
+            <div id="dialogButtons" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button id="btnConfirmYes" style="background-color: #4e73df; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s; margin-bottom: 10px;">
                     <i class="fas fa-check mr-1"></i> Ya, Selesaikan
                 </button>
-                <button id="btnConfirmNo" style="background-color: #e74a3b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s;">
+                <button id="btnConfirmNo" style="background-color: #e74a3b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s; margin-bottom: 10px;">
                     <i class="fas fa-times mr-1"></i> Batal
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Warning Dialog Modal -->
+<div id="warningDialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background-color: white; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); overflow: hidden; margin: 10px; animation: shake 0.5s;">
+        <div style="background-color: #f6c23e; color: #fff; padding: 15px; text-align: center; font-weight: bold; font-size: 18px;">
+            <i class="fas fa-exclamation-triangle mr-2"></i> Perhatian
+        </div>
+        <div style="padding: 20px; text-align: center;">
+            <div style="margin-bottom: 15px; font-size: 16px;">
+                <p style="margin-bottom: 10px;"><b>Konfirmasi Diperlukan</b></p>
+                <p style="color: #555; font-size: 14px;">Anda harus menyetujui pernyataan konfirmasi terlebih dahulu untuk melanjutkan proses pendaftaran.</p>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button id="btnWarningOk" style="background-color: #f6c23e; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s; margin-bottom: 10px;">
+                    <i class="fas fa-check mr-1"></i> Saya Mengerti
                 </button>
             </div>
         </div>
@@ -337,7 +363,7 @@
 
 <!-- Loading Modal -->
 <div id="loadingDialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center;">
-    <div style="background-color: white; border-radius: 10px; width: 300px; max-width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; text-align: center;">
+    <div style="background-color: white; border-radius: 10px; width: 90%; max-width: 300px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 20px; text-align: center; margin: 10px;">
         <div style="margin-bottom: 15px;">
             <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
                 <span class="sr-only">Loading...</span>
@@ -350,9 +376,29 @@
     </div>
 </div>
 
+<style>
+@keyframes shake {
+    0% { transform: translateX(0) }
+    20% { transform: translateX(-10px) }
+    40% { transform: translateX(10px) }
+    60% { transform: translateX(-10px) }
+    80% { transform: translateX(10px) }
+    100% { transform: translateX(0) }
+}
+</style>
+
 <script>
 function showCustomDialog(show) {
     const dialog = document.getElementById('customDialog');
+    if (show) {
+        dialog.style.display = 'flex';
+    } else {
+        dialog.style.display = 'none';
+    }
+}
+
+function showWarningDialog(show) {
+    const dialog = document.getElementById('warningDialog');
     if (show) {
         dialog.style.display = 'flex';
     } else {
@@ -373,7 +419,7 @@ function konfirmasiPendaftaran() {
     // Periksa checkbox
     const checkboxKonfirmasi = document.getElementById('konfirmasi');
     if (!checkboxKonfirmasi.checked) {
-        alert('Anda harus menyetujui pernyataan konfirmasi terlebih dahulu');
+        showWarningDialog(true);
         return false;
     }
     
@@ -402,10 +448,18 @@ function konfirmasiPendaftaran() {
     };
 }
 
+// Event handler untuk tombol OK pada dialog peringatan
+document.getElementById('btnWarningOk').onclick = function() {
+    showWarningDialog(false);
+    // Fokus pada checkbox setelah dialog ditutup
+    document.getElementById('konfirmasi').focus();
+};
+
 // Tambahkan efek hover untuk tombol
 document.addEventListener('DOMContentLoaded', function() {
     const btnConfirmYes = document.getElementById('btnConfirmYes');
     const btnConfirmNo = document.getElementById('btnConfirmNo');
+    const btnWarningOk = document.getElementById('btnWarningOk');
     
     btnConfirmYes.addEventListener('mouseover', function() {
         this.style.backgroundColor = '#2e59d9';
@@ -421,6 +475,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     btnConfirmNo.addEventListener('mouseout', function() {
         this.style.backgroundColor = '#e74a3b';
+    });
+    
+    btnWarningOk.addEventListener('mouseover', function() {
+        this.style.backgroundColor = '#e0b02c';
+    });
+    
+    btnWarningOk.addEventListener('mouseout', function() {
+        this.style.backgroundColor = '#f6c23e';
     });
     
     // Simpan status checkbox saat diubah

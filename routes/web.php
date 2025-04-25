@@ -33,6 +33,10 @@ Route::resource('/admin/siswa', SiswaController::class)->names([
     'destroy' => 'admin.siswa.destroy',
 ])->except(['show']);
 
+// Route untuk mengunduh kredensial
+Route::get('/admin/siswa/{id}/download-kredensial', [SiswaController::class, 'downloadKredensial'])
+    ->name('admin.siswa.download-kredensial');
+
 // Pendaftaran Wizard Routes
 Route::get('/admin/siswa/{siswa_id}/pendaftaran', [App\Http\Controllers\Admin\PendaftaranController::class, 'index'])->name('admin.siswa.pendaftaran.index');
 Route::post('/admin/siswa/{siswa_id}/pendaftaran/step1', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep1'])->name('admin.siswa.pendaftaran.step1');

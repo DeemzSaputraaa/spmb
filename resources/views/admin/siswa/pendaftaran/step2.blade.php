@@ -133,10 +133,25 @@
         @endif
     </div>
     
+    <!-- Nilai Rata-Rata (Semua jalur) -->
+    <div class="form-group mb-4">
+        <label for="nilai" class="form-label">6. Nilai Rata-Rata <span class="text-danger">*</span></label>
+        <input type="number" step="0.01" min="0" max="100" name="nilai" id="nilai" 
+               class="form-control @error('nilai') is-invalid @enderror"
+               value="{{ old('nilai', $pendaftaran->nilai ?? '') }}" required>
+        <small class="form-text text-muted">Masukkan nilai rata-rata (0-100)</small>
+        @error('nilai')
+            <div class="alert alert-danger mt-2">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                {{ $errors->first('nilai') }}
+            </div>
+        @enderror
+    </div>
+    
     @if($pendaftaran->jalur_pendaftaran == 'Jalur Afirmasi')
         <!-- SKTM (Jalur Afirmasi) -->
         <div class="form-group">
-            <label for="bukti_afirmasi" class="form-label">6. SKTM (Surat Keterangan Tidak Mampu) <span class="text-danger">*</span></label>
+            <label for="bukti_afirmasi" class="form-label">7. SKTM (Surat Keterangan Tidak Mampu) <span class="text-danger">*</span></label>
             <input type="file" name="bukti_afirmasi" id="bukti_afirmasi" class="form-control @error('bukti_afirmasi') is-invalid @enderror"
                  accept="application/pdf,image/*" {{ empty($pendaftaran->bukti_afirmasi) ? 'required' : '' }}>
             @error('bukti_afirmasi')
@@ -172,7 +187,7 @@
     @elseif($pendaftaran->jalur_pendaftaran == 'Jalur Prestasi')
         <!-- Piagam (Jalur Prestasi) -->
         <div class="form-group">
-            <label for="bukti_prestasi" class="form-label">6. Piagam atau Sertifikat Prestasi <span class="text-danger">*</span></label>
+            <label for="bukti_prestasi" class="form-label">7. Piagam atau Sertifikat Prestasi <span class="text-danger">*</span></label>
             <input type="file" name="bukti_prestasi" id="bukti_prestasi" class="form-control @error('bukti_prestasi') is-invalid @enderror"
                  accept="application/pdf,image/*" {{ empty($pendaftaran->bukti_prestasi) ? 'required' : '' }}>
             @error('bukti_prestasi')
@@ -265,7 +280,7 @@
     @elseif($pendaftaran->jalur_pendaftaran == 'Jalur Domisili')
         <!-- Jarak Rumah (Jalur Domisili) -->
         <div class="form-group">
-            <label for="jarak_rumah" class="form-label">6. Jarak Rumah ke Sekolah (km) <span class="text-danger">*</span></label>
+            <label for="jarak_rumah" class="form-label">7. Jarak Rumah ke Sekolah (km) <span class="text-danger">*</span></label>
             <input type="number" step="0.01" name="jarak_rumah" id="jarak_rumah" class="form-control @error('jarak_rumah') is-invalid @enderror"
                    value="{{ old('jarak_rumah', $pendaftaran->jarak_rumah ?? '') }}" required>
             @error('jarak_rumah')
@@ -302,7 +317,7 @@
     @elseif($pendaftaran->jalur_pendaftaran == 'Jalur Mutasi')
         <!-- Surat Keterangan Pindah (Jalur Mutasi) -->
         <div class="form-group">
-            <label for="bukti_mutasi" class="form-label">6. Surat Keterangan Pindah <span class="text-danger">*</span></label>
+            <label for="bukti_mutasi" class="form-label">7. Surat Keterangan Pindah <span class="text-danger">*</span></label>
             <input type="file" name="bukti_mutasi" id="bukti_mutasi" class="form-control @error('bukti_mutasi') is-invalid @enderror"
                  accept="application/pdf,image/*" {{ empty($pendaftaran->bukti_mutasi) ? 'required' : '' }}>
             @error('bukti_mutasi')
