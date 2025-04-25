@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('no_hp_ibu', 15)->nullable()->after('pekerjaan_ibu');
         });
     }
-
     /**
      * Reverse the migrations.
      */
