@@ -1,82 +1,102 @@
-# Nama Workflow
-name: Deploy Laravel Locally (Self-Hosted)
+name: Deploy Laravel to Debian Server
 
-# Pemicu: Jalankan workflow ini setiap kali ada push ke branch 'main'
+# Kapan workflow ini dijalankan
 on:
   push:
+    # Hanya jalankan jika ada push ke branch yang ditentukan di Secret atau branch 'main' jika Secret tidak ada
     branches:
-      - main  # Ganti 'main' jika Anda menggunakan branch lain seperti 'master'
+      - ${{ secrets.DEPLOY_BRANCH || 'main' }}
 
 jobs:
   deploy:
-    name: Deploy to Local Server
-    # Targetkan runner self-hosted.
-    # 'self-hosted' adalah label default. Anda bisa menggunakan label spesifik
-    # yang Anda atur saat konfigurasi runner jika perlu (misal: [self-hosted, local-debian]).
-    runs-on: self-hosted
-
-    # Menetapkan direktori kerja default untuk semua langkah 'run'
-    # Ganti '/var/www/html/nama_proyek_anda' dengan path absolut ke proyek Laravel Anda di server
-    defaults:
-      run:
-        working-directory: /var/www/html/spmb # <-- PENTING: Ganti path ini
+    name: Deploy to Server
+    # Menggunakan runner Ubuntu terbaru yang disediakan GitHub
+    runs-on: ubuntu-latest
 
     steps:
-    # Langkah SSH tidak diperlukan lagi karena kode dijalankan langsung di server target.
+    # 1. Checkout Kode: Mengunduh kode dari repositori ke runner
+    - name: Checkout code
+      uses: actions/checkout@v4 # Gunakan versi terbaru checkout action
 
-    # Opsional: Checkout code jika perlu memastikan direktori kerja bersih
-    # - name: Checkout code
-    #   uses: actions/checkout@v4
+    # 2. Setup SSH Agent: Mengkonfigurasi SSH Agent di runner dengan Private Key dari Secrets
+    - name: Setup SSH Key
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        # Mengambil private key dari GitHub Secrets
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Pull latest code
-      # Menjalankan perintah shell langsung di runner (server lokal Anda)
+    # 3. Add Server's Host Key to Known Hosts: Menghindari prompt konfirmasi SSH interaktif
+    - name: Add Known Hosts
       run: |
-        echo "Pulling latest code from ${{ github.ref_name }} branch..."
-        # Pastikan user yang menjalankan runner memiliki akses Git ke repositori ini.
-        # Jika clone via SSH, pastikan SSH key user runner terdaftar di GitHub.
-        git checkout ${{ github.ref_name }} # Pindah ke branch yang benar
-        git reset --hard HEAD # Opsional: Hapus perubahan lokal yang mungkin ada
-        git pull origin ${{ github.ref_name }} # Tarik perubahan terbaru
+        mkdir -p ~/.ssh
+        # Mengambil host key server dan menambahkannya ke known_hosts runner
+        # Gunakan secret SSH_PORT jika ada, default ke 22
+        ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+        chmod 600 ~/.ssh/known_hosts
 
-    - name: Install Composer Dependencies
+    # 4. Execute Deployment Commands: Menjalankan perintah di server Debian via SSH
+    - name: Execute deployment commands on server
+      # Mendefinisikan variabel lingkungan untuk kemudahan
+      env:
+        SSH_USER_HOST: "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}"
+        PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
+        TARGET_BRANCH: ${{ secrets.DEPLOY_BRANCH || 'main' }} # Gunakan branch dari secret atau 'main'
+        SSH_PORT_PARAM: "-p ${{ secrets.SSH_PORT || '22' }}" # Parameter port untuk ssh
       run: |
-        echo "Installing/updating Composer dependencies..."
-        # Pastikan 'composer' terinstal dan bisa diakses oleh user yang menjalankan runner.
-        # --no-interaction: Jangan tanya interaktif
-        # --prefer-dist: Download versi zip jika ada (lebih cepat)
-        # --optimize-autoloader: Optimasi autoloader
-        # --no-dev: Jangan install dependensi dev (untuk produksi)
-        composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+        # Menjalankan blok perintah di server remote menggunakan SSH
+        # Perhatikan penggunaan << 'EOF' untuk multi-line script
+        ssh $SSH_PORT_PARAM $SSH_USER_HOST << EOF
+          echo "--------------------------------------------------"
+          echo "Starting deployment on $(date)"
+          echo "Target Branch: $TARGET_BRANCH"
+          echo "Project Path: $PROJECT_PATH"
+          echo "--------------------------------------------------"
 
-    - name: Run Database Migrations
-      run: |
-        echo "Running database migrations..."
-        # Pastikan 'php' bisa diakses dan file .env sudah dikonfigurasi dengan benar di server.
-        # --force: Wajib untuk environment non-interaktif (produksi)
-        php artisan migrate --force
+          # Pindah ke direktori proyek, keluar jika gagal
+          cd \$PROJECT_PATH || { echo "ERROR: Failed to change directory to $PROJECT_PATH"; exit 1; }
 
-    - name: Optimize Laravel Application
-      run: |
-        echo "Optimizing Laravel application..."
-        php artisan optimize:clear  # Bersihkan cache lama (config, route, view)
-        php artisan config:cache
-        php artisan route:cache
-        php artisan view:cache
-        # php artisan event:cache # Aktifkan jika Anda menggunakan event discovery
+          echo "INFO: Current directory: \$(pwd)"
+          echo "INFO: Stashing local changes (if any)..."
+          git stash || true # Stash perubahan lokal, abaikan jika tidak ada apa-apa
 
-    # (Opsional) Restart services jika diperlukan.
-    # Perhatian: User yang menjalankan runner mungkin memerlukan izin 'sudo' untuk ini.
-    # Anda perlu mengkonfigurasi /etc/sudoers agar user runner bisa menjalankan perintah ini tanpa password.
-    # - name: Restart PHP-FPM
-    #   run: |
-    #     echo "Restarting PHP-FPM..."
-    #     sudo systemctl restart php8.1-fpm # Ganti versi PHP sesuai milik Anda
+          echo "INFO: Checking out target branch ($TARGET_BRANCH)..."
+          git checkout \$TARGET_BRANCH || { echo "ERROR: Failed to checkout branch $TARGET_BRANCH"; git stash pop || true; exit 1; }
 
-    # - name: Restart Queue Worker
-    #   run: |
-    #     echo "Restarting Queue Worker..."
-    #     php artisan queue:restart
+          echo "INFO: Pulling latest code from origin/$TARGET_BRANCH..."
+          git pull origin \$TARGET_BRANCH || { echo "ERROR: Failed to pull from origin/$TARGET_BRANCH"; git stash pop || true; exit 1; }
 
-    - name: Deployment Finished
-      run: echo "Local deployment finished successfully!"
+          # Terapkan kembali stash jika ada (misal file .env yang tidak di-track)
+          # Hati-hati, ini bisa menyebabkan konflik jika file yang sama diubah di repo & stash
+          echo "INFO: Applying stash (if any)..."
+          git stash pop || true
 
+          echo "INFO: Installing/updating Composer dependencies..."
+          # Gunakan --profile untuk melihat waktu & memori jika perlu debug
+          composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev || { echo "ERROR: Composer install failed"; exit 1; }
+
+          echo "INFO: Running database migrations..."
+          php artisan migrate --force || { echo "ERROR: Database migration failed"; exit 1; }
+
+          echo "INFO: Clearing caches..."
+          php artisan cache:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+          # Tambahkan perintah lain jika perlu (misal: build asset frontend, restart queue)
+          # echo "INFO: Building frontend assets..."
+          # npm install && npm run build
+
+          # echo "INFO: Restarting queue worker..."
+          # php artisan queue:restart # Mungkin perlu sudo, lihat catatan di bawah
+
+          echo "--------------------------------------------------"
+          echo "Deployment finished successfully on $(date)"
+          echo "--------------------------------------------------"
+        EOF
+
+    # 5. Cleanup SSH Agent (Opsional, biasanya otomatis)
+    - name: Cleanup SSH Agent
+      # Selalu jalankan langkah ini, bahkan jika langkah sebelumnya gagal
+      if: always()
+      run: echo "SSH Agent cleanup (usually automatic by the action)"
