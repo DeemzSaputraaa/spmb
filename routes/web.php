@@ -16,6 +16,12 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
+//COBA YAAAAA
+Route::get('/dash', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+
 // Guest routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

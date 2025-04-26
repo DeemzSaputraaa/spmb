@@ -19,660 +19,779 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-    /* Custom Styles */
-    :root {
-        --primary-color: #0d6efd;
-        --secondary-color: #6c757d;
-    }
+        /* Custom Styles */
+        /* Base Styles and Variables */
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+        }
 
-    body {
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        scroll-behavior: smooth;
-    }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            scroll-behavior: smooth;
+        }
 
-    /* Navbar */
-    .navbar {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        /* Container adjustments */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
 
-    /* Navbar Styles */
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-    }
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1240px;
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+        }
 
-    .navbar-toggler:focus {
-        box-shadow: none;
-    }
+        /* Text styles */
+        .text-primary {
+            color: #0d6efd !important;
+        }
 
-    .nav-link {
-        font-weight: 500;
-        position: relative;
-        transition: color 0.3s ease;
-    }
-
-    .nav-link.active::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        background-color: #0d6efd;
-        bottom: 0;
-        left: 0;
-    }
-
-    /* Hero Section Styles */
-    .hero-section {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        padding-top: 80px;
-        /* Account for fixed navbar */
-        position: relative;
-    }
-
-    .hero-image {
-        max-height: 450px;
-        object-fit: contain;
-    }
-
-    /* Responsive text sizes */
-    .display-4 {
-        font-size: 2.8rem;
-        line-height: 1.2;
-    }
-
-    .lead {
-        font-size: 1.15rem;
-    }
-
-    /* Small devices (landscape phones) */
-    @media (max-width: 767.98px) {
         .display-4 {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
+            line-height: 1.2;
         }
 
         .lead {
-            font-size: 1rem;
+            font-size: 1.15rem;
         }
 
-        .hero-image {
-            max-height: 300px;
-            margin-top: 1rem;
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
         }
 
+        .section-subtitle {
+            font-size: 18px;
+            color: #777;
+            margin-bottom: 40px;
+        }
+
+        /* Responsive text sizes */
+        @media (max-width: 767.98px) {
+            .display-4 {
+                font-size: 2.2rem;
+            }
+
+            .lead {
+                font-size: 1rem;
+            }
+        }
+
+        /* Navbar Specific Styles */
+        .navbar {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logo styling */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand small {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+
+        /* Custom Hamburger Icon */
+        .custom-toggler-icon {
+            display: inline-block;
+            width: 24px;
+            height: 17px;
+            position: relative;
+        }
+
+        .custom-toggler-icon .bar {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .custom-toggler-icon .bar:nth-child(1) {
+            top: 0;
+        }
+
+        .custom-toggler-icon .bar:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .custom-toggler-icon .bar:nth-child(3) {
+            bottom: 0;
+        }
+
+        /* Custom Hamburger Icon */
+        .custom-toggler-icon {
+            display: inline-block;
+            width: 24px;
+            height: 17px;
+            position: relative;
+        }
+
+        .custom-toggler-icon .bar {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .custom-toggler-icon .bar:nth-child(1) {
+            top: 0;
+        }
+
+        .custom-toggler-icon .bar:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .custom-toggler-icon .bar:nth-child(3) {
+            bottom: 0;
+        }
+
+        /* Hide default Bootstrap toggler icon */
+        .navbar-toggler-icon {
+            display: none;
+        }
+
+        /* Active state for hamburger icon */
+        .navbar-toggler[aria-expanded="true"] .custom-toggler-icon .bar:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .navbar-toggler[aria-expanded="true"] .custom-toggler-icon .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .custom-toggler-icon .bar:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Nav links */
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #0d6efd !important;
+        }
+
+        .nav-link.active {
+            color: #0d6efd !important;
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 2px;
+            background-color: #0d6efd;
+            bottom: 5px;
+            left: 20%;
+            border-radius: 2px;
+        }
+
+        /* Mobile menu styling */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                padding: 0;
+                margin-top: 0.5rem;
+            }
+
+            .nav-item {
+                margin: 0;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-link:last-child {
+                border-bottom: none;
+            }
+
+            .btn {
+                width: 100%;
+                margin: 0.5rem 0 0;
+                border-radius: 0;
+            }
+        }
+
+        /* Desktop adjustments */
+        @media (min-width: 992px) {
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+
+            .nav-item {
+                margin: 0 0.25rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 0.75rem;
+                border-bottom: none !important;
+            }
+        }
+
+        /* Large desktop adjustments */
+        @media (min-width: 1200px) {
+            .nav-item {
+                margin: 0 0.5rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 0.75rem;
+                font-size: 1.05rem;
+            }
+        }
+
+        /* Extra large screens */
+        @media (min-width: 1400px) {
+            .nav-item {
+                margin: 0 0.75rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 1rem;
+            }
+
+            .navbar-brand {
+                margin-right: 2rem;
+            }
+        }
+
+        /* Button hover effect */
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        }
+
+        /* Hero Section Styles */
         .hero-section {
-            min-height: auto;
-            padding-top: 70px;
-            padding-bottom: 2rem;
-        }
-
-        .min-vh-100 {
-            min-height: auto !important;
-            padding: 2rem 0;
-        }
-    }
-
-    /* Medium devices (tablets) */
-    @media (min-width: 768px) and (max-width: 991.98px) {
-        .display-4 {
-            font-size: 2.5rem;
-        }
-
-        .min-vh-100 {
-            min-height: 85vh !important;
-        }
-    }
-
-    /* Buttons */
-    .btn {
-        border-radius: 4px;
-        transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-    }
-
-    .btn-outline-light {
-        border: 2px solid white;
-    }
-
-    .btn-outline-light:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-color: white;
-    }
-
-    .btn-light {
-        border: 2px solid white;
-    }
-
-    /* Container adjustments */
-    @media (min-width: 1200px) {
-        .container {
-            max-width: 1140px;
-        }
-    }
-
-    @media (min-width: 1400px) {
-        .container {
-            max-width: 1240px;
-        }
-    }
-
-    @media (min-width: 1400px) {
-        .container {
-            padding-left: 3rem;
-            padding-right: 3rem;
-        }
-
-        .nav-item {
-            margin-left: 1rem !important;
-            margin-right: 1rem !important;
-        }
-    }
-
-    /* .hero-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 5rem 0;
-        } */
-
-    .hero-section {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        padding: 80px 0;
-        position: relative;
-    }
-
-
-    .hero-text {
-        position: relative;
-        z-index: 2;
-    }
-
-    .min-vh-80 {
-        min-height: 80vh;
-    }
-
-    @media (max-width: 992px) {
-        .hero-section {
-            text-align: center;
-            padding: 4rem 0;
-            font-size: 2.8rem !important;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            padding: 80px 0;
+            position: relative;
         }
 
         .hero-text {
-            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
         }
-
-        .d-flex {
-            justify-content: center;
-        }
-
-        .hero-section h1 {
-            font-size: 3rem !important;
-        }
-
-        .hero-section p {
-            font-size: 1.25rem !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .hero-section {
-            padding: 3rem 0;
-        }
-
-        .hero-section h1 {
-            font-size: 2.3rem !important;
-        }
-
-        .hero-section p {
-            font-size: 1.1rem !important;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .hero-section img {
-            max-height: 400px;
-            object-fit: contain;
-        }
-    }
-
-    /* Container width adjustment */
-    @media (min-width: 1200px) {
-        .container {
-            max-width: 1140px;
-        }
-    }
-
-    @media (min-width: 1400px) {
-        .container {
-            max-width: 1240px;
-        }
-    }
-
-    .hero-section .btn {
-        border-radius: 4px;
-        padding: 10px 24px;
-        transition: all 0.3s ease;
-    }
-
-    .hero-section .btn-outline-light {
-        border: 1px solid white;
-    }
-
-    .hero-section .btn-outline-light:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .hero-section .btn-light {
-        background-color: white;
-        color: #5E87F5;
-    }
-
-    .hero-section .btn-light:hover {
-        background-color: #f8f9fa;
-    }
-
-
-    /* Button Hero */
-
-    .button-container {
-        display: flex;
-        gap: 20px;
-    }
-
-    .button {
-        display: inline-block;
-        padding: 12px 30px;
-        font-weight: bold;
-        text-decoration: none;
-        text-transform: uppercase;
-        border-radius: 4px;
-        font-size: 16px;
-        transition: all 0.3s ease;
-    }
-
-    .button-primary {
-        background-color: #6495ED;
-        color: white;
-        border: 2px solid white;
-    }
-
-    .button-secondary {
-        background-color: white;
-        color: #6495ED;
-        border: 2px solid white;
-    }
-
-    .button:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-    }
-
-    .feature-icon {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(13, 110, 253, 0.1);
-        color: var(--primary-color);
-        border-radius: 50%;
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .hover-card {
-        transition: all 0.3s ease;
-        border: 1px solid #e9e9e9;
-        z-index: 1;
-    }
-
-    .hover-card:hover {
-        border-color: transparent;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .hover-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: url('images/slider-bg.png');
-        background-size: cover;
-        background-position: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: -1;
-        border-radius: 0.25rem;
-    }
-
-    .hover-card:hover .hover-overlay {
-        opacity: 1;
-    }
-
-    .hover-card:hover h3,
-    .hover-card:hover p,
-    .hover-card:hover span {
-        color: white !important;
-        position: relative;
-        z-index: 2;
-    }
-
-    .text-primary {
-        color: #0d6efd !important;
-    }
-
-    .hover-card:hover .text-primary {
-        color: white !important;
-    }
-
-    /* Testimoni */
-    .testimonial-section {
-        background: linear-gradient(rgba(240, 245, 255, 0.9), rgba(240, 245, 255, 0.9)), url('images/test-bg.png') no-repeat center center;
-        background-size: cover;
-        background-attachment: fixed;
-        padding: 80px 0;
-    }
-
-    .testimonial-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        padding: 30px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        height: 100%;
-    }
-
-    .testimonial-card:hover {
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-
-    .avatar-circle {
-        width: 80px;
-        height: 80px;
-        background-color: #ddd;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        color: #777;
-        margin-bottom: 20px;
-    }
-
-    .school-name {
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .stars {
-        color: #FFC107;
-        margin-bottom: 15px;
-    }
-
-    .testimonial-text {
-        font-style: italic;
-        color: #666;
-        text-align: center;
-    }
-
-    .carousel-indicators {
-        bottom: -50px;
-    }
-
-    .carousel-indicators button {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #ccc;
-        margin: 0 5px;
-    }
-
-    .carousel-indicators .active {
-        background-color: #6c757d;
-    }
-
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 40px;
-        height: 40px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-        opacity: 1;
-    }
-
-    .carousel-control-prev {
-        left: -20px;
-    }
-
-    .carousel-control-next {
-        right: -20px;
-    }
-
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-        background-color: rgba(255, 255, 255, 0.8);
-    }
-
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        width: 20px;
-        height: 20px;
-        filter: invert(1) grayscale(100);
-    }
-
-    .section-title {
-        font-size: 32px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 5px;
-    }
-
-    .section-subtitle {
-        font-size: 18px;
-        color: #777;
-        margin-bottom: 40px;
-    }
-
-    @media (max-width: 991px) {
-        .testimonial-card {
-            margin-bottom: 20px;
-        }
-    }
-
-    footer {
-        background-color: #212529;
-    }
-
-    @media (max-width: 768px) {
-        /* .hero-section {
-                padding: 3rem 0;
-                text-align: center;
-            } */
 
         .hero-image {
-            margin-top: 2rem;
+            max-height: 450px;
+            object-fit: contain;
         }
-    }
 
-    .hover-card {
-        transition: all 0.3s ease;
-        z-index: 1;
-    }
+        .min-vh-80 {
+            min-height: 80vh;
+        }
 
-    .hover-card:hover {
-        background-color: #0d6efd;
-        color: white !important;
-        transform: translateY(-5px);
-    }
+        .min-vh-lg-100 {
+            min-height: 100vh;
+        }
 
-    .hover-card:hover h3,
-    .hover-card:hover p {
-        color: white !important;
-    }
+        .hero-section .btn {
+            border-radius: 4px;
+            padding: 10px 24px;
+            transition: all 0.3s ease;
+        }
 
-    .hover-card:hover .lnr {
-        color: white !important;
-    }
+        .hero-section .btn-outline-light {
+            border: 1px solid white;
+        }
 
-    /* .hover-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(13, 110, 253, 0);
-        transition: background-color 0.3s ease;
-        z-index: -1;
-    }
+        .hero-section .btn-outline-light:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-    .hover-card:hover .hover-overlay {
-        background-color: rgba(13, 110, 253, 0.1);
-    } */
+        .hero-section .btn-light {
+            background-color: white;
+            color: #5E87F5;
+        }
 
-    .action-area {
-        padding: 60px 0;
-        color: white;
-    }
+        .hero-section .btn-light:hover {
+            background-color: #f8f9fa;
+        }
 
-    .btn-light {
-        background-color: white;
-        color: #333;
-        transition: all 0.3s ease;
-        border: none;
-        border-radius: 4px;
-    }
+        @media (max-width: 992px) {
+            .hero-section {
+                text-align: center;
+                padding: 4rem 0;
+                font-size: 2.8rem !important;
+            }
 
-    .btn-light:hover {
-        background-color: #f8f9fa;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+            .hero-text {
+                margin-bottom: 3rem;
+            }
 
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 5%;
-    }
+            .d-flex {
+                justify-content: center;
+            }
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        background-size: 60%;
-    }
+            .hero-section h1 {
+                font-size: 3rem !important;
+            }
 
-    .card {
-        transition: transform 0.3s ease;
-    }
+            .hero-section p {
+                font-size: 1.25rem !important;
+            }
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
+            .hero-section img {
+                max-height: 400px;
+                object-fit: contain;
+            }
+        }
 
-    /* Add smooth transition for hover effects */
-    .card {
-        transition: transform 0.3s ease;
-    }
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
 
-    .card:hover {
-        transform: translateY(-5px);
-    }
+            .hero-section h1 {
+                font-size: 2.3rem !important;
+            }
 
-    /* Ensure proper spacing between stars */
-    .text-warning i {
-        margin: 0 2px;
-    }
+            .hero-section p {
+                font-size: 1.1rem !important;
+            }
 
-    .contact-item {
-        align-items: flex-start;
-    }
+            .hero-image {
+                margin-top: 2rem;
+            }
+        }
 
-    .contact-icon {
-        line-height: 1;
-        margin-top: 3px;
-    }
+        @media (max-width: 767.98px) {
+            .hero-section {
+                padding-top: 90px;
+                /* Jarak lebih besar dari navbar di mobile */
+                min-height: auto;
+                padding-bottom: 2rem;
+            }
 
-    .contact-content p {
-        margin-bottom: 0.25rem;
-    }
+            .display-4 {
+                font-size: 2rem !important;
+            }
 
-    .contact-list {
-        backdrop-filter: blur(5px);
-    }
+            .hero-image {
+                max-height: 280px !important;
+                margin-top: 1.5rem;
+            }
 
-    .social-links a {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        line-height: 32px;
-        text-align: center;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-    }
+            /* .hero-image {
+                max-height: 300px;
+                margin-top: 1rem;
+            } */
 
-    .social-links a:hover {
-        background-color: #0d6efd;
-        transform: translateY(-3px);
-    }
+            /* .hero-section {
+                min-height: auto;
+                padding-top: 70px;
+                padding-bottom: 2rem;
+            }
+
+            .min-vh-100 {
+                min-height: auto !important;
+                padding: 2rem 0;
+            } */
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .min-vh-100 {
+                min-height: 85vh !important;
+            }
+
+            .hero-section {
+                padding-top: 100px;
+            }
+
+            .hero-section .col-lg-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .display-4 {
+                font-size: 2.5rem !important;
+            }
+
+            .hero-image {
+                max-height: 350px !important;
+            }
+        }
+
+        /* Responsive font sizes */
+        .display-md-3 {
+            font-size: calc(1.475rem + 2.7vw);
+        }
+
+        .display-lg-2 {
+            font-size: calc(1.525rem + 3.3vw);
+        }
+
+        @media (min-width: 1200px) {
+
+            .display-md-3,
+            .display-lg-2 {
+                font-size: 3.5rem;
+            }
+        }
+
+        .fs-5 {
+            font-size: 1.25rem !important;
+        }
+
+        .fs-md-4 {
+            font-size: 1.5rem !important;
+        }
+
+        /* Feature Icons and Cards */
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hover-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e9e9e9;
+            z-index: 1;
+        }
+
+        .hover-card:hover {
+            border-color: transparent;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            /* background-color: #0d6efd; */
+            color: white !important;
+        }
+
+        .hover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('images/slider-bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            border-radius: 0.25rem;
+        }
+
+        .hover-card:hover .hover-overlay {
+            opacity: 1;
+        }
+
+        .hover-card:hover h3,
+        .hover-card:hover p,
+        .hover-card:hover span {
+            color: white !important;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hover-card:hover .text-primary {
+            color: white !important;
+        }
+
+        .hover-card:hover .lnr {
+            color: white !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 575.98px) {
+            .card {
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            .col-sm-6 {
+                padding: 0 8px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .col-lg-4 {
+                padding: 0 10px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .col-xl-3 {
+                padding: 0 12px;
+            }
+        }
+
+        /* Card Styles */
+        .card {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Testimonial Section */
+        .testimonial-section {
+            background: linear-gradient(rgba(240, 245, 255, 0.9), rgba(240, 245, 255, 0.9)), url('images/test-bg.png') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            padding: 80px 0;
+        }
+
+        .testimonial-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            height: 100%;
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .school-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .stars {
+            color: #FFC107;
+            margin-bottom: 15px;
+        }
+
+        .text-warning i {
+            margin: 0 2px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+        }
+
+        @media (max-width: 991px) {
+            .testimonial-card {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Carousel Controls */
+        .carousel-indicators {
+            bottom: -50px;
+        }
+
+        .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 5px;
+        }
+
+        .carousel-indicators .active {
+            background-color: #6c757d;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 1;
+            width: 5%;
+        }
+
+        .carousel-control-prev {
+            left: -20px;
+        }
+
+        .carousel-control-next {
+            right: -20px;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            width: 20px;
+            height: 20px;
+            filter: invert(1) grayscale(100);
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background-size: 60%;
+        }
+
+        /* Action Area */
+        .action-area {
+            padding: 60px 0;
+            color: white;
+        }
+
+        /* Contact Section */
+        .contact-item {
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            line-height: 1;
+            margin-top: 3px;
+        }
+
+        .contact-content p {
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-list {
+            backdrop-filter: blur(5px);
+        }
+
+        /* Social Links */
+        .social-links a {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: #0d6efd;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #212529;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-white fixed-top py-2 py-lg-3 shadow">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-white fixed-top shadow-sm py-2">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-3 me-lg-5" href="{{ url('/') }}">
-                <img src="/images/logo.png" alt="SPMB Logo" height="45" class="d-inline-block">
+            <!-- Logo/Brand -->
+            <a class="navbar-brand fw-bold me-lg-4" href="{{ url('/') }}">
+                <img src="/images/logo.png" alt="SPMB Logo" height="50" class="d-inline-block align-top">
+                <span class="d-inline-block ms-2">SPMB <small>2025</small></span>
             </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- Custom Hamburger Button -->
+            <button class="navbar-toggler border-0 px-2" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
+                <span class="custom-toggler-icon">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
             </button>
 
+            <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item mx-1 mx-xl-2">
-                        <a class="nav-link text-dark active" href="#home">Home</a>
+                    <!-- Nav Items -->
+                    <li class="nav-item mx-2 mx-lg-3">
+                        <a class="nav-link text-dark px-2 px-lg-1" href="#slider">Home</a>
                     </li>
-                    <li class="nav-item mx-1 mx-xl-2">
-                        <a class="nav-link text-dark" href="#harga">Harga</a>
+                    <li class="nav-item mx-2 mx-lg-3">
+                        <a class="nav-link text-dark px-2 px-lg-1" href="#harga">Harga</a>
                     </li>
-                    <li class="nav-item mx-1 mx-xl-2">
-                        <a class="nav-link text-dark" href="#layanan">Layanan</a>
+                    <li class="nav-item mx-2 mx-lg-3">
+                        <a class="nav-link text-dark px-2 px-lg-1" href="#layanan">Layanan</a>
                     </li>
-                    <li class="nav-item mx-1 mx-xl-2">
-                        <a class="nav-link text-dark" href="#testimoni">Testimoni</a>
+                    <li class="nav-item mx-2 mx-lg-3">
+                        <a class="nav-link text-dark px-2 px-lg-1" href="#testimoni">Testimoni</a>
                     </li>
-                    <li class="nav-item mx-1 mx-xl-2">
-                        <a class="nav-link text-dark" href="#hubungi">Hubungi</a>
+                    <li class="nav-item mx-2 mx-lg-3">
+                        <a class="nav-link text-dark px-2 px-lg-1" href="#contact">Hubungi</a>
                     </li>
-                    <li class="nav-item mx-1 mx-xl-2">
-                        <a class="nav-link text-dark" href="#hubungi">Jadwal</a>
+                    <li class="nav-item mx-2 mx-lg-3">
+                        <a class="nav-link text-dark px-2 px-lg-1" href="#jadwal">Jadwal</a>
                     </li>
-                    <li class="nav-item ms-2 mt-3 mt-lg-0">
-                        <a class="btn btn-primary text-white fw-bold px-4 py-2"
-                            href="{{ route('login') }}">Pendaftaran</a>
+
+                    <!-- Register Button -->
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a class="btn text-white fw-bold d-block d-lg-inline-block px-3 px-lg-3 py-2"
+                            href="{{ route('login') }}"
+                            style="background: url('images/slider-bg.png') no-repeat center center; background-size: cover;">
+                            Daftar
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -682,13 +801,13 @@
     <!-- Hero Section -->
     <section id="slider" class="hero-section" style="background-image: url('{{ asset('images/slider-bg.png') }}');">
         <div class="container">
-            <div class="row align-items-center min-vh-100">
+            <div class="row align-items-center min-vh-80 min-vh-lg-100">
                 <!-- Text content - Left side -->
-                <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
+                <div class="col-md-12 col-lg-6 mb-5 mb-lg-0 text-center text-lg-start pt-5 pt-md-0">
                     <div class="hero-text">
-                        <h1 class="text-white mb-3 fw-bold display-4">SPMB Online 2025<br>Untuk semua tingkat sekolah.
-                        </h1>
-                        <p class="text-white mb-4 mb-lg-5 lead">
+                        <h1 class="text-white mb-3 fw-bold display-4 display-md-3 display-lg-2">SPMB Online
+                            2025<br>Untuk semua tingkat sekolah.</h1>
+                        <p class="text-white mb-4 mb-lg-5 lead fs-5 fs-md-4">
                             Sistem Penerimaan Murid Baru Secara Mandiri oleh Sekolah.
                         </p>
                         <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start">
@@ -699,9 +818,9 @@
                 </div>
 
                 <!-- Image content - Right side -->
-                <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end">
+                <div class="col-lg-6 d-none d-md-flex justify-content-center justify-content-lg-end mt-4 mt-md-0">
                     <img src="{{ asset('images/atas.jpg') }}" alt="SPMB Illustration"
-                        class="img-fluid rounded-3 shadow-lg hero-image">
+                        class="img-fluid rounded-3 shadow-lg hero-image" style="max-height: 400px; width: auto;">
                 </div>
             </div>
         </div>
@@ -723,9 +842,9 @@
 
             <div class="row g-4">
                 <!-- Box 1 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card h-100 overflow-hidden">
-                        <div class="card-body text-center p-4 d-flex flex-column position-relative hover-card">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 overflow-hidden hover-card">
+                        <div class="card-body text-center p-4 d-flex flex-column position-relative">
                             <div class="mb-3">
                                 <span class="lnr lnr-select fs-1 text-primary"></span>
                             </div>
@@ -738,9 +857,9 @@
                 </div>
 
                 <!-- Box 2 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card h-100 overflow-hidden">
-                        <div class="card-body text-center p-4 d-flex flex-column position-relative hover-card">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 overflow-hidden hover-card">
+                        <div class="card-body text-center p-4 d-flex flex-column position-relative">
                             <div class="mb-3">
                                 <span class="lnr lnr-rocket fs-1 text-primary"></span>
                             </div>
@@ -753,9 +872,9 @@
                 </div>
 
                 <!-- Box 3 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card h-100 overflow-hidden">
-                        <div class="card-body text-center p-4 d-flex flex-column position-relative hover-card">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 overflow-hidden hover-card">
+                        <div class="card-body text-center p-4 d-flex flex-column position-relative">
                             <div class="mb-3">
                                 <span class="lnr lnr-phone fs-1 text-primary"></span>
                             </div>
@@ -768,9 +887,9 @@
                 </div>
 
                 <!-- Box 4 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card h-100 overflow-hidden">
-                        <div class="card-body text-center p-4 d-flex flex-column position-relative hover-card">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 overflow-hidden hover-card">
+                        <div class="card-body text-center p-4 d-flex flex-column position-relative">
                             <div class="mb-3">
                                 <span class="lnr lnr-tag fs-1 text-primary"></span>
                             </div>
@@ -783,9 +902,9 @@
                 </div>
 
                 <!-- Box 5 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card h-100 overflow-hidden">
-                        <div class="card-body text-center p-4 d-flex flex-column position-relative hover-card">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 overflow-hidden hover-card">
+                        <div class="card-body text-center p-4 d-flex flex-column position-relative">
                             <div class="mb-3">
                                 <span class="lnr lnr-laptop-phone fs-1 text-primary"></span>
                             </div>
@@ -798,9 +917,9 @@
                 </div>
 
                 <!-- Box 6 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card h-100 overflow-hidden">
-                        <div class="card-body text-center p-4 d-flex flex-column position-relative hover-card">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 overflow-hidden hover-card">
+                        <div class="card-body text-center p-4 d-flex flex-column position-relative">
                             <div class="mb-3">
                                 <span class="lnr lnr-book fs-1 text-primary"></span>
                             </div>
@@ -813,9 +932,9 @@
                 </div>
 
                 <!-- Box 7 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card h-100 overflow-hidden">
-                        <div class="card-body text-center p-4 d-flex flex-column position-relative hover-card">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 overflow-hidden hover-card">
+                        <div class="card-body text-center p-4 d-flex flex-column position-relative">
                             <div class="mb-3">
                                 <span class="lnr lnr-file-empty fs-1 text-primary"></span>
                                 <span class="lnr lnr-checkmark-circle fs-1 text-primary"></span>
@@ -899,74 +1018,6 @@
             </div>
         </div>
     </section>
-    <!-- Testimonials Section -->
-    <!-- <section id="testimonials" class="py-5"
-        style="background: url('images/test-bg.png') no-repeat center center; background-size: cover; background-attachment: fixed;">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold text-white">Testimoni</h2>
-                <p class="text-white">Pengalaman Pengguna</p>
-            </div>
-
-            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="card border-0 bg-white text-dark p-4 mx-auto"
-                                    style="max-width: 500px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                    <div class="card-body text-center">
-                                        <h4 class="mb-3">SMAN 1 Jakarta</h4>
-                                        <div class="text-warning mb-3">
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                        </div>
-                                        <p class="mb-0 fst-italic">"Mudah digunakan dan sangat membantu"</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="carousel-item">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="card border-0 bg-white text-dark p-4 mx-auto"
-                                    style="max-width: 500px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                                    <div class="card-body text-center">
-                                        <h4 class="mb-3">SMPN 2 Jakarta Timur</h4>
-                                        <div class="text-warning mb-3">
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                            <i class="bi bi-star-fill fs-5"></i>
-                                        </div>
-                                        <p class="mb-0 fst-italic">"Calon Siswa sangat terbantu"</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </div>
-    </section> -->
-
     <section class="testimonial-section"
         style="background: url('images/test-bg.png') no-repeat center center; background-size: cover; background-attachment: fixed;">
         <div class="container">
@@ -1177,26 +1228,57 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <script>
-    // Simple JavaScript for active nav link
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('.nav-link');
+        // Simple JavaScript for active nav link
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
         });
-    });
 
-    // Disable auto-sliding
-    document.addEventListener('DOMContentLoaded', function() {
-        var myCarousel = document.getElementById('testimonialCarousel');
-        var carousel = new bootstrap.Carousel(myCarousel, {
-            interval: false,
-            wrap: true
+        // Disable auto-sliding
+        document.addEventListener('DOMContentLoaded', function() {
+            var myCarousel = document.getElementById('testimonialCarousel');
+            var carousel = new bootstrap.Carousel(myCarousel, {
+                interval: false,
+                wrap: true
+            });
         });
-    });
+
+        // Navbar scroll effect
+        // window.addEventListener('scroll', function() {
+        //     const navbar = document.querySelector('.navbar');
+        //     if (window.scrollY > 30) {
+        //         navbar.classList.add('shadow');
+        //         navbar.classList.add('py-1');
+        //         navbar.classList.remove('py-2');
+        //     } else {
+        //         navbar.classList.remove('shadow');
+        //         navbar.classList.remove('py-1');
+        //         navbar.classList.add('py-2');
+        //     }
+        // });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) {
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                        toggle: false
+                    });
+                    bsCollapse.hide();
+
+                    // Reset hamburger icon
+                    const toggler = document.querySelector('.navbar-toggler');
+                    toggler.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
     </script>
 </body>
 
