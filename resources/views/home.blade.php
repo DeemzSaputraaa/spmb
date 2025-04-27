@@ -579,10 +579,11 @@
             background-size: cover;
             background-attachment: fixed;
             padding: 80px 0;
+            position: relative;
         }
 
         .testimonial-card {
-            background-color: #fff;
+            /* background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             padding: 30px;
@@ -591,15 +592,23 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            height: 100%; */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
             height: 100%;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .testimonial-card:hover {
+            transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         .avatar-circle {
-            width: 80px;
+            /* width: 80px;
             height: 80px;
             background-color: #ddd;
             border-radius: 50%;
@@ -608,19 +617,33 @@
             justify-content: center;
             font-size: 14px;
             color: #777;
-            margin-bottom: 20px;
+            margin-bottom: 20px; */
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .school-name {
-            font-size: 18px;
+            /* font-size: 18px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 10px; */
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
         }
 
         .stars {
+            /* color: #FFC107;
+            margin-bottom: 15px; */
+            font-size: 1.2rem;
+            letter-spacing: 2px;
             color: #FFC107;
-            margin-bottom: 15px;
         }
 
         .text-warning i {
@@ -630,7 +653,11 @@
         .testimonial-text {
             font-style: italic;
             color: #666;
-            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            /* font-style: italic;
+            color: #666;
+            text-align: center; */
         }
 
         @media (max-width: 991px) {
@@ -641,19 +668,27 @@
 
         /* Carousel Controls */
         .carousel-indicators {
-            bottom: -50px;
+            bottom: -20px;
         }
 
         .carousel-indicators button {
-            width: 10px;
+            /* width: 10px;
             height: 10px;
             border-radius: 50%;
             background-color: #ccc;
+            margin: 0 5px; */
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: none;
             margin: 0 5px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
         }
 
         .carousel-indicators .active {
             background-color: #6c757d;
+            opacity: 1;
         }
 
         .carousel-control-prev,
@@ -697,6 +732,144 @@
         .action-area {
             padding: 60px 0;
             color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767.98px) {
+            .action-area {
+                padding: 2rem 0;
+                text-align: center;
+            }
+
+            .testimonial-card {
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+
+            .school-name {
+                font-size: 1.1rem;
+            }
+
+            .testimonial-text {
+                font-size: 1rem;
+            }
+
+            .carousel-control-prev,
+            .carousel-control-next {
+                display: none !important;
+            }
+
+            .carousel-indicators {
+                bottom: -15px;
+            }
+
+            .action-area h3 {
+                font-size: 1.3rem !important;
+                margin-bottom: 1.5rem !important;
+                line-height: 1.5 !important;
+            }
+
+            .action-area .btn {
+                width: 100%;
+                max-width: 250px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            .carousel-control-prev,
+            .carousel-control-next {
+                width: 40px;
+                height: 40px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .carousel-control-prev {
+                left: -20px;
+            }
+
+            .carousel-control-next {
+                right: -20px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .action-area h3 {
+                font-size: 1.4rem !important;
+            }
+
+            .action-area .btn {
+                padding: 0.5rem 1.5rem;
+            }
+        }
+
+        /* service */
+        .service-area {
+            position: relative;
+        }
+
+        .service-list {
+            font-size: 1.1rem;
+            text-align: left !important
+        }
+
+        .service-list .lnr {
+            font-size: 1.5rem;
+            min-width: 24px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767.98px) {
+            .service-area {
+                padding: 2.5rem 0;
+            }
+
+            .service-list {
+                font-size: 1rem;
+                /* padding-left: 0.5rem; */
+                text-align: left;
+                padding-left: 0 !important;
+            }
+
+            .service-list .lnr {
+                font-size: 1.3rem;
+                margin-right: 0.75rem !important;
+                font-size: 1.25rem !important;
+            }
+
+            .service-list li {
+                margin-bottom: 1rem !important;
+                align-items: flex-start !important;
+            }
+
+            .service-list span.text-start {
+                text-align: left !important;
+                display: inline-block;
+                width: calc(100% - 30px);
+                /* Calculate remaining width */
+            }
+
+            .img-fluid {
+                max-width: 100%;
+                height: auto;
+                margin: 0 auto 1.5rem;
+                display: block;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .service-list {
+                font-size: 1.05rem;
+                padding-left: 1rem !important;
+            }
+
+            .service-list .lnr {
+                font-size: 1.4rem;
+            }
         }
 
         /* Contact Section */
@@ -951,152 +1124,183 @@
     </section>
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
 
-    <section id="action" class="action-area py-5"
+    <section id="action" class="action-area py-4 py-md-5"
         style="background: url('images/slider-bg.png') no-repeat center center; background-size: cover;">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-9 col-md-8 col-sm-12 mb-3 mb-md-0">
-                    <h3 class="text-white mb-0">Daftarkan Segera Bersama Kami untuk Kemudahan Layanan<br>Pendaftaran di
-                        Sekolah Anda</h>
+                <!-- Text Content -->
+                <div class="col-lg-8 col-md-7 col-12 mb-3 mb-md-0 text-center text-md-start">
+                    <h3 class="text-white mb-2 mb-lg-3" style="font-size: 1.5rem; line-height: 1.4;">
+                        Daftarkan Segera Bersama Kami untuk Kemudahan Layanan<br class="d-none d-md-block">Pendaftaran
+                        di Sekolah Anda
+                    </h3>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-12 text-md-end text-center">
-                    <a href="#" class="btn btn-light btn-lg px-4 py-2 fw-bold">GET IT NOW</a>
+
+                <!-- Button -->
+                <div class="col-lg-4 col-md-5 col-12 text-md-end text-center">
+                    <a href="#" class="btn btn-light btn-lg px-3 px-md-4 py-2 fw-bold" style="min-width: 180px;">
+                        Daftar Sekarang
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="service" class="service-area py-5 bg-light">
+    <section id="service" class="service-area py-4 py-md-5 bg-light">
         <div class="container">
-            <div class="row mb-5">
-                <div class="col-12 text-center">
-                    <h2 class="fw-bold">Kemudahan yang Diperoleh</h2>
-                    <div class="mx-auto"
-                        style="width: 100px; height: 3px; background-color: #0d6efd; margin: 20px auto;"></div>
+            <div class="row mb-4 mb-md-5">
+                <div class="col-12 text-center text-md-start">
+                    <h2 class="fw-bold mb-3">Kemudahan yang Diperoleh</h2>
+                    <div class="mx-auto bg-primary" style="width: 80px; height: 3px;"></div>
                 </div>
             </div>
 
-            <div class="row align-items-center">
-                <div class="col-lg-7 col-md-6">
-                    <ul class="list-unstyled" style="font-size: 1.1rem;">
+            <div class="row align-items-center flex-column-reverse flex-md-row">
+                <!-- Text Content -->
+                <div class="col-lg-7 col-md-6 mt-4 mt-md-0">
+                    <ul class="list-unstyled service-list ps-0 ps-md-3">
                         <li class="mb-3 d-flex align-items-start">
-                            <span class="lnr lnr-checkmark-circle me-3 text-primary" style="font-size: 1.5rem;"></span>
-                            <span>Halaman pendaftaran Calon siswa online</span>
+                            <span class="lnr lnr-checkmark-circle text-primary me-3 flex-shrink-0"></span>
+                            <span class="text-start">Halaman pendaftaran Calon siswa online</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <span class="lnr lnr-checkmark-circle me-3 text-primary" style="font-size: 1.5rem;"></span>
-                            <span>Melayani semua jalur calon siswa</span>
+                            <span class="lnr lnr-checkmark-circle text-primary me-3 flex-shrink-0"></span>
+                            <span class="text-start">Melayani semua jalur calon siswa</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <span class="lnr lnr-checkmark-circle me-3 text-primary" style="font-size: 1.5rem;"></span>
-                            <span>Setiap sekolah mendapatkan alamat domain & aplikasi SPMB Online 2025</span>
+                            <span class="lnr lnr-checkmark-circle text-primary me-3 flex-shrink-0"></span>
+                            <span class="text-start">Setiap sekolah mendapatkan alamat domain & aplikasi SPMB Online
+                                2025</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <span class="lnr lnr-checkmark-circle me-3 text-primary" style="font-size: 1.5rem;"></span>
-                            <span>Jumlah calon siswa pendaftar tidak terbatas</span>
+                            <span class="lnr lnr-checkmark-circle text-primary me-3 flex-shrink-0"></span>
+                            <span class="text-start">Jumlah calon siswa pendaftar tidak terbatas</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <span class="lnr lnr-checkmark-circle me-3 text-primary" style="font-size: 1.5rem;"></span>
-                            <span>Jumlah akses admin sekolah tidak dibatasi</span>
+                            <span class="lnr lnr-checkmark-circle text-primary me-3 flex-shrink-0"></span>
+                            <span class="text-start">Jumlah akses admin sekolah tidak dibatasi</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <span class="lnr lnr-checkmark-circle me-3 text-primary" style="font-size: 1.5rem;"></span>
-                            <span>Tersedia berbagai metode verifikasi pendaftaran, baik secara online maupun tatap
-                                muka</span>
+                            <span class="lnr lnr-checkmark-circle text-primary me-3 flex-shrink-0"></span>
+                            <span class="text-start">Tersedia berbagai metode verifikasi pendaftaran, baik secara online
+                                maupun tatap muka</span>
                         </li>
                         <li class="mb-3 d-flex align-items-start">
-                            <span class="lnr lnr-checkmark-circle me-3 text-primary" style="font-size: 1.5rem;"></span>
-                            <span>Sistem menyediakan fitur pelaporan, termasuk laporan pendaftaran dan hasil
-                                seleksi.</span>
+                            <span class="lnr lnr-checkmark-circle text-primary me-3 flex-shrink-0"></span>
+                            <span class="text-start">Sistem menyediakan fitur pelaporan, termasuk laporan pendaftaran
+                                dan hasil seleksi.</span>
                         </li>
                     </ul>
                 </div>
+
+                <!-- Image -->
                 <div class="col-lg-5 col-md-6">
                     <img src="{{ asset('images/bawah.jpg') }}" alt="Kemudahan SPMB Online"
-                        class="img-fluid rounded shadow" onerror="this.style.display='none'">
+                        class="img-fluid rounded shadow-lg w-100 mb-4 mb-md-0">
                 </div>
             </div>
+
         </div>
     </section>
-    <section class="testimonial-section"
-        style="background: url('images/test-bg.png') no-repeat center center; background-size: cover; background-attachment: fixed;">
+    <section class="testimonial-section py-5"
+        style="background: linear-gradient(rgba(240, 245, 255, 0.95), rgba(240, 245, 255, 0.95)), url('images/test-bg.png') no-repeat center center; background-size: cover;">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Testimoni</h2>
-                <p class="section-subtitle">Pengalaman Pengguna</p>
+            <div class="text-center mb-4 mb-lg-5">
+                <h2 class="fw-bold mb-2">Testimoni</h2>
+                <p class="text-muted">Pengalaman Pengguna</p>
             </div>
 
-            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="false">
                 <div class="carousel-inner">
-                    <!-- Page 1 - Both testimonials showing -->
+                    <!-- Testimonial 1 -->
                     <div class="carousel-item active">
                         <div class="row justify-content-center">
-                            <!-- Testimonial 1 -->
-                            <div class="col-lg-5 col-md-6 mb-4 mb-md-0">
-                                <div class="testimonial-card">
-                                    <div class="avatar-circle">80x80</div>
-                                    <h4 class="school-name">SMAN 1 Jakarta</h4>
-                                    <div class="stars">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
+                            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                                <div class="testimonial-card mx-auto">
+                                    <div class="avatar-circle mx-auto mb-3">
+                                        <img src="https://via.placeholder.com/80" alt="SMAN 1 Jakarta"
+                                            class="img-fluid rounded-circle">
                                     </div>
-                                    <p class="testimonial-text">"Mudah digunakan dan sangat membantu"</p>
-                                </div>
-                            </div>
-
-                            <!-- Testimonial 2 -->
-                            <div class="col-lg-5 col-md-6">
-                                <div class="testimonial-card">
-                                    <div class="avatar-circle">80x80</div>
-                                    <h4 class="school-name">SMPN 2 Jakarta Timur</h4>
-                                    <div class="stars">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
+                                    <h4 class="school-name text-center mb-2">SMAN 1 Jakarta</h4>
+                                    <div class="stars text-center mb-3">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
                                     </div>
-                                    <p class="testimonial-text">"Calon Siswa sangat terbantu"</p>
+                                    <p class="testimonial-text text-center">"Mudah digunakan dan sangat membantu"</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Page 2 - Another set of testimonials if needed -->
+                    <!-- Testimonial 2 -->
                     <div class="carousel-item">
                         <div class="row justify-content-center">
-                            <!-- Testimonial 3 -->
-                            <div class="col-lg-5 col-md-6 mb-4 mb-md-0">
-                                <div class="testimonial-card">
-                                    <div class="avatar-circle">80x80</div>
-                                    <h4 class="school-name">SMA 3 Bandung</h4>
-                                    <div class="stars">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
+                            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                                <div class="testimonial-card mx-auto">
+                                    <div class="avatar-circle mx-auto mb-3">
+                                        <img src="https://via.placeholder.com/80" alt="SMPN 2 Jakarta Timur"
+                                            class="img-fluid rounded-circle">
                                     </div>
-                                    <p class="testimonial-text">"Sangat praktis untuk pendaftaran online"</p>
+                                    <h4 class="school-name text-center mb-2">SMPN 2 Jakarta Timur</h4>
+                                    <div class="stars text-center mb-3">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    </div>
+                                    <p class="testimonial-text text-center">"Calon Siswa sangat terbantu"</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- Testimonial 4 -->
-                            <div class="col-lg-5 col-md-6">
-                                <div class="testimonial-card">
-                                    <div class="avatar-circle">80x80</div>
-                                    <h4 class="school-name">SMKN 1 Surabaya</h4>
-                                    <div class="stars">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
+                    <!-- Testimonial 3 -->
+                    <div class="carousel-item">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                                <div class="testimonial-card mx-auto">
+                                    <div class="avatar-circle mx-auto mb-3">
+                                        <img src="https://via.placeholder.com/80" alt="SMA 3 Bandung"
+                                            class="img-fluid rounded-circle">
                                     </div>
-                                    <p class="testimonial-text">"Proses pendaftaran menjadi lebih efisien"</p>
+                                    <h4 class="school-name text-center mb-2">SMA 3 Bandung</h4>
+                                    <div class="stars text-center mb-3">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    </div>
+                                    <p class="testimonial-text text-center">"Sangat praktis untuk pendaftaran online"
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 4 -->
+                    <div class="carousel-item">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                                <div class="testimonial-card mx-auto">
+                                    <div class="avatar-circle mx-auto mb-3">
+                                        <img src="https://via.placeholder.com/80" alt="SMKN 1 Surabaya"
+                                            class="img-fluid rounded-circle">
+                                    </div>
+                                    <h4 class="school-name text-center mb-2">SMKN 1 Surabaya</h4>
+                                    <div class="stars text-center mb-3">
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    </div>
+                                    <p class="testimonial-text text-center">"Proses pendaftaran menjadi lebih efisien"
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -1104,23 +1308,29 @@
                 </div>
 
                 <!-- Carousel Controls -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <button class="carousel-control-prev d-none d-md-flex" type="button"
+                    data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-primary rounded-circle p-2 p-md-3"
+                        aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <button class="carousel-control-next d-none d-md-flex" type="button"
+                    data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-primary rounded-circle p-2 p-md-3"
+                        aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
 
                 <!-- Carousel Indicators -->
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1"
+                <div class="carousel-indicators position-relative mt-4 justify-content-center">
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0"
+                        class="active bg-primary" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" class="bg-primary"
                         aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" class="bg-primary"
+                        aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="3" class="bg-primary"
+                        aria-label="Slide 4"></button>
                 </div>
             </div>
         </div>
