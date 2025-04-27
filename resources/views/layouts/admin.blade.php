@@ -490,9 +490,9 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="user-profile">
-                                    <span class="user-name d-none d-lg-inline mr-2">{{ Auth::user()->name }}</span>
+                                    <span class="user-name d-none d-lg-inline mr-2">{{ Auth::check() ? Auth::user()->nama_lengkap ?? Auth::user()->name : 'User' }}</span>
                                     <img class="img-profile"
-                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=4e73df&color=ffffff">
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::check() ? Auth::user()->nama_lengkap ?? Auth::user()->name : 'User') }}&background=4e73df&color=ffffff">
                                 </div>
                             </a>
                             <!-- Dropdown - User Information -->

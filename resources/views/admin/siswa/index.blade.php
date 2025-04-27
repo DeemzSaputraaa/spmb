@@ -107,10 +107,6 @@
         background-color: #feca57 !important;
     }
     
-    .modal-confirm .modal-header.bg-success {
-        background-color: #1cc88a !important;
-    }
-    
     .modal-confirm h4 {
         color: white;
         text-align: center;
@@ -158,10 +154,6 @@
         background: #feca57;
     }
     
-    .modal-confirm .icon-box.bg-success {
-        background: #1cc88a;
-    }
-    
     .modal-confirm .btn {
         color: #fff;
         border-radius: 4px;
@@ -182,10 +174,6 @@
     
     .modal-confirm .btn-warning {
         background: #feca57;
-    }
-    
-    .modal-confirm .btn-success {
-        background: #1cc88a;
     }
     
     .modal-confirm .btn:hover {
@@ -255,12 +243,6 @@
                 editModal.show();
             });
         });
-
-        // Tampilkan modal download kredensial jika ada flash session
-        @if(session('show_download') && session('siswa_id') && session('password'))
-            const downloadModal = new bootstrap.Modal(document.getElementById('downloadCredentialsModal'));
-            downloadModal.show();
-        @endif
     });
 </script>
 @endsection
@@ -273,20 +255,6 @@
         <i class="fas fa-plus fa-sm"></i> Tambah Siswa
     </a>
 </div>
-
-@if(session('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-
-@if(session('error'))
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    {{ session('error') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -425,31 +393,6 @@
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <a id="editConfirmButton" href="#" class="btn btn-warning">Edit</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Download Credentials Modal -->
-<div class="modal fade" id="downloadCredentialsModal" tabindex="-1" aria-labelledby="downloadCredentialsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-confirm">
-        <div class="modal-content">
-            <div class="modal-header bg-success">
-                <div class="icon-box bg-success">
-                    <i class="fas fa-check text-white"></i>
-                </div>
-                <h4 class="modal-title" id="downloadCredentialsModalLabel">Siswa Berhasil Ditambahkan</h4>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-center">Email notifikasi telah dikirim, namun Anda juga dapat mengunduh kredensial untuk diberikan langsung kepada siswa.</p>
-                <p class="text-center text-muted small">Kredensial berisi informasi email, password, dan tanggal aktivasi akun.</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <a href="{{ session('siswa_id') ? route('admin.siswa.download-kredensial', session('siswa_id')) : '#' }}" class="btn btn-success">
-                    <i class="fas fa-download me-2"></i> Unduh Kredensial
-                </a>
             </div>
         </div>
     </div>

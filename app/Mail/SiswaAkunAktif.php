@@ -2,21 +2,20 @@
 
 namespace App\Mail;
 
+use App\Models\Siswa;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Siswa;
 
-class AkunAktifMail extends Mailable implements ShouldQueue
+class SiswaAkunAktif extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $siswa;
     public $password;
-    public $tanggalAktif;
 
     /**
      * Create a new message instance.
@@ -25,7 +24,6 @@ class AkunAktifMail extends Mailable implements ShouldQueue
     {
         $this->siswa = $siswa;
         $this->password = $password;
-        $this->tanggalAktif = now()->format('d-m-Y H:i:s');
     }
 
     /**
@@ -34,7 +32,7 @@ class AkunAktifMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Aktivasi Akun SPMB 2025',
+            subject: 'Akun Siswa Telah Aktif',
         );
     }
 
@@ -44,7 +42,7 @@ class AkunAktifMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.akun-aktif',
+            view: 'emails.siswa-akun-aktif',
         );
     }
 

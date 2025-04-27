@@ -2,12 +2,9 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\SiswaController;
-use App\Http\Controllers\Admin\TabulasiController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
-
 use Illuminate\Support\Facades\Route;
-
 
 // Redirect root to login
 Route::redirect('/', '/home');
@@ -15,12 +12,6 @@ Route::redirect('/', '/home');
 Route::get('/home', function () {
     return view('home');
 })->name('home');
-
-//COBA YAAAAA
-Route::get('/dash', function () {
-    return view('dashboard');
-})->name('dashboard');
-
 
 // Guest routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -42,18 +33,15 @@ Route::resource('/admin/siswa', SiswaController::class)->names([
     'destroy' => 'admin.siswa.destroy',
 ])->except(['show']);
 
-// Tabulasi Routes
-Route::resource('/admin/tabulasi', TabulasiController::class)->names([
+// Tambahkan route resource untuk TabulasiController
+Route::resource('/admin/tabulasi', \App\Http\Controllers\Admin\TabulasiController::class)->names([
     'index' => 'admin.tabulasi.index',
     'create' => 'admin.tabulasi.create',
     'store' => 'admin.tabulasi.store',
     'edit' => 'admin.tabulasi.edit',
     'update' => 'admin.tabulasi.update',
     'destroy' => 'admin.tabulasi.destroy',
-]);
-
-Route::get('/admin/siswa/{id}/download-kredensial', [SiswaController::class, 'downloadKredensial'])
-    ->name('admin.siswa.download-kredensial');
+])->except(['show']);
 
 // Pendaftaran Wizard Routes
 Route::get('/admin/siswa/{siswa_id}/pendaftaran', [App\Http\Controllers\Admin\PendaftaranController::class, 'index'])->name('admin.siswa.pendaftaran.index');
