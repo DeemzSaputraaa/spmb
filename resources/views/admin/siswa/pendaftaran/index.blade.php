@@ -117,14 +117,46 @@
         box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
     }
     
+    /* Step indicators for mobile */
+    .mobile-step-indicator {
+        display: none;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .mobile-step-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: #4e73df;
+        color: white;
+        font-weight: bold;
+        margin: 0 auto 10px;
+    }
+    
+    .mobile-step-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #4e73df;
+    }
+    
+    .mobile-step-progress {
+        display: block;
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+    
     @media (max-width: 767.98px) {
-        .wizard-steps::before {
+        .wizard-steps {
             display: none;
         }
         
-        .wizard-step {
-            width: 50%;
-            margin-bottom: 15px;
+        .mobile-step-indicator {
+            display: block;
         }
         
         .wizard-content {
@@ -170,6 +202,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Form Pendaftaran: {{ $siswa->nama_lengkap }}</h6>
     </div>
     <div class="card-body p-0 pt-4">
+        <!-- Desktop Wizard Steps -->
         <div class="wizard-steps">
             <div class="wizard-step {{ $currentStep == 1 ? 'active' : ($currentStep > 1 ? 'completed' : '') }}">
                 <div class="wizard-step-number">
@@ -210,6 +243,31 @@
                     @endif
                 </div>
                 <div class="wizard-step-label">Konfirmasi</div>
+            </div>
+        </div>
+        
+        <!-- Mobile Step Indicator - Only shows current step -->
+        <div class="mobile-step-indicator">
+            <div class="mobile-step-badge">
+                @if($currentStep > 4 || ($currentStep == 4 && $pendaftaran->status == 'Selesai'))
+                    <i class="fas fa-check"></i>
+                @else
+                    {{ $currentStep }}
+                @endif
+            </div>
+            <div class="mobile-step-title">
+                @if($currentStep == 1)
+                    Data Siswa
+                @elseif($currentStep == 2)
+                    Jalur Pendaftaran
+                @elseif($currentStep == 3)
+                    Data Orang Tua/Wali
+                @elseif($currentStep == 4)
+                    Konfirmasi
+                @endif
+            </div>
+            <div class="mobile-step-progress">
+                Langkah {{ $currentStep }} dari 4
             </div>
         </div>
         

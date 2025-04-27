@@ -4,27 +4,75 @@
 
 @section('styles')
 <style>
-    .card-stats {
-        transition: transform 0.3s, box-shadow 0.3s;
+    .page-wrapper {
+        padding: 10px 20px;
+        background-color: #fff;
         border-radius: 10px;
-        overflow: hidden;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #e3e6f0;
+        margin-bottom: 20px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+    
+    .welcome-banner {
+        background: linear-gradient(45deg, rgba(78, 115, 223, 0.1), rgba(26, 49, 119, 0.1));
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 25px;
+        border-left: 4px solid #4e73df;
+    }
+    
+    .welcome-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #4e73df;
+    }
+    
+    .welcome-text {
+        color: #6c757d;
+        margin: 0;
+    }
+    
+    .stat-card {
         border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
         height: 100%;
+        overflow: hidden;
     }
     
-    .card-stats:hover {
+    .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
     
-    .card-stats .icon-box {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
+    .stat-card .card-body {
+        padding: 1.25rem;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
+        border-radius: 50%;
+        color: white;
+        font-size: 20px;
+        margin-right: 15px;
     }
     
     .bg-gradient-primary {
@@ -39,202 +87,271 @@
         background: linear-gradient(45deg, #f6c23e, #dda20a);
     }
     
-    .dashboard-title {
-        border-left: 4px solid #4e73df;
-        padding-left: 15px;
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 5px 0;
     }
     
-    .table-hover tbody tr:hover {
-        background-color: rgba(78, 115, 223, 0.05);
+    .stat-label {
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #858796;
+        letter-spacing: 0.05rem;
     }
     
-    .stat-card-info {
-        font-size: 0.875rem;
+    .stat-info {
+        font-size: 0.8rem;
         color: #6c757d;
     }
     
-    .stat-card-value {
-        font-size: 2rem;
-        font-weight: 700;
+    .table-section {
+        margin-top: 30px;
     }
     
-    .table-recent img {
-        height: 32px;
-        width: 32px;
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e3e6f0;
+        margin-bottom: 15px;
+    }
+    
+    .table-title {
+        font-weight: 600;
+        color: #4e73df;
+        margin: 0;
+    }
+    
+    .table-container {
+        border: 1px solid #e3e6f0;
+        border-radius: 5px;
+        overflow: auto;
+    }
+    
+    .table-wrapper {
+        min-width: 100%;
+        overflow-x: auto;
+    }
+    
+    .table-avatar {
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
+        margin-right: 10px;
     }
     
-    .welcome-section {
-        background: linear-gradient(45deg, rgba(78, 115, 223, 0.1), rgba(26, 49, 119, 0.1));
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 25px;
-        border-left: 4px solid #4e73df;
+    .btn-view-all {
+        background-color: #4e73df;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-view-all:hover {
+        background-color: #2e59d9;
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 767px) {
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .stat-card {
+            margin-bottom: 20px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+        }
+        
+        .table-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .btn-view-all {
+            width: 100%;
+        }
+    }
+    
+    .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+        color: #fff !important;
+        text-decoration: none;
+    }
+    
+    .btn-primary:hover {
+        background-color: #2e59d9;
+        border-color: #2e59d9;
+        color: #fff !important;
     }
 </style>
 @endsection
 
 @section('content')
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-</div>
-
-<!-- Welcome Banner -->
-<div class="welcome-section">
-    <h4 class="mb-1">Selamat Datang, {{ Auth::user()->name }}!</h4>
-    <p class="mb-0 text-muted">Ringkasan data SPMB 2025 tersaji untuk Anda</p>
-</div>
-
-<!-- Content Row -->
-<div class="row">
-    <!-- Total Siswa Card -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card card-stats border-left-primary shadow h-100">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col-auto me-3">
-                        <div class="icon-box bg-gradient-primary text-white">
+<div class="page-wrapper">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+    </div>
+    
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <h4 class="welcome-title">Selamat Datang, {{ Auth::user()->name }}!</h4>
+        <p class="welcome-text">Ringkasan data SPMB 2025 tersaji untuk Anda</p>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="row">
+        <!-- Total Siswa Card -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-gradient-primary">
                             <i class="fas fa-users"></i>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Total Siswa</div>
-                        <div class="stat-card-value">{{ App\Models\Siswa::count() }}</div>
-                        <div class="stat-card-info mt-2">
-                            <i class="fas fa-info-circle me-1"></i> Total keseluruhan siswa
+                        <div>
+                            <div class="stat-label">Total Siswa</div>
+                            <div class="stat-value">{{ App\Models\Siswa::count() }}</div>
+                            <div class="stat-info">
+                                <i class="fas fa-info-circle me-1"></i> Total keseluruhan siswa
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <a href="{{ route('admin.siswa.index') }}" class="btn btn-sm btn-primary d-block">
-                        Kelola Data <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
+                    <div class="mt-3">
+                        <a href="{{ route('admin.siswa.index') }}" class="btn btn-sm btn-primary d-block">
+                            Kelola Data <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Pendaftar Bulan Ini Card -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card card-stats border-left-success shadow h-100">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col-auto me-3">
-                        <div class="icon-box bg-gradient-success text-white">
+        <!-- Pendaftar Bulan Ini Card -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-gradient-success">
                             <i class="fas fa-calendar"></i>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Pendaftar Bulan Ini</div>
-                        <div class="stat-card-value">{{ App\Models\Siswa::whereMonth('created_at', date('m'))->count() }}</div>
-                        <div class="stat-card-info mt-2">
-                            <i class="fas fa-calendar-alt me-1"></i> Periode {{ date('F Y') }}
+                        <div>
+                            <div class="stat-label">Pendaftar Bulan Ini</div>
+                            <div class="stat-value">{{ App\Models\Siswa::whereMonth('created_at', date('m'))->count() }}</div>
+                            <div class="stat-info">
+                                <i class="fas fa-calendar-alt me-1"></i> Periode {{ date('F Y') }}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <a href="{{ route('admin.siswa.index') }}?month={{ date('m') }}" class="btn btn-sm btn-success d-block">
-                        Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
+                    <div class="mt-3">
+                        <a href="{{ route('admin.siswa.index') }}?month={{ date('m') }}" class="btn btn-sm btn-success d-block">
+                            Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Pendaftar Hari Ini Card -->
-    <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card card-stats border-left-warning shadow h-100">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col-auto me-3">
-                        <div class="icon-box bg-gradient-warning text-white">
+        <!-- Pendaftar Hari Ini Card -->
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="stat-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-gradient-warning">
                             <i class="fas fa-user-clock"></i>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Pendaftar Hari Ini</div>
-                        <div class="stat-card-value">{{ App\Models\Siswa::whereDate('created_at', date('Y-m-d'))->count() }}</div>
-                        <div class="stat-card-info mt-2">
-                            <i class="fas fa-clock me-1"></i> {{ date('d F Y') }}
+                        <div>
+                            <div class="stat-label">Pendaftar Hari Ini</div>
+                            <div class="stat-value">{{ App\Models\Siswa::whereDate('created_at', date('Y-m-d'))->count() }}</div>
+                            <div class="stat-info">
+                                <i class="fas fa-clock me-1"></i> {{ date('d F Y') }}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <a href="{{ route('admin.siswa.index') }}?day={{ date('Y-m-d') }}" class="btn btn-sm btn-warning d-block">
-                        Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
+                    <div class="mt-3">
+                        <a href="{{ route('admin.siswa.index') }}?day={{ date('Y-m-d') }}" class="btn btn-sm btn-warning d-block">
+                            Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Recent Students -->
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Siswa Terbaru</h6>
-                <a href="{{ route('admin.siswa.index') }}" class="btn btn-sm btn-primary">
-                    <i class="fas fa-list fa-sm"></i> Lihat Semua
-                </a>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover table-recent">
-                        <thead>
-                            <tr>
-                                <th>Siswa</th>
-                                <th>NISN</th>
-                                <th>Email</th>
-                                <th>Nomor HP</th>
-                                <th>Pendaftaran</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse(App\Models\Siswa::latest()->take(5)->get() as $siswa)
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($siswa->nama_lengkap) }}&background=4e73df&color=ffffff" class="me-2" alt="{{ $siswa->nama_lengkap }}">
-                                        <div>
-                                            <div class="fw-bold">{{ $siswa->nama_lengkap }}</div>
-                                            <small class="text-muted">{{ Str::limit($siswa->nik, 8) }}</small>
-                                        </div>
+    
+    <!-- Recent Students Table -->
+    <div class="table-section">
+        <div class="table-header">
+            <h5 class="table-title">Data Siswa Terbaru</h5>
+            <a href="{{ route('admin.siswa.index') }}" class="btn btn-view-all">
+                <i class="fas fa-list fa-sm"></i> Lihat Semua
+            </a>
+        </div>
+        
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table class="table table-hover">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Siswa</th>
+                            <th>NISN</th>
+                            <th>Email</th>
+                            <th>Nomor HP</th>
+                            <th>Pendaftaran</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse(App\Models\Siswa::latest()->take(5)->get() as $siswa)
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($siswa->nama_lengkap) }}&background=4e73df&color=ffffff" class="table-avatar" alt="{{ $siswa->nama_lengkap }}">
+                                    <div>
+                                        <div class="fw-bold">{{ $siswa->nama_lengkap }}</div>
+                                        <small class="text-muted">{{ Str::limit($siswa->nik, 8) }}</small>
                                     </div>
-                                </td>
-                                <td>{{ $siswa->nisn }}</td>
-                                <td>{{ $siswa->email }}</td>
-                                <td>{{ $siswa->nomor_hp }}</td>
-                                <td>{{ $siswa->created_at->format('d M Y H:i') }}</td>
-                                <td>
-                                    <a href="{{ route('admin.siswa.edit', $siswa->id) }}" class="btn btn-sm btn-warning">
-                                        <i class="fas fa-edit"></i>
+                                </div>
+                            </td>
+                            <td>{{ $siswa->nisn }}</td>
+                            <td>{{ $siswa->email }}</td>
+                            <td>{{ $siswa->nomor_hp }}</td>
+                            <td>{{ $siswa->created_at->format('d M Y H:i') }}</td>
+                            <td>
+                                <a href="{{ route('admin.siswa.edit', $siswa->id) }}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="d-flex flex-column align-items-center">
+                                    <div class="avatar-circle">
+                                        <i class="fas fa-user-slash"></i>
+                                    </div>
+                                    <h5>Data Siswa Kosong</h5>
+                                    <p class="text-muted">Belum ada data siswa yang terdaftar</p>
+                                    <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary mt-2">
+                                        <i class="fas fa-plus"></i> Tambah Siswa Baru
                                     </a>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-5">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/7486/7486754.png" alt="No Data" style="width: 100px; height: 100px; opacity: 0.5" class="mb-3">
-                                        <h5>Data Siswa Kosong</h5>
-                                        <p class="text-muted">Belum ada data siswa yang terdaftar</p>
-                                        <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary mt-2">
-                                            <i class="fas fa-plus"></i> Tambah Siswa Baru
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

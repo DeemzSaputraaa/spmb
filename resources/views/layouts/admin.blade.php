@@ -139,7 +139,8 @@
         #sidebarToggle {
             position: absolute;
             bottom: 1rem;
-            right: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
             width: 2.5rem;
             height: 2.5rem;
             border-radius: 50%;
@@ -247,35 +248,6 @@
             background-color: #f8f9fc;
         }
 
-        /* Search box */
-        .search-box {
-            position: relative;
-            width: 300px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 0.5rem 1rem 0.5rem 2.5rem;
-            border-radius: 20px;
-            border: 1px solid #d1d3e2;
-            background-color: #f8f9fc;
-            transition: all 0.2s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-            outline: none;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #858796;
-        }
-
         /* Alerts */
         .alert {
             border-radius: 0.5rem;
@@ -356,15 +328,19 @@
                 text-align: left;
             }
 
-            .search-box {
-                width: 100%;
-                margin: 0.5rem 0;
-            }
-
             .topbar-content {
-                flex-direction: column;
+                flex-direction: row;
+                justify-content: space-between;
                 padding: 0.5rem 0;
                 height: auto;
+            }
+            
+            .navbar-nav {
+                margin-left: auto;
+            }
+            
+            .user-profile {
+                justify-content: center;
             }
         }
     </style>
@@ -429,7 +405,7 @@
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.tabulasi.*') ? 'active' : '' }}"
                         href="{{ route('admin.tabulasi.index') }}">
-                        <i class="fas fa-calendar nav-icon"></i>
+                        <i class="fas fa-chart-line nav-icon"></i>
                         <span class="nav-text">Tabulasi Nilai</span>
                     </a>
                 </li>
@@ -472,15 +448,6 @@
                         <button id="sidebarToggleTop" class="mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-
-                        <!-- Global Search -->
-                        <div class="search-box d-none d-md-block">
-                            <form action="#" method="GET">
-                                <i class="fas fa-search search-icon"></i>
-                                <input type="text" name="search" placeholder="Cari di seluruh aplikasi..."
-                                    class="form-control bg-light border-0 small">
-                            </form>
-                        </div>
                     </div>
 
                     <!-- Topbar Navbar -->

@@ -68,10 +68,10 @@
                         </button>
                     </div>
 
-                    <div class="text-center">
+                    <!-- <div class="text-center">
                         <p class="mb-0">Belum memiliki akun? <a href="{{ route('register') }}"
                                 class="text-decoration-none">Daftar</a></p>
-                    </div>
+                    </div> -->
                 </form>
             </div>
             <div class="card-footer text-center py-3 bg-light">

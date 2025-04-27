@@ -154,6 +154,78 @@
         color: #1cc88a;
         font-weight: 500;
     }
+    
+    /* Responsive styling */
+    @media (max-width: 991px) {
+        .page-header {
+            flex-wrap: wrap;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .d-sm-flex {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .page-header .avatar {
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+        }
+        
+        .badge {
+            margin-top: 0.5rem;
+        }
+        
+        .input-group {
+            flex-wrap: nowrap;
+        }
+        
+        .change-item {
+            flex-direction: column;
+        }
+        
+        .change-label, .change-value {
+            width: 100%;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 1rem;
+        }
+        
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .d-flex.justify-content-end {
+            flex-direction: column;
+        }
+        
+        .d-flex.justify-content-end .btn {
+            margin-right: 0 !important;
+        }
+        
+        .modal-confirm .btn {
+            width: auto;
+        }
+        
+        #summaryChanges {
+            max-height: 250px;
+        }
+    }
 </style>
 @endsection
 
@@ -323,7 +395,7 @@
             @csrf
             @method('PUT')
             <div class="row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 col-sm-12 mb-3">
                     <label for="nisn" class="form-label required">NISN</label>
                     <input type="text" class="form-control @error('nisn') is-invalid @enderror" id="nisn" name="nisn" value="{{ old('nisn', $siswa->nisn) }}" placeholder="Masukkan NISN" required>
                     @error('nisn')
@@ -332,7 +404,7 @@
                     <small class="text-muted">NISN (Nomor Induk Siswa Nasional), hanya angka.</small>
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 col-sm-12 mb-3">
                     <label for="nik" class="form-label required">NIK</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-id-card"></i></span>
@@ -344,7 +416,7 @@
                     <small class="text-muted">NIK (16 digit), hanya angka.</small>
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 col-sm-12 mb-3">
                     <label for="nama_lengkap" class="form-label required">Nama Lengkap</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -355,7 +427,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 col-sm-12 mb-3">
                     <label for="email" class="form-label required">Email</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
@@ -366,7 +438,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 col-sm-12 mb-3">
                     <label for="nomor_hp" class="form-label required">Nomor HP</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
@@ -378,7 +450,7 @@
                     <small class="text-muted">Nomor HP, hanya angka.</small>
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 col-sm-12 mb-3">
                     <label for="password" class="form-label">Password</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-lock"></i></span>
@@ -394,7 +466,7 @@
             <hr class="my-4">
 
             <div class="d-flex justify-content-end">
-                <a href="{{ route('admin.siswa.index') }}" class="btn btn-outline-secondary me-2">
+                <a href="{{ route('admin.siswa.index') }}" class="btn btn-outline-secondary me-2 mb-2 mb-md-0">
                     <i class="fas fa-times"></i> Batal
                 </a>
                 <button type="button" id="updateButton" class="btn btn-warning">
