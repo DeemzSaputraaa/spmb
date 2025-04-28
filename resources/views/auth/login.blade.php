@@ -7,9 +7,79 @@
     <title>Sign In - SPMB 2025</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-start;
+            width: auto;
+        }
+        
+        .btn-home {
+            background-color: #fff;
+            color: #0d6efd;
+            border: 1px solid #0d6efd;
+            border-radius: 50px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .btn-home:hover {
+            background-color: #0d6efd;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (max-width: 576px) {
+            .back-to-home {
+                top: 10px;
+                left: 0;
+                right: 0;
+                width: 100vw;
+                justify-content: center;
+            }
+            .btn-home {
+                padding: 0;
+                font-size: 1.2rem;
+                border-radius: 50%;
+                width: 44px;
+                height: 44px;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+            }
+            .btn-home span {
+                display: none;
+            }
+            .btn-home i {
+                margin: 0 !important;
+                display: block;
+                text-align: center;
+                width: 100%;
+                height: 100%;
+                line-height: 44px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-light">
+    <!-- Tombol Kembali ke Home -->
+    <div class="back-to-home">
+        <a href="{{ route('home') }}" class="btn btn-home">
+            <i class="fas fa-home me-1"></i><span> Kembali ke Home</span>
+        </a>
+    </div>
+
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="card shadow-lg" style="width: 100%; max-width: 450px;">
             <div class="card-header bg-primary text-white text-center py-3">

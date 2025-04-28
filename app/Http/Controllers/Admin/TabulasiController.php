@@ -33,7 +33,7 @@ class TabulasiController extends Controller
 
     public function create()
     {
-        $siswaList = \App\Models\Siswa::all();
+        $siswaList = Siswa::all();
         return view('admin.tabulasi.create', compact('siswaList'));
     }
 
@@ -46,7 +46,7 @@ class TabulasiController extends Controller
             'nilai_akhir' => 'required|numeric|min:0|max:100',
         ]);
 
-        $siswa = \App\Models\Siswa::findOrFail($request->siswa_id);
+        $siswa = Siswa::findOrFail($request->siswa_id);
 
         Tabulasi::create([
             'siswa_id' => $siswa->id,
