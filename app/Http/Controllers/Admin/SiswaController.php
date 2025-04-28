@@ -22,12 +22,12 @@ class SiswaController extends Controller
         // Implementasi search
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = $request->search;
-            $query->where(function($q) use ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
                 $q->where('nisn', 'like', "%{$searchTerm}%")
-                  ->orWhere('nama_lengkap', 'like', "%{$searchTerm}%")
-                  ->orWhere('email', 'like', "%{$searchTerm}%")
-                  ->orWhere('nomor_hp', 'like', "%{$searchTerm}%")
-                  ->orWhere('nik', 'like', "%{$searchTerm}%");
+                    ->orWhere('nama_lengkap', 'like', "%{$searchTerm}%")
+                    ->orWhere('email', 'like', "%{$searchTerm}%")
+                    ->orWhere('nomor_hp', 'like', "%{$searchTerm}%")
+                    ->orWhere('nik', 'like', "%{$searchTerm}%");
             });
         }
 
@@ -58,7 +58,7 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nisn' => 'required|unique:siswas,nisn',
             'nik' => 'required|string|size:16|unique:siswas,nik',
             'nama_lengkap' => 'required|string|max:255',
@@ -67,28 +67,29 @@ class SiswaController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        // Simpan password asli untuk dikirim via email
-        $plainPassword = $request->password;
-
-        $siswa = Siswa::create([
-            'nisn' => $request->nisn,
-            'nik' => $request->nik,
-            'nama_lengkap' => $request->nama_lengkap,
-            'email' => $request->email,
-            'nomor_hp' => $request->nomor_hp,
-            'password' => Hash::make($plainPassword),
-        ]);
-
-        // Kirim email aktivasi akun
         try {
-            Mail::to($siswa->email)->send(new SiswaAkunAktif($siswa, $plainPassword));
-            $emailStatus = 'Email notifikasi aktivasi akun telah dikirim ke siswa.';
-        } catch (\Exception $e) {
-            $emailStatus = 'Siswa berhasil ditambahkan, tetapi gagal mengirim email notifikasi. Error: ' . $e->getMessage();
-        }
+            // Simpan password asli sebelum di-hash
+            $plainPassword = $validated['password'];
 
-        return redirect()->route('admin.siswa.index')
-            ->with('success', 'Data siswa berhasil ditambahkan. Siswa dapat login menggunakan email dan password yang telah didaftarkan. ' . $emailStatus);
+            // Hash password
+            $validated['password'] = Hash::make($plainPassword);
+
+            // Buat siswa
+            $siswa = Siswa::create($validated);
+
+            // Kirim email dalam queue
+            Mail::to($siswa->email)
+                ->queue(new SiswaAkunAktif($siswa, $plainPassword));
+
+            return redirect()->route('admin.siswa.index')
+                ->with('success', 'Data siswa berhasil ditambahkan. Email notifikasi telah dikirim ke ' . $siswa->email);
+        } catch (\Exception $e) {
+            \Log::error('Error saat membuat siswa: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal menyimpan data siswa. Error: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -114,7 +115,7 @@ class SiswaController extends Controller
         ]);
 
         $data = $request->except('password');
-        
+
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
