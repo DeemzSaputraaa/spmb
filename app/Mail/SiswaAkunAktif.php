@@ -15,11 +15,13 @@ class SiswaAkunAktif extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public $siswa;
+    public $email;
     public $password;
 
     public function __construct(Siswa $siswa, string $password)
     {
         $this->siswa = $siswa;
+        $this->email = $siswa->email;
         $this->password = $password;
     }
 
@@ -27,6 +29,7 @@ class SiswaAkunAktif extends Mailable implements ShouldQueue
     {
         return new Envelope(
             subject: 'Akun Pendaftaran Siswa Baru Telah Aktif - ' . config('app.name'),
+            to: $this->siswa->email,
         );
     }
 

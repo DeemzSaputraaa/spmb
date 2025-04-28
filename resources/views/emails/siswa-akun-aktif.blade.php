@@ -55,13 +55,13 @@
         <div class="header">
             <h2>Akun Siswa Telah Aktif</h2>
         </div>
-        
+
         <p>Halo <strong>{{ $siswa->nama_lengkap }}</strong>,</p>
-        
+
         <p>Selamat! Akun siswa Anda telah berhasil dibuat dan diaktifkan pada tanggal <strong>{{ $siswa->created_at->format('d F Y') }}</strong>.</p>
-        
+
         <p>Berikut adalah informasi akun Anda:</p>
-        
+
         <div class="info-box">
             <div class="credential-item">
                 <span class="credential-label">NISN:</span> {{ $siswa->nisn }}
@@ -73,22 +73,22 @@
                 <span class="credential-label">Password:</span> {{ $password }}
             </div>
         </div>
-        
+
         <p>Silakan gunakan informasi di atas untuk login ke sistem dengan mengakses halaman login di website kami.</p>
-        
+
         <p><strong>Catatan Penting:</strong></p>
         <ul>
             <li>Harap simpan informasi ini dengan aman dan jangan bagikan dengan orang lain.</li>
             <li>Kami menyarankan untuk segera mengganti password Anda setelah login pertama kali.</li>
         </ul>
-        
+
         <p>Jika Anda memiliki pertanyaan atau kesulitan dalam mengakses akun, silakan hubungi administrator kami.</p>
-        
+
         <p>Terima kasih.</p>
-        
+
         <div class="footer">
             <p>© {{ date('Y') }} Sistem Pendaftaran Mahasiswa Baru</p>
         </div>
     </div>
 </body>
-</html> 
+</html>
