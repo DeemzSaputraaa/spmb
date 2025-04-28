@@ -13,24 +13,6 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('/test-email', function () {
-    try {
-        $recipient = 'pandukyouka@gmail.com'; // Ganti dengan alamat email penerima (contoh: email Anda sendiri)
-        $sender = env('MAIL_FROM_ADDRESS', 'your_email@example.com'); // Ambil dari .env atau gunakan default
-
-        Mail::raw('Ini adalah email percobaan dari aplikasi Laravel saya menggunakan Google SMTP.', function ($message) use ($recipient, $sender) {
-            $message->to($recipient)
-                    ->from($sender)
-                    ->subject('Email Test Koneksi SMTP Google via Route');
-        });
-
-        return "Email test berhasil dikirim ke " . $recipient;
-
-    } catch (\Exception $e) {
-        return "Gagal mengirim email. Error: " . $e->getMessage();
-    }
-});
-
 // Guest routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
