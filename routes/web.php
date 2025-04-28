@@ -43,6 +43,11 @@ Route::resource('/admin/tabulasi', \App\Http\Controllers\Admin\TabulasiControlle
     'destroy' => 'admin.tabulasi.destroy',
 ])->except(['show']);
 
+// Route untuk export Excel
+Route::get('/admin/tabulasi/export/excel', [\App\Http\Controllers\Admin\TabulasiController::class, 'exportExcel'])->name('admin.tabulasi.export.excel');
+// Route untuk export CSV (alternatif)
+Route::get('/admin/tabulasi/export/csv', [\App\Http\Controllers\Admin\TabulasiController::class, 'exportCsv'])->name('admin.tabulasi.export.csv');
+
 // Pendaftaran Wizard Routes
 Route::get('/admin/siswa/{siswa_id}/pendaftaran', [App\Http\Controllers\Admin\PendaftaranController::class, 'index'])->name('admin.siswa.pendaftaran.index');
 Route::post('/admin/siswa/{siswa_id}/pendaftaran/step1', [App\Http\Controllers\Admin\PendaftaranController::class, 'storeStep1'])->name('admin.siswa.pendaftaran.step1');

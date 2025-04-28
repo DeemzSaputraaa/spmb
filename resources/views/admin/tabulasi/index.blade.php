@@ -201,6 +201,49 @@
         font-size: 0.85rem;
     }
     
+    .btn-success {
+        background-color: #1cc88a;
+        color: #fff !important;
+        border-radius: 5px;
+        padding: 8px 15px;
+        font-weight: 500;
+        border: none;
+        transition: all 0.3s;
+        text-decoration: none;
+    }
+    
+    .btn-success:hover {
+        background-color: #169b6b;
+        transform: translateY(-2px);
+        color: #fff !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dropdown-menu {
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: none;
+        padding: 0.5rem 0;
+    }
+    
+    .dropdown-item {
+        padding: 0.6rem 1.2rem;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+    }
+    
+    .dropdown-item:hover {
+        background-color: #f8f9fc;
+        color: #4e73df;
+        transform: translateX(5px);
+    }
+    
+    .dropdown-item i {
+        width: 20px;
+        text-align: center;
+    }
+    
     @media (max-width: 767px) {
         .page-header {
             flex-direction: column;
@@ -213,7 +256,9 @@
         }
         
         .btn-add {
-            width: 100%;
+            width: auto;
+            font-size: 0.75rem;
+            padding: 6px 10px;
         }
         
         .filter-container .d-flex {
@@ -246,8 +291,200 @@
         .filter-container .d-flex.gap-2 {
             gap: 8px !important;
         }
+        
+        .page-header .d-flex {
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-between;
+            gap: 5px !important;
+        }
+        
+        .page-header .btn {
+            width: auto;
+            margin-bottom: 0;
+            font-size: 0.75rem;
+            padding: 6px 10px;
+        }
+        
+        .dropdown {
+            width: auto;
+        }
+        
+        .dropdown button {
+            width: auto;
+            font-size: 0.75rem;
+            padding: 6px 10px;
+        }
+        
+        .dropdown button .me-2 {
+            margin-right: 0.1rem !important;
+        }
+        
+        .page-header i.fas {
+            font-size: 0.75rem;
+        }
+        
+        .dropdown-toggle::after {
+            margin-left: 0.25rem;
+        }
+        
+        .btn-success, .btn-add {
+            white-space: nowrap;
+        }
+    }
+    
+    /* Modal confirmation styles */
+    .modal-confirm {
+        color: #636363;
+    }
+    
+    .modal-confirm .modal-content {
+        padding: 20px;
+        border-radius: 12px;
+        border: none;
+    }
+    
+    .modal-confirm .modal-header {
+        border-bottom: none;
+        position: relative;
+        text-align: center;
+        margin: -20px -20px 0;
+        border-radius: 12px 12px 0 0;
+        padding: 35px;
+    }
+    
+    .modal-confirm h4 {
+        color: white;
+        text-align: center;
+        font-size: 26px;
+        margin: 0;
+    }
+    
+    .modal-confirm .icon-box {
+        color: #fff;
+        position: absolute;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: -30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        z-index: 9;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .modal-confirm .icon-box i {
+        font-size: 24px;
+        margin-top: 6px;
+    }
+    
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.4s;
+        min-width: 120px;
+    }
+    
+    .modal-confirm .btn-secondary {
+        background: #c1c1c1;
+        border: none;
+    }
+    
+    .modal-confirm .btn-danger {
+        background: #dc3545;
+        border: none;
+    }
+    
+    .modal-confirm .btn-warning {
+        background: #f6c23e;
+        border: none;
+        color: #fff;
+    }
+    
+    .modal-confirm .btn:hover {
+        opacity: 0.8;
+    }
+    
+    .modal-confirm .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-confirm .modal-footer {
+        border: none;
+        text-align: center;
+        border-radius: 0 0 12px 12px;
+        padding: 10px 0 20px;
     }
 </style>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                // Hanya submit form jika nilai input telah berubah
+                // dan telah beberapa waktu sejak pengguna terakhir mengetik
+                clearTimeout(this.timer);
+                this.timer = setTimeout(() => {
+                    document.getElementById('searchForm').submit();
+                }, 500);
+            });
+            
+            // Auto focus pada field search saat halaman dimuat
+            if (!searchInput.value) {
+                searchInput.focus();
+            }
+        }
+        
+        // Setup delete confirmation
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tabulasiId = this.getAttribute('data-id');
+                const siswaNama = this.getAttribute('data-name');
+                
+                // Populate modal with data
+                document.getElementById('delete-siswa-name').textContent = siswaNama;
+                
+                // Setup form action dengan URL yang benar
+                const deleteForm = document.getElementById('deleteForm');
+                deleteForm.setAttribute('action', `/admin/tabulasi/${tabulasiId}`);
+                
+                // Show modal
+                const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                deleteModal.show();
+            });
+        });
+        
+        // Setup edit confirmation
+        const editButtons = document.querySelectorAll('.btn-edit');
+        editButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tabulasiId = this.getAttribute('data-id');
+                const siswaNama = this.getAttribute('data-name');
+                
+                // Populate modal with data
+                document.getElementById('edit-siswa-name').textContent = siswaNama;
+                
+                // Setup link dengan URL yang benar
+                document.getElementById('editConfirmButton').href = `/admin/tabulasi/${tabulasiId}/edit`;
+                
+                // Show modal
+                const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
+            });
+        });
+    });
+</script>
 @endsection
 
 @section('content')
@@ -255,9 +492,20 @@
     <!-- Page Header -->
     <div class="page-header">
         <h1 class="page-title">Tabulasi Nilai Siswa</h1>
-        <a href="{{ route('admin.tabulasi.create') }}" class="btn btn-add">
-            <i class="fas fa-plus me-2"></i> Tambah Nilai
-        </a>
+        <div class="d-flex gap-2">
+            <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-file-export me-2"></i> Export Data
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="exportDropdown">
+                    <li><a class="dropdown-item" href="{{ route('admin.tabulasi.export.excel') }}"><i class="fas fa-file-excel me-2"></i> Export Excel (.xls)</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.tabulasi.export.csv') }}"><i class="fas fa-file-csv me-2"></i> Export CSV</a></li>
+                </ul>
+            </div>
+            <a href="{{ route('admin.tabulasi.create') }}" class="btn btn-add">
+                <i class="fas fa-plus me-2"></i> Tambah Nilai
+            </a>
+        </div>
     </div>
     
     <!-- Search Bar -->
@@ -334,18 +582,18 @@
                     <td class="fw-bold">{{ number_format($item->nilai_akhir, 2) }}</td>
                     <td>
                         <div class="d-flex action-buttons">
-                            <a href="{{ route('admin.tabulasi.edit', $item->id) }}"
-                                class="btn btn-sm btn-warning me-2">
+                            <button class="btn btn-sm btn-warning me-2 btn-edit" 
+                                data-id="{{ $item->id }}" 
+                                data-name="{{ $item->nama_siswa }}"
+                                title="Edit">
                                 <i class="fas fa-edit"></i>
-                            </a>
-                            <form action="{{ route('admin.tabulasi.destroy', $item->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Hapus data nilai ini?')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-delete"
+                                data-id="{{ $item->id }}"
+                                data-name="{{ $item->nama_siswa }}"
+                                title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -379,6 +627,56 @@
             </div>
         </div>
         @endif
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <div class="icon-box bg-danger">
+                    <i class="fas fa-trash text-white"></i>
+                </div>
+                <h4 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Apakah Anda yakin ingin menghapus data nilai untuk siswa:<br><strong id="delete-siswa-name"></strong>?</p>
+                <p class="text-center text-muted small">Data yang dihapus tidak dapat dikembalikan!</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Confirmation Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <div class="icon-box bg-warning">
+                    <i class="fas fa-edit text-white"></i>
+                </div>
+                <h4 class="modal-title" id="editModalLabel">Konfirmasi Edit</h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Anda akan mengedit data nilai untuk siswa:<br><strong id="edit-siswa-name"></strong></p>
+                <p class="text-center text-muted small">Pastikan data yang akan diubah sudah benar</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <a id="editConfirmButton" href="#" class="btn btn-warning">Edit</a>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
