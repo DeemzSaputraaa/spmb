@@ -1,0 +1,46 @@
+name: Deploy Laravel to Debian Server
+
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code (Opsional jika hanya perlu SSH)
+      uses: actions/checkout@v4
+
+    - name: Deploy to server via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ 192.168.59.150 }}
+        username: ${{ root }}
+        key: ${{  }}
+        port: ${{ secrets.SSH_PORT || 22 }}
+        script: |
+          echo "Navigating to project directory..."
+          cd ${{ secrets.DEPLOY_PATH }} # Pindah ke direktori proyek di server
+
+          echo "Pulling latest code from ${{ github.ref_name }} branch..." # github.ref_name berisi nama branch yang dipush
+          git checkout ${{ github.ref_name }} # Pindah ke branch yang benar (jika perlu)
+          git pull origin ${{ github.ref_name }} # Tarik perubahan terbaru
+
+          echo "Installing/updating Composer dependencies..."
+          composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+          echo "Running database migrations..."
+          php artisan migrate --force
+
+          echo "Optimizing Laravel application..."
+          php artisan optimize:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          php artisan key:generate
+
+          echo "Deployment finished successfully!"
