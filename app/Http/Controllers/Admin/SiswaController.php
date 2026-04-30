@@ -77,9 +77,14 @@ class SiswaController extends Controller
             // Buat siswa
             $siswa = Siswa::create($validated);
 
-            // Kirim email dalam queue
-            Mail::to($siswa->email)
-                ->queue(new SiswaAkunAktif($siswa, $plainPassword));
+            try {
+                // Kirim email secara langsung
+                Mail::to($siswa->email)->send(new SiswaAkunAktif($siswa, $plainPassword));
+            } catch (\Exception $e) {
+                \Log::error('Error saat mengirim email: ' . $e->getMessage());
+                return redirect()->route('admin.siswa.index')
+                    ->with('warning', 'Data siswa berhasil ditambahkan tetapi gagal mengirim email ke ' . $siswa->email);
+            }
 
             return redirect()->route('admin.siswa.index')
                 ->with('success', 'Data siswa berhasil ditambahkan. Email notifikasi telah dikirim ke ' . $siswa->email);
